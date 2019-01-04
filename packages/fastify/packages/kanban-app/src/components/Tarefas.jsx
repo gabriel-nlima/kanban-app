@@ -4,7 +4,15 @@ import Tarefa from './Tarefa'
 
 const Tarefas = ({ tarefas, props }) =>
 	tarefas.map((tarefa) => {
-		return <Tarefa key={tarefa.titulo} {...tarefa} />
+		return (
+			<div
+				key={tarefa.id}
+				className={'card w-auto h-auto bg-success'}
+				style={{ marginBottom: 5 }}
+			>
+				<Tarefa {...tarefa} />
+			</div>
+		)
 	})
 Tarefas.propTypes = {
 	tarefas: PropTypes.array.isRequired,

@@ -13,29 +13,16 @@ class TarefasContainer extends React.Component {
 			tarefasSendoFeitas: [],
 			tarefasConcluidas: [],
 		}
+		this.props.setTarefas()
 	}
 	componentDidMount() {
 		this.getTarefas()
+		this.setState({ tarefasAFazer: this.props.tarefasAFazer })
 	}
 	//Funções para obter as tarefas e gerenciar o status
 	//get
 	getTarefas() {
 		this.props.setTarefas()
-		console.log(this.props)
-		// tarefas.map((tarefa) => {
-		// 	if (tarefa.status === status.FAZER) {
-		// 		tarefasAFazer.unshift(tarefa)
-		// 	} else if (tarefa.status === status.FAZENDO) {
-		// 		tarefasSendoFeitas.unshift(tarefa)
-		// 	} else if (tarefa.status === status.CONCLUIDO) {
-		// 		tarefasConcluidas.unshift(tarefa)
-		// 	}
-		// 	return this.setState({
-		// 		tarefasAFazer,
-		// 		tarefasSendoFeitas,
-		// 		tarefasConcluidas,
-		// 	})
-		// })
 	}
 	getStatusTarefas(tarefas) {
 		const tarefasAFazer = []
@@ -56,12 +43,11 @@ class TarefasContainer extends React.Component {
 		})
 	}
 	render() {
-		console.log(this.props.tarefas)
-		// const {
-		// 	tarefasAFazer,
-		// 	tarefasSendoFeitas,
-		// 	tarefasConcluidas,
-		// } = this.getStatusTarefas(this.props.tarefas)
+		const {
+			tarefasAFazer,
+			tarefasSendoFeitas,
+			tarefasConcluidas,
+		} = this.props
 		return (
 			<div className='container'>
 				<div className='row'>
@@ -77,14 +63,26 @@ class TarefasContainer extends React.Component {
 				</div>
 				<div className='row'>
 					<div className='col-4 card-decks'>
-						<Tarefas {...tarefasAFazer} />
+						<Tarefas
+							key='a_fazer'
+							tarefas={tarefasAFazer}
+							background='bg-primary'
+							acao='Fazer'
+						/>
 					</div>
 					<div className='col-4 card-decks'>
-						{/* <Tarefas {...tarefasSendoFeitas} /> */}
+						<Tarefas
+							tarefas={tarefasSendoFeitas}
+							background='bg-warning'
+							acao='Concluir'
+						/>
 					</div>
 					<div className='col-4 card-decks'>
-						{' '}
-						{/* <Tarefas {...tarefasConcluidas} /> */}
+						<Tarefas
+							tarefas={tarefasConcluidas}
+							background='bg-success'
+							acao='Arquivar'
+						/>
 					</div>
 				</div>
 			</div>
@@ -93,11 +91,13 @@ class TarefasContainer extends React.Component {
 }
 function mapStateToProps(state) {
 	return {
-		tarefas: state.tarefas,
+		tarefasAFazer: state.tarefasAFazer,
+		tarefasSendoFeitas: state.tarefasSendoFeitas,
+		tarefasConcluidas: state.tarefasConcluidas,
 	}
 }
-const mapDispatchToProps = {
-	setTarefas: () => setTarefas(),
+const mapDispatchToProps = (dispatch) => {
+	return { setTarefas: () => dispatch(setTarefas()) }
 }
 
 export default connect(

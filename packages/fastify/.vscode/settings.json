@@ -3,5 +3,5 @@
 	"prettier.eslintIntegration": true,
 	"editor.formatOnSave": true,
 	"javascript.updateImportsOnFileMove.enabled": "always",
-	"files.eol": "\n"
+	"files.eol": "\r\n"
 }

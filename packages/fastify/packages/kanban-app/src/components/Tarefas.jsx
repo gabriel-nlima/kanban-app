@@ -2,15 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Tarefa from './Tarefa'
 
-const Tarefas = ({ tarefas, props }) =>
-	tarefas.map((tarefa) => {
+const Tarefas = ({ tarefas, background, acao, props }) =>
+	tarefas.map((tarefa, index) => {
 		return (
 			<div
-				key={tarefa.id}
-				className={'card w-auto h-auto bg-success'}
+				key={index}
+				className={'card w-auto h-auto ' + background}
 				style={{ marginBottom: 5 }}
 			>
-				<Tarefa {...tarefa} />
+				<Tarefa {...tarefa} acao={acao} />
 			</div>
 		)
 	})

@@ -29,7 +29,7 @@ export function setTarefas() {
 	const tarefasSendoFeitas = []
 	const tarefasConcluidas = []
 	tarefas.map((tarefa) => {
-		if (tarefa.lenght === 0) {
+		if (tarefa.length === 0) {
 			return []
 		}
 		if (tarefa.status === status.FAZER) {
@@ -43,7 +43,7 @@ export function setTarefas() {
 	})
 	return {
 		type: actionsTypes.SET_TAREFAS,
-		tarefas,
+		tarefas: tarefas,
 		tarefasAFazer: tarefasAFazer,
 		tarefasSendoFeitas: tarefasSendoFeitas,
 		tarefasConcluidas: tarefasConcluidas,
@@ -51,8 +51,19 @@ export function setTarefas() {
 }
 
 export function addTarefa(tarefa) {
+	tarefa = {
+		...tarefa,
+		status: status.FAZER,
+	}
 	return {
 		type: actionsTypes.ADD_TAREFA,
+		tarefa,
+	}
+}
+
+export function trocaStatus(tarefa) {
+	return {
+		type: actionsTypes.TROCA_STATUS,
 		tarefa,
 	}
 }

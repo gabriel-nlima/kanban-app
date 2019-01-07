@@ -18,8 +18,18 @@ export default function reducer(state = initialState, action) {
 		case actionTypes.ADD_TAREFA:
 			return {
 				...state,
-				tarefasAFazer: [...state.tarefasAFazer, action.tarefa],
+				tarefas: [...state.tarefas, action.tarefa],
 			}
+		case actionTypes.TROCA_STATUS:
+			return state.tarefas.map((tarefa) => {
+				if (tarefa !== action.tarefa) {
+					return tarefa
+				}
+				return {
+					...tarefa,
+					...action.tarefa,
+				}
+			})
 		default:
 			return state
 	}

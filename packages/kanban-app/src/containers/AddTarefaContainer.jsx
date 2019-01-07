@@ -29,10 +29,12 @@ class AddTarefaContainer extends React.Component {
 
 	render() {
 		return (
-			<AddTarefa
-				handleChange={this.handleInputChange}
-				handleSubmit={this.submitTarefa}
-			/>
+			<div className='container'>
+				<AddTarefa
+					handleChange={this.handleInputChange}
+					handleSubmit={this.submitTarefa}
+				/>
+			</div>
 		)
 	}
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import Tarefas from '../components/Tarefas'
 import * as status from './status'
-import { setTarefas } from '../actions/actions'
+import { setTarefas, trocaStatus } from '../actions/actions'
 
 import { connect } from 'react-redux'
 class TarefasContainer extends React.Component {
@@ -9,15 +9,14 @@ class TarefasContainer extends React.Component {
 		super(props)
 		this.state = {
 			tarefas: [],
-			tarefasAFazer: [],
-			tarefasSendoFeitas: [],
-			tarefasConcluidas: [],
 		}
-		this.props.setTarefas()
+		this.getStatusTarefas = this.getStatusTarefas.bind(this)
+		this.setNovoStatus = this.setNovoStatus.bind(this)
+		this.handleStatusChange = this.handleStatusChange.bind(this)
 	}
 	componentDidMount() {
 		this.getTarefas()
-		this.setState({ tarefasAFazer: this.props.tarefasAFazer })
+		this.getStatusTarefas(this.props.tarefas)
 	}
 	//Funções para obter as tarefas e gerenciar o status
 	//get
@@ -29,7 +28,7 @@ class TarefasContainer extends React.Component {
 		const tarefasSendoFeitas = []
 		const tarefasConcluidas = []
 		tarefas.map((tarefa) => {
-			if (tarefa.lenght === 0) {
+			if (tarefa.length === 0) {
 				return []
 			}
 			if (tarefa.status === status.FAZER) {
@@ -41,13 +40,30 @@ class TarefasContainer extends React.Component {
 			}
 			return { tarefasAFazer, tarefasSendoFeitas, tarefasConcluidas }
 		})
+
+		return { tarefasAFazer, tarefasSendoFeitas, tarefasConcluidas }
+	}
+
+	setNovoStatus(tarefa, novoStatus) {
+		tarefa = {
+			...tarefa,
+			status: novoStatus,
+		}
+		this.props.trocaStatus(tarefa)
+	}
+	handleStatusChange(tarefa) {
+		if (tarefa.status === status.FAZER) {
+			this.setNovoStatus(tarefa, status.FAZENDO)
+		} else if (tarefa.status === status.FAZENDO) {
+			this.setNovoStatus(tarefa, status.CONCLUIDO)
+		}
 	}
 	render() {
 		const {
 			tarefasAFazer,
 			tarefasSendoFeitas,
 			tarefasConcluidas,
-		} = this.props
+		} = this.getStatusTarefas(this.props.tarefas)
 		return (
 			<div className='container'>
 				<div className='row'>
@@ -68,6 +84,7 @@ class TarefasContainer extends React.Component {
 							tarefas={tarefasAFazer}
 							background='bg-primary'
 							acao='Fazer'
+							onChangeStatus={this.handleStatusChange}
 						/>
 					</div>
 					<div className='col-4 card-decks'>
@@ -75,6 +92,7 @@ class TarefasContainer extends React.Component {
 							tarefas={tarefasSendoFeitas}
 							background='bg-warning'
 							acao='Concluir'
+							onChangeStatus={this.handleStatusChange}
 						/>
 					</div>
 					<div className='col-4 card-decks'>
@@ -82,6 +100,7 @@ class TarefasContainer extends React.Component {
 							tarefas={tarefasConcluidas}
 							background='bg-success'
 							acao='Arquivar'
+							onChangeStatus={this.handleStatusChange}
 						/>
 					</div>
 				</div>
@@ -91,13 +110,14 @@ class TarefasContainer extends React.Component {
 }
 function mapStateToProps(state) {
 	return {
-		tarefasAFazer: state.tarefasAFazer,
-		tarefasSendoFeitas: state.tarefasSendoFeitas,
-		tarefasConcluidas: state.tarefasConcluidas,
+		tarefas: state.tarefas,
 	}
 }
 const mapDispatchToProps = (dispatch) => {
-	return { setTarefas: () => dispatch(setTarefas()) }
+	return {
+		setTarefas: () => dispatch(setTarefas()),
+		trocaStatus: (tarefa) => dispatch(trocaStatus(tarefa)),
+	}
 }
 
 export default connect(

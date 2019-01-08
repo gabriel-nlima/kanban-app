@@ -1,7 +1,7 @@
 import React from 'react'
 import Tarefas from '../components/Tarefas'
 import * as status from './status'
-import { setTarefas, trocaStatus } from '../actions/actions'
+import { setTarefas, trocaStatus } from '../redux/actions/actions'
 
 import { connect } from 'react-redux'
 class TarefasContainer extends React.Component {
@@ -11,7 +11,6 @@ class TarefasContainer extends React.Component {
 			tarefas: [],
 		}
 		this.getStatusTarefas = this.getStatusTarefas.bind(this)
-		this.setNovoStatus = this.setNovoStatus.bind(this)
 		this.handleStatusChange = this.handleStatusChange.bind(this)
 	}
 	componentDidMount() {
@@ -21,7 +20,7 @@ class TarefasContainer extends React.Component {
 	//Funções para obter as tarefas e gerenciar o status
 	//get
 	getTarefas() {
-		this.props.setTarefas()
+		//this.props.setTarefas()
 	}
 	getStatusTarefas(tarefas) {
 		const tarefasAFazer = []
@@ -44,19 +43,15 @@ class TarefasContainer extends React.Component {
 		return { tarefasAFazer, tarefasSendoFeitas, tarefasConcluidas }
 	}
 
-	setNovoStatus(tarefa, novoStatus) {
-		tarefa = {
-			...tarefa,
-			status: novoStatus,
-		}
-		this.props.trocaStatus(tarefa)
-	}
 	handleStatusChange(tarefa) {
+		let novoStatus = tarefa.status
 		if (tarefa.status === status.FAZER) {
-			this.setNovoStatus(tarefa, status.FAZENDO)
+			novoStatus = status.FAZENDO
 		} else if (tarefa.status === status.FAZENDO) {
-			this.setNovoStatus(tarefa, status.CONCLUIDO)
+			novoStatus = status.CONCLUIDO
 		}
+
+		this.props.trocaStatus(tarefa, novoStatus)
 	}
 	render() {
 		const {
@@ -116,7 +111,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setTarefas: () => dispatch(setTarefas()),
-		trocaStatus: (tarefa) => dispatch(trocaStatus(tarefa)),
+		trocaStatus: (tarefa, novoStatus) =>
+			dispatch(trocaStatus(tarefa, novoStatus)),
 	}
 }
 

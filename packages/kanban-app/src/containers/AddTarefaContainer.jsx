@@ -1,6 +1,6 @@
 import React from 'react'
 import AddTarefa from '../components/AddTarefa'
-import { addTarefa } from '../actions/actions'
+import { addTarefa } from '../redux/actions/actions'
 
 import { connect } from 'react-redux'
 

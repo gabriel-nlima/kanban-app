@@ -60,7 +60,7 @@ class TarefasContainer extends React.Component {
 			tarefasConcluidas,
 		} = this.getStatusTarefas(this.props.tarefas)
 		return (
-			<div className='container'>
+			<div>
 				<div className='row'>
 					<div className='col-4'>
 						<h3 className='text-primary'>A FAZER</h3>

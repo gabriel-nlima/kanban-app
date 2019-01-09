@@ -4,8 +4,6 @@ import { render, cleanup } from 'react-testing-library'
 import { Provider } from 'react-redux'
 import configureStore from '../../redux/store/configureStore'
 
-import * as status from '../status'
-
 import TarefasContainer from '../TarefasContainer'
 
 function renderWithRedux(

@@ -1,51 +1,50 @@
 import React from 'react'
 import { render, cleanup } from 'react-testing-library'
-import Tarefa from '../Tarefa'
 import Tarefas from '../Tarefas'
+
+import * as status from '../../containers/status'
 
 afterEach(cleanup)
 describe('Tarefas', () => {
 	test('renderiza uma lista de tarefas a partir de um array de tarefas', () => {
 		//Arrange
+		const acao = 'FAZER'
+		const onChangeStatus = () => {}
 		const props = {
 			tarefas: [
 				{
 					titulo: 'Fazer o quadro Kanban',
 					conteudo: 'Fazer o quadro Kanban com react, redux etc',
-					data: '02/01/2019',
-					status: 'a fazer',
+					status: status.FAZER,
 					background: 'text-white bg-primary',
 					btnBg: 'btn-light',
 				},
 				{
 					titulo: 'Adiconar o redux',
 					conteudo: 'Adicionar o redux ao projeto',
-					data: '02/01/2019',
-					status: 'a fazer',
+					status: status.FAZER,
 					background: 'text-white bg-primary',
 					btnBg: 'btn-light',
 				},
 				{
 					titulo: 'Fazer o backend',
 					conteudo: 'fazer o servidor backend do projeto',
-					data: '02/01/2019',
-					status: 'a fazer',
+					status: status.FAZER,
 					background: 'text-white bg-primary',
 					btnBg: 'btn-light',
 				},
 			],
 		}
-
 		//Act
-		const { getByText } = render(<Tarefas {...props} />)
+		const { getByText } = render(
+			<Tarefas {...props} acao={acao} onChangeStatus={onChangeStatus} />
+		)
 
 		//Assert
 		const tituloNode = getByText(props.tarefas[1].titulo)
 		const conteudoNode = getByText(props.tarefas[1].conteudo)
-		const dataNode = getByText(props.tarefas[1].data)
 
 		expect(tituloNode).toBeDefined()
 		expect(conteudoNode).toBeDefined()
-		expect(dataNode).toBeDefined()
 	})
 })

@@ -2,11 +2,13 @@ import React from 'react'
 import { render, cleanup } from 'react-testing-library'
 import Tarefa from '../Tarefa'
 
-afterEach(cleanup)
 describe('Tarefa', () => {
+	afterEach(cleanup)
 	test('renderiza uma tarefa com titulo, conteudo e data', () => {
 		//Arrange
-		const props = {
+		const acao = 'FAZER'
+		const onChangeStatus = () => {}
+		const tarefa = {
 			titulo: 'Fazer o quadro Kanban',
 			conteudo: 'Fazer o quadro Kanban com react, redux etc',
 			data: '02/01/2019',
@@ -16,15 +18,19 @@ describe('Tarefa', () => {
 		}
 
 		//Act
-		const { getByText } = render(<Tarefa {...props} />)
+		const { getByText } = render(
+			<Tarefa
+				tarefa={tarefa}
+				acao={acao}
+				onChangeStatus={onChangeStatus}
+			/>
+		)
 
 		//Assert
-		const tituloNode = getByText(props.titulo)
-		const conteudoNode = getByText(props.conteudo)
-		const dataNode = getByText(props.data)
+		const tituloNode = getByText(tarefa.titulo)
+		const conteudoNode = getByText(tarefa.conteudo)
 
 		expect(tituloNode).toBeDefined()
 		expect(conteudoNode).toBeDefined()
-		expect(dataNode).toBeDefined()
 	})
 })

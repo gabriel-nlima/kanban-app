@@ -16,7 +16,13 @@ const Tarefa = ({ tarefa, acao, onChangeStatus }) => {
 	)
 }
 Tarefa.propTypes = {
-	titulo: PropTypes.string.isRequired,
-	conteudo: PropTypes.string.isRequired,
+	tarefa: PropTypes.shape({
+		titulo: PropTypes.string.isRequired,
+		conteudo: PropTypes.string.isRequired,
+		adicionadoEm: PropTypes.string,
+		concluidoEm: PropTypes.string,
+	}).isRequired,
+	acao: PropTypes.string.isRequired,
+	onChangeStatus: PropTypes.func.isRequired,
 }
 export default Tarefa

@@ -59,7 +59,7 @@ class TarefasContainer extends React.Component {
 	//Passa o novo status da terafa para o action creator, de acordo com o status atual
 	//fazer>fazendo>concluido>arquivado
 	handleStatusChange(tarefa) {
-		let novoStatus = tarefa.status
+		let novoStatus = []
 		if (tarefa.status === status.FAZER) {
 			novoStatus = status.FAZENDO
 		} else if (tarefa.status === status.FAZENDO) {

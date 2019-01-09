@@ -24,6 +24,7 @@ export default function reducer(state = initialState, action) {
 					return {
 						...tarefa,
 						status: action.tarefa.status,
+						concluidoEm: action.tarefa.concluidoEm,
 					}
 				}),
 			}

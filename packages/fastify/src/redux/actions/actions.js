@@ -10,7 +10,7 @@ export function setTarefas() {
 export function addTarefa(tarefa) {
 	tarefa = {
 		...tarefa,
-		id: Math.floor(Math.random() * 100 + 1),
+		id: Math.floor(Math.random() * 1000 + 1),
 		status: status.FAZER,
 	}
 	return {

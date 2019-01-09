@@ -4,6 +4,13 @@ import * as status from './status'
 import { setTarefas, trocaStatus } from '../redux/actions/actions'
 
 import { connect } from 'react-redux'
+
+/*
+ *Recebe as tarefas da redux store, separa por status e os
+ *passa para os componentes <Tarefas/> para renderizar.
+ *
+ */
+
 class TarefasContainer extends React.Component {
 	constructor(props) {
 		super(props)
@@ -17,8 +24,7 @@ class TarefasContainer extends React.Component {
 		this.getTarefas()
 		this.getStatusTarefas(this.props.tarefas)
 	}
-	//Funções para obter as tarefas e gerenciar o status
-	//get
+
 	getTarefas() {
 		//this.props.setTarefas()
 	}
@@ -26,6 +32,7 @@ class TarefasContainer extends React.Component {
 		const tarefasAFazer = []
 		const tarefasSendoFeitas = []
 		const tarefasConcluidas = []
+		const tarefasArquivadas = []
 		tarefas.map((tarefa) => {
 			if (tarefa.length === 0) {
 				return []
@@ -36,19 +43,29 @@ class TarefasContainer extends React.Component {
 				tarefasSendoFeitas.unshift(tarefa)
 			} else if (tarefa.status === status.CONCLUIDO) {
 				tarefasConcluidas.unshift(tarefa)
+			} else if (tarefa.status === status.ARQUIVADO) {
+				tarefasArquivadas.unshift(tarefa)
 			}
 			return { tarefasAFazer, tarefasSendoFeitas, tarefasConcluidas }
 		})
 
-		return { tarefasAFazer, tarefasSendoFeitas, tarefasConcluidas }
+		return {
+			tarefasAFazer,
+			tarefasSendoFeitas,
+			tarefasConcluidas,
+			tarefasArquivadas,
+		}
 	}
-
+	//Passa o novo status da terafa para o action creator, de acordo com o status atual
+	//fazer>fazendo>concluido>arquivado
 	handleStatusChange(tarefa) {
 		let novoStatus = tarefa.status
 		if (tarefa.status === status.FAZER) {
 			novoStatus = status.FAZENDO
 		} else if (tarefa.status === status.FAZENDO) {
 			novoStatus = status.CONCLUIDO
+		} else if (tarefa.status === status.CONCLUIDO) {
+			novoStatus = status.ARQUIVADO
 		}
 
 		this.props.trocaStatus(tarefa, novoStatus)
@@ -58,18 +75,59 @@ class TarefasContainer extends React.Component {
 			tarefasAFazer,
 			tarefasSendoFeitas,
 			tarefasConcluidas,
+			tarefasArquivadas,
 		} = this.getStatusTarefas(this.props.tarefas)
+
+		const badgeMargin = { marginLeft: 6 }
+
 		return (
-			<div>
+			<React.Fragment>
+				<div className='row text-left'>
+					<div className='col-4'>
+						<h5 className='text-muted'>
+							ARQUIVDAS:
+							<span
+								style={badgeMargin}
+								className='badge badge-pill badge-info'
+							>
+								{tarefasArquivadas.length}
+							</span>
+						</h5>
+					</div>
+				</div>
 				<div className='row'>
 					<div className='col-4'>
-						<h3 className='text-primary'>A FAZER</h3>
+						<h3 className='text-info'>
+							A FAZER
+							<span
+								style={badgeMargin}
+								className='badge badge-pill badge-info'
+							>
+								{tarefasAFazer.length}
+							</span>
+						</h3>
 					</div>
 					<div className='col-4'>
-						<h3 className='text-warning'>FAZENDO</h3>
+						<h3 className='text-warning'>
+							FAZENDO
+							<span
+								style={badgeMargin}
+								className='badge badge-pill badge-info'
+							>
+								{tarefasSendoFeitas.length}
+							</span>
+						</h3>
 					</div>
 					<div className='col-4'>
-						<h3 className='text-success'>FEITO</h3>
+						<h3 className='text-success'>
+							FEITO
+							<span
+								style={badgeMargin}
+								className='badge badge-pill badge-info'
+							>
+								{tarefasConcluidas.length}
+							</span>
+						</h3>
 					</div>
 				</div>
 				<div className='row'>
@@ -77,7 +135,7 @@ class TarefasContainer extends React.Component {
 						<Tarefas
 							key='a_fazer'
 							tarefas={tarefasAFazer}
-							background='bg-primary'
+							background='text-white bg-info'
 							acao='Fazer'
 							onChangeStatus={this.handleStatusChange}
 						/>
@@ -99,7 +157,7 @@ class TarefasContainer extends React.Component {
 						/>
 					</div>
 				</div>
-			</div>
+			</React.Fragment>
 		)
 	}
 }

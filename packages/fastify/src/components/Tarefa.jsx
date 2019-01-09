@@ -6,7 +6,6 @@ const Tarefa = ({ tarefa, acao, onChangeStatus }) => {
 		<div className='card-body'>
 			<h5 className='card-title'>{tarefa.titulo}</h5>
 			<p className='card-text'>{tarefa.conteudo}</p>
-			<p className='card-text'>{tarefa.data}</p>
 			<button
 				className={'btn btn-sm btn-secondary'}
 				onClick={() => onChangeStatus(tarefa)}
@@ -19,6 +18,5 @@ const Tarefa = ({ tarefa, acao, onChangeStatus }) => {
 Tarefa.propTypes = {
 	titulo: PropTypes.string.isRequired,
 	conteudo: PropTypes.string.isRequired,
-	data: PropTypes.string.isRequired,
 }
 export default Tarefa

@@ -1,12 +1,12 @@
 import React from 'react'
 import { render, cleanup } from 'react-testing-library'
 import AddTarefa from '../AddTarefa'
+import * as status from '../../containers/status'
 
 afterEach(cleanup)
 describe('Adiciona Tarefa', () => {
 	test('renderiza o formulário para adicionar uma nova tarefa', () => {
 		//Arrange
-
 		//Act
 		const { getByText, getByPlaceholderText } = render(<AddTarefa />)
 

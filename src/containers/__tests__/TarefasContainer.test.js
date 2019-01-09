@@ -1,49 +1,39 @@
 import React from 'react'
 import { render, cleanup } from 'react-testing-library'
+
+import { Provider } from 'react-redux'
+import configureStore from '../../redux/store/configureStore'
+
+import * as status from '../status'
+
 import TarefasContainer from '../TarefasContainer'
 
-afterEach(cleanup)
+function renderWithRedux(
+	ui,
+	{ initialState, store = configureStore(initialState) } = {}
+) {
+	return {
+		...render(<Provider store={store}>{ui}</Provider>),
+		store,
+	}
+}
 describe('Tarefas', () => {
-	test('renderiza uma lista de tarefas a partir de um array de tarefas', () => {
+	afterEach(cleanup)
+
+	test('renderiza o quadro de tarefas', () => {
 		//Arrange
-		const props = {
-			tarefas: [
-				{
-					titulo: 'Fazer o quadro Kanban',
-					conteudo: 'Fazer o quadro Kanban com react, redux etc',
-					data: '02/01/2019',
-					status: 'a fazer',
-					background: 'text-white bg-primary',
-					btnBg: 'btn-light',
-				},
-				{
-					titulo: 'Adiconar o redux',
-					conteudo: 'Adicionar o redux ao projeto',
-					data: '02/01/2019',
-					status: 'a fazer',
-					background: 'text-white bg-primary',
-					btnBg: 'btn-light',
-				},
-				{
-					titulo: 'Fazer o backend',
-					conteudo: 'fazer o servidor backend do projeto',
-					data: '02/01/2019',
-					status: 'a fazer',
-					background: 'text-white bg-primary',
-					btnBg: 'btn-light',
-				},
-			],
-		}
 		//Act
-		const { getByText } = render(<TarefasContainer />)
+		const { getByText } = renderWithRedux(<TarefasContainer />)
 
 		//Assert
-		const tituloNode = getByText(props.tarefas[1].titulo)
-		const conteudoNode = getByText(props.tarefas[1].conteudo)
-		const dataNode = getByText(props.tarefas[1].data)
+		const aFazer = getByText('A FAZER')
+		const fazendo = getByText('FAZENDO')
+		const feito = getByText('FEITO')
+		const arquivadas = getByText('ARQUIVADAS:')
 
-		expect(tituloNode).toBeDefined()
-		expect(conteudoNode).toBeDefined()
-		expect(dataNode).toBeDefined()
+		expect(aFazer).toBeDefined()
+		expect(fazendo).toBeDefined()
+		expect(feito).toBeDefined()
+		expect(arquivadas).toBeDefined()
 	})
 })

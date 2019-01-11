@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Tarefa from './Tarefa'
 
-const Tarefas = ({ tarefas, background, acao, onChangeStatus, props }) =>
+const Tarefas = ({ tarefas, background, acao, onClickAction, props }) =>
 	tarefas.map((tarefa, index) => {
 		return (
 			<div
@@ -14,7 +14,7 @@ const Tarefas = ({ tarefas, background, acao, onChangeStatus, props }) =>
 					{...tarefa}
 					acao={acao}
 					tarefa={tarefa}
-					onChangeStatus={onChangeStatus}
+					onClickAction={onClickAction}
 				/>
 			</div>
 		)

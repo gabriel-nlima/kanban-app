@@ -41,3 +41,10 @@ export function trocaStatus(tarefa, novoStatus) {
 		tarefa,
 	}
 }
+
+export function deletaTarefa(tarefa) {
+	return {
+		type: actionsTypes.DELETE_TAREFA,
+		tarefa,
+	}
+}

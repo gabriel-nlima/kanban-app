@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Tarefa = ({ tarefa, acao, onChangeStatus }) => {
+const Tarefa = ({ tarefa, acao, onClickAction }) => {
 	return (
-		<div className='card-body'>
+		<div className='card-body text-center'>
 			<h5 className='card-title'>{tarefa.titulo}</h5>
 			<p className='card-text text-justify'>{tarefa.conteudo}</p>
 			<p style={{ fontSize: 11 }} className='card-text text-left '>
@@ -15,10 +15,10 @@ const Tarefa = ({ tarefa, acao, onChangeStatus }) => {
 					: 'Concluido em: ' + tarefa.concluidoEm}
 			</p>
 			<button
-				className={'btn btn-sm btn-secondary'}
-				onClick={() => onChangeStatus(tarefa)}
+				className={'btn btn-sm ' + acao.btnBg}
+				onClick={() => onClickAction(tarefa)}
 			>
-				{acao}
+				{acao.text}
 			</button>
 		</div>
 	)
@@ -30,7 +30,7 @@ Tarefa.propTypes = {
 		adicionadoEm: PropTypes.string.isRequired,
 		concluidoEm: PropTypes.string,
 	}).isRequired,
-	acao: PropTypes.string.isRequired,
-	onChangeStatus: PropTypes.func.isRequired,
+	acao: PropTypes.object.isRequired,
+	onClickAction: PropTypes.func.isRequired,
 }
 export default Tarefa

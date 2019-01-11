@@ -2,6 +2,8 @@ import React from 'react'
 import Tarefas from '../components/Tarefas'
 import * as status from './status'
 
+import { Link } from 'react-router-dom'
+
 import { deletaTarefa } from '../redux/actions/actions'
 import { connect } from 'react-redux'
 
@@ -32,7 +34,7 @@ class ArquivadasContainer extends React.Component {
 		return (
 			<React.Fragment>
 				<div className='row'>
-					<div className='col-12'>
+					<div className='col-6'>
 						<h4 className='text-secondary'>
 							Tarefas arquivadas:{' '}
 							<span
@@ -43,9 +45,14 @@ class ArquivadasContainer extends React.Component {
 							</span>
 						</h4>
 					</div>
+					<div className='col-6 text-right'>
+						<Link className='btn btn-primary' to='/' replace>
+							Voltar para o Quadro Kanban
+						</Link>
+					</div>
 				</div>
-				<div className='row'>
-					<div className='col-6'>
+				<div className='row' style={{ marginTop: 10 }}>
+					<div className='col-12 card-columns'>
 						<Tarefas
 							tarefas={tarefasArquivadas}
 							background='bg-secondary'

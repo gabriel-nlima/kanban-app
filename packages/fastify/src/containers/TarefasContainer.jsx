@@ -4,7 +4,11 @@ import * as status from './status'
 
 import { Link } from 'react-router-dom'
 
-import { setTarefas, trocaStatus } from '../redux/actions/actions'
+import {
+	setTarefas,
+	getAllTarefas,
+	trocaStatus,
+} from '../redux/actions/actions'
 import { connect } from 'react-redux'
 import AddTarefaContainer from './AddTarefaContainer'
 
@@ -30,7 +34,7 @@ class TarefasContainer extends React.Component {
 	}
 
 	getTarefas() {
-		//this.props.setTarefas()
+		this.props.getTarefas()
 	}
 	getStatusTarefas(tarefas) {
 		const tarefasAFazer = []
@@ -172,6 +176,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setTarefas: () => dispatch(setTarefas()),
+		getTarefas: () => dispatch(getAllTarefas()),
 		trocaStatus: (tarefa, novoStatus) =>
 			dispatch(trocaStatus(tarefa, novoStatus)),
 	}

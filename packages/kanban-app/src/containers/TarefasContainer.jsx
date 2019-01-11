@@ -1,9 +1,12 @@
 import React from 'react'
 import Tarefas from '../components/Tarefas'
 import * as status from './status'
-import { setTarefas, trocaStatus } from '../redux/actions/actions'
 
+import { Link } from 'react-router-dom'
+
+import { setTarefas, trocaStatus } from '../redux/actions/actions'
 import { connect } from 'react-redux'
+import AddTarefaContainer from './AddTarefaContainer'
 
 /*
  *Recebe as tarefas da redux store, separa por status e os
@@ -82,10 +85,11 @@ class TarefasContainer extends React.Component {
 
 		return (
 			<React.Fragment>
+				<AddTarefaContainer />
 				<div className='row text-left'>
 					<div className='col-12 col-md-6 col-lg-6 col-xl-6'>
 						<h5 className='text-muted'>
-							ARQUIVADAS:
+							<Link to='/arquivadas'>ARQUIVADAS:</Link>
 							<span
 								style={badgeMargin}
 								className='badge badge-pill badge-secondary'
@@ -110,8 +114,8 @@ class TarefasContainer extends React.Component {
 							key='a_fazer'
 							tarefas={tarefasAFazer}
 							background='text-white bg-info'
-							acao='Fazer'
-							onChangeStatus={this.handleStatusChange}
+							acao={{ text: 'Fazer', btnBg: 'btn-secondary' }}
+							onClickAction={this.handleStatusChange}
 						/>
 					</div>
 					<div className='col-6 col-md-4 col-lg-4 col-xl-4'>
@@ -127,8 +131,8 @@ class TarefasContainer extends React.Component {
 						<Tarefas
 							tarefas={tarefasSendoFeitas}
 							background='bg-warning'
-							acao='Concluir'
-							onChangeStatus={this.handleStatusChange}
+							acao={{ text: 'Concluir', btnBg: 'btn-secondary' }}
+							onClickAction={this.handleStatusChange}
 						/>
 					</div>
 					<div className='col-12 col-md-4 col-lg-4 col-xl-4'>
@@ -144,8 +148,8 @@ class TarefasContainer extends React.Component {
 						<Tarefas
 							tarefas={tarefasConcluidas}
 							background='bg-success'
-							acao='Arquivar'
-							onChangeStatus={this.handleStatusChange}
+							acao={{ text: 'Arquivar', btnBg: 'btn-secondary' }}
+							onClickAction={this.handleStatusChange}
 						/>
 					</div>
 				</div>

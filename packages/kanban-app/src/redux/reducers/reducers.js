@@ -28,7 +28,13 @@ export default function reducer(state = initialState, action) {
 					}
 				}),
 			}
-
+		case actionTypes.DELETE_TAREFA:
+			return {
+				...state,
+				tarefas: state.tarefas.filter(
+					(el) => el.id !== action.tarefa.id
+				),
+			}
 		default:
 			return state
 	}

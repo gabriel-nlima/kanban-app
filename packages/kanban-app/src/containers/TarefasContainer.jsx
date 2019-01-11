@@ -83,7 +83,7 @@ class TarefasContainer extends React.Component {
 		return (
 			<React.Fragment>
 				<div className='row text-left'>
-					<div className='col-4'>
+					<div className='col-12 col-md-6 col-lg-6 col-xl-6'>
 						<h5 className='text-muted'>
 							ARQUIVADAS:
 							<span
@@ -96,7 +96,7 @@ class TarefasContainer extends React.Component {
 					</div>
 				</div>
 				<div className='row'>
-					<div className='col-4'>
+					<div className='col-6 col-md-4 col-lg-4 col-xl-4'>
 						<h3 className='text-info'>
 							A FAZER
 							<span
@@ -106,8 +106,15 @@ class TarefasContainer extends React.Component {
 								{tarefasAFazer.length}
 							</span>
 						</h3>
+						<Tarefas
+							key='a_fazer'
+							tarefas={tarefasAFazer}
+							background='text-white bg-info'
+							acao='Fazer'
+							onChangeStatus={this.handleStatusChange}
+						/>
 					</div>
-					<div className='col-4'>
+					<div className='col-6 col-md-4 col-lg-4 col-xl-4'>
 						<h3 className='text-warning'>
 							FAZENDO
 							<span
@@ -117,8 +124,14 @@ class TarefasContainer extends React.Component {
 								{tarefasSendoFeitas.length}
 							</span>
 						</h3>
+						<Tarefas
+							tarefas={tarefasSendoFeitas}
+							background='bg-warning'
+							acao='Concluir'
+							onChangeStatus={this.handleStatusChange}
+						/>
 					</div>
-					<div className='col-4'>
+					<div className='col-12 col-md-4 col-lg-4 col-xl-4'>
 						<h3 className='text-success'>
 							FEITO
 							<span
@@ -128,27 +141,6 @@ class TarefasContainer extends React.Component {
 								{tarefasConcluidas.length}
 							</span>
 						</h3>
-					</div>
-				</div>
-				<div className='row'>
-					<div className='col-4 card-decks'>
-						<Tarefas
-							key='a_fazer'
-							tarefas={tarefasAFazer}
-							background='text-white bg-info'
-							acao='Fazer'
-							onChangeStatus={this.handleStatusChange}
-						/>
-					</div>
-					<div className='col-4 card-decks'>
-						<Tarefas
-							tarefas={tarefasSendoFeitas}
-							background='bg-warning'
-							acao='Concluir'
-							onChangeStatus={this.handleStatusChange}
-						/>
-					</div>
-					<div className='col-4 card-decks'>
 						<Tarefas
 							tarefas={tarefasConcluidas}
 							background='bg-success'

@@ -1,7 +1,6 @@
 import React from 'react'
 import { render, cleanup } from 'react-testing-library'
 import AddTarefa from '../AddTarefa'
-import * as status from '../../containers/status'
 
 afterEach(cleanup)
 describe('Adiciona Tarefa', () => {
@@ -11,8 +10,8 @@ describe('Adiciona Tarefa', () => {
 		const { getByText, getByPlaceholderText } = render(<AddTarefa />)
 
 		//Assert
-		const tituloNode = getByPlaceholderText('Titulo da tarefa')
-		const btnText = getByText('Adicionar tarefa')
+		const tituloNode = getByPlaceholderText('Titulo')
+		const btnText = getByText('Nova tarefa')
 
 		expect(tituloNode).toBeDefined()
 		expect(btnText).toBeDefined()

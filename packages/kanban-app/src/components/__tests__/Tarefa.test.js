@@ -11,7 +11,8 @@ describe('Tarefa', () => {
 		const tarefa = {
 			titulo: 'Fazer o quadro Kanban',
 			conteudo: 'Fazer o quadro Kanban com react, redux etc',
-			data: '02/01/2019',
+			adicionadoEm: '02/01/2019',
+			concluidoEm: '02/01/2019',
 			status: 'a fazer',
 			background: 'text-white bg-primary',
 			btnBg: 'btn-light',

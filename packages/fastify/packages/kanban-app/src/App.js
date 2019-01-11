@@ -1,11 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import TarefasContainer from './containers/TarefasContainer'
 
-export class App extends Component {
-	render() {
-		return <TarefasContainer />
-	}
+const App = () => {
+	return <TarefasContainer />
 }
-
 export default App

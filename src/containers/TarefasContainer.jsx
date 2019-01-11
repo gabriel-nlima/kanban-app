@@ -89,7 +89,9 @@ class TarefasContainer extends React.Component {
 				<div className='row text-left'>
 					<div className='col-12 col-md-6 col-lg-6 col-xl-6'>
 						<h5 className='text-muted'>
-							<Link to='/arquivadas'>ARQUIVADAS:</Link>
+							<Link to='/arquivadas' replace>
+								ARQUIVADAS:
+							</Link>
 							<span
 								style={badgeMargin}
 								className='badge badge-pill badge-secondary'

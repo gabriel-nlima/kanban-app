@@ -22,6 +22,7 @@ class TarefasContainer extends React.Component {
 		}
 		this.getStatusTarefas = this.getStatusTarefas.bind(this)
 		this.handleStatusChange = this.handleStatusChange.bind(this)
+		this.atualizarTarefa = this.atualizarTarefa.bind(this)
 	}
 	componentDidMount() {
 		this.getTarefas()
@@ -58,6 +59,10 @@ class TarefasContainer extends React.Component {
 			tarefasConcluidas,
 			tarefasArquivadas,
 		}
+	}
+
+	atualizarTarefa(tarefa) {
+		console.log('atualiza essa tarefa ai')
 	}
 	//Passa o novo status da terafa para o action creator, de acordo com o status atual
 	//fazer>fazendo>concluido>arquivado

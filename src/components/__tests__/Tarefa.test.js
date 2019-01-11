@@ -6,7 +6,7 @@ describe('Tarefa', () => {
 	afterEach(cleanup)
 	test('renderiza uma tarefa com titulo, conteudo e data', () => {
 		//Arrange
-		const acao = 'FAZER'
+		const acao = { text: 'FAZER', btnBg: 'btn-secondary' }
 		const onChangeStatus = () => {}
 		const tarefa = {
 			titulo: 'Fazer o quadro Kanban',
@@ -23,7 +23,7 @@ describe('Tarefa', () => {
 			<Tarefa
 				tarefa={tarefa}
 				acao={acao}
-				onChangeStatus={onChangeStatus}
+				onClickAction={onChangeStatus}
 			/>
 		)
 

@@ -1,10 +1,25 @@
 import * as actionTypes from '../actions/actionTypes'
 const initialState = {
 	tarefas: [],
+	error: false,
 }
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
+		case actionTypes.STARTED:
+			return {
+				...state,
+			}
+		case actionTypes.FAILED:
+			return {
+				...state,
+				error: action.error,
+			}
 		case actionTypes.SET_TAREFAS:
+			return {
+				...state,
+				tarefas: action.tarefas,
+			}
+		case actionTypes.GET_TAREFAS:
 			return {
 				...state,
 				tarefas: action.tarefas,
@@ -18,7 +33,7 @@ export default function reducer(state = initialState, action) {
 			return {
 				...state,
 				tarefas: state.tarefas.map((tarefa) => {
-					if (tarefa.id !== action.tarefa.id) {
+					if (tarefa._id !== action.tarefa._id) {
 						return tarefa
 					}
 					return {
@@ -32,7 +47,7 @@ export default function reducer(state = initialState, action) {
 			return {
 				...state,
 				tarefas: state.tarefas.filter(
-					(el) => el.id !== action.tarefa.id
+					(el) => el._id !== action.tarefa._id
 				),
 			}
 		default:

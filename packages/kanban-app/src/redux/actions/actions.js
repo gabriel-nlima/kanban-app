@@ -1,27 +1,58 @@
 import * as actionsTypes from './actionTypes'
 import * as status from '../../containers/status'
+import Axios from 'axios'
 
 export function setTarefas() {
 	return {
 		type: actionsTypes.SET_TAREFAS,
 	}
 }
+export function actionStarted() {
+	return { type: actionsTypes.STARTED }
+}
+export function actionFailed() {
+	return { type: actionsTypes.FAILED, error: true }
+}
+export const getAllTarefas = () => (dispatch) => {
+	dispatch(actionStarted())
 
-export function addTarefa(tarefa) {
+	return Axios.get('/api/tarefas/')
+		.then((res) => {
+			const tarefas = res.data.data
+			dispatch({ type: actionsTypes.GET_TAREFAS, tarefas })
+		})
+		.catch((error) => {
+			dispatch(actionFailed())
+		})
+}
+
+export const addTarefa = (tarefa) => (dispatch) => {
+	dispatch(actionStarted())
 	const adicionadoEm = new Date()
 	tarefa = {
 		...tarefa,
-		id: Math.floor(Math.random() * 1000 + 1),
 		status: status.FAZER,
 		adicionadoEm: adicionadoEm.toLocaleString(),
 	}
-	return {
-		type: actionsTypes.ADD_TAREFA,
-		tarefa,
-	}
+	return Axios.post('/api/tarefas', tarefa, {
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+	})
+		.then((res) => {
+			dispatch({
+				type: actionsTypes.ADD_TAREFA,
+				tarefa: res.data.data,
+			})
+		})
+		.catch((error) => {
+			dispatch(actionFailed(error))
+		})
 }
 
-export function trocaStatus(tarefa, novoStatus) {
+export const trocaStatus = (tarefa, novoStatus) => (dispatch) => {
+	dispatch(actionStarted())
 	if (novoStatus === status.CONCLUIDO) {
 		const concluidoEm = new Date()
 		tarefa = {
@@ -35,16 +66,39 @@ export function trocaStatus(tarefa, novoStatus) {
 			status: novoStatus,
 		}
 	}
-
-	return {
-		type: actionsTypes.TROCA_STATUS,
-		tarefa,
-	}
+	return Axios.put('/api/tarefas/' + tarefa._id, tarefa, {
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+	})
+		.then((res) => {
+			dispatch({
+				type: actionsTypes.TROCA_STATUS,
+				tarefa: res.data.data,
+			})
+		})
+		.catch((error) => {
+			dispatch(actionFailed(error))
+		})
 }
 
-export function deletaTarefa(tarefa) {
-	return {
-		type: actionsTypes.DELETE_TAREFA,
-		tarefa,
-	}
+export const deletaTarefa = (tarefa) => (dispatch) => {
+	dispatch(actionStarted())
+	return Axios.delete('/api/tarefas/' + tarefa._id, tarefa, {
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+	})
+		.then((res) => {
+			console.log(res)
+			dispatch({
+				type: actionsTypes.DELETE_TAREFA,
+				tarefa,
+			})
+		})
+		.catch((error) => {
+			dispatch(actionFailed(error))
+		})
 }

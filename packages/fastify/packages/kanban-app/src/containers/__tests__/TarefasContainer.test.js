@@ -4,6 +4,8 @@ import { render, cleanup } from 'react-testing-library'
 import { Provider } from 'react-redux'
 import configureStore from '../../redux/store/configureStore'
 
+import { MemoryRouter } from 'react-router-dom'
+
 import TarefasContainer from '../TarefasContainer'
 
 function renderWithRedux(
@@ -11,7 +13,11 @@ function renderWithRedux(
 	{ initialState, store = configureStore(initialState) } = {}
 ) {
 	return {
-		...render(<Provider store={store}>{ui}</Provider>),
+		...render(
+			<Provider store={store}>
+				<MemoryRouter>{ui}</MemoryRouter>
+			</Provider>
+		),
 		store,
 	}
 }

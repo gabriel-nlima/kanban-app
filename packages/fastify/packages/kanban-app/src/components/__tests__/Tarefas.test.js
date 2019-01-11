@@ -8,7 +8,7 @@ afterEach(cleanup)
 describe('Tarefas', () => {
 	test('renderiza uma lista de tarefas a partir de um array de tarefas', () => {
 		//Arrange
-		const acao = 'FAZER'
+		const acao = { text: 'FAZER', btnBg: 'btn-secondary' }
 		const onChangeStatus = () => {}
 		const props = {
 			tarefas: [
@@ -18,8 +18,6 @@ describe('Tarefas', () => {
 					status: status.FAZER,
 					adicionadoEm: '02/01/2019',
 					concluidoEm: '02/01/2019',
-					background: 'text-white bg-primary',
-					btnBg: 'btn-light',
 				},
 				{
 					titulo: 'Adiconar o redux',
@@ -27,8 +25,6 @@ describe('Tarefas', () => {
 					status: status.FAZER,
 					adicionadoEm: '02/01/2019',
 					concluidoEm: '02/01/2019',
-					background: 'text-white bg-primary',
-					btnBg: 'btn-light',
 				},
 				{
 					titulo: 'Fazer o backend',
@@ -36,14 +32,12 @@ describe('Tarefas', () => {
 					status: status.FAZER,
 					adicionadoEm: '02/01/2019',
 					concluidoEm: '02/01/2019',
-					background: 'text-white bg-primary',
-					btnBg: 'btn-light',
 				},
 			],
 		}
 		//Act
 		const { getByText } = render(
-			<Tarefas {...props} acao={acao} onChangeStatus={onChangeStatus} />
+			<Tarefas {...props} acao={acao} onClickAction={onChangeStatus} />
 		)
 
 		//Assert

@@ -22,9 +22,9 @@ const setup = () => {
 		initialState: [],
 		store: store,
 	})
-	const inputTitulo = utils.getByPlaceholderText('Titulo da tarefa')
-	const inputConteudo = utils.getByPlaceholderText('Conteudo')
-	const btnAdicionar = utils.getByText('Adicionar tarefa')
+	const inputTitulo = utils.getByPlaceholderText('Titulo')
+	const inputConteudo = utils.getByPlaceholderText('Descrição')
+	const btnAdicionar = utils.getByText('Nova tarefa')
 	return {
 		inputTitulo,
 		inputConteudo,

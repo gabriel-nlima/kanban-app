@@ -15,7 +15,6 @@ import AddTarefaContainer from './AddTarefaContainer'
 /*
  *Recebe as tarefas da redux store, separa por status e os
  *passa para os componentes <Tarefas/> para renderizar.
- *
  */
 
 class TarefasContainer extends React.Component {
@@ -29,13 +28,10 @@ class TarefasContainer extends React.Component {
 		this.atualizarTarefa = this.atualizarTarefa.bind(this)
 	}
 	componentDidMount() {
-		this.getTarefas()
+		this.props.getTarefas()
 		this.getStatusTarefas(this.props.tarefas)
 	}
 
-	getTarefas() {
-		this.props.getTarefas()
-	}
 	getStatusTarefas(tarefas) {
 		const tarefasAFazer = []
 		const tarefasSendoFeitas = []
@@ -69,7 +65,7 @@ class TarefasContainer extends React.Component {
 		console.log('atualiza essa tarefa ai')
 	}
 	//Passa o novo status da terafa para o action creator, de acordo com o status atual
-	//fazer>fazendo>concluido>arquivado
+	//fazer>fazendo>concluido>arquivado>deletado
 	handleStatusChange(tarefa) {
 		let novoStatus = []
 		if (tarefa.status === status.FAZER) {
@@ -112,7 +108,7 @@ class TarefasContainer extends React.Component {
 				</div>
 				<div className='row'>
 					<div className='col-6 col-md-4 col-lg-4 col-xl-4'>
-						<h3 className='text-info'>
+						<h3 className='text-center text-info'>
 							A FAZER
 							<span
 								style={badgeMargin}
@@ -130,7 +126,7 @@ class TarefasContainer extends React.Component {
 						/>
 					</div>
 					<div className='col-6 col-md-4 col-lg-4 col-xl-4'>
-						<h3 className='text-warning'>
+						<h3 className='text-center text-warning'>
 							FAZENDO
 							<span
 								style={badgeMargin}
@@ -147,7 +143,7 @@ class TarefasContainer extends React.Component {
 						/>
 					</div>
 					<div className='col-12 col-md-4 col-lg-4 col-xl-4'>
-						<h3 className='text-success'>
+						<h3 className='text-center text-success'>
 							FEITO
 							<span
 								style={badgeMargin}

@@ -4,8 +4,13 @@ import * as status from './status'
 
 import { Link } from 'react-router-dom'
 
-import { deletaTarefa } from '../redux/actions/actions'
+import { getAllTarefas, deletaTarefa } from '../redux/actions/actions'
 import { connect } from 'react-redux'
+
+/*
+ *Recebe as tarefas da redux store, separa as que tem o status === ARQUIVADO
+ *passa para os componentes <Tarefas/> para renderizar, junto com a função delete
+ */
 
 class ArquivadasContainer extends React.Component {
 	constructor(props) {
@@ -13,6 +18,9 @@ class ArquivadasContainer extends React.Component {
 		this.deletaTarefa = this.deletaTarefa.bind(this)
 	}
 
+	componentDidMount() {
+		this.props.getTarefas()
+	}
 	filtraArquivadas(tarefa) {
 		if (tarefa.status === status.ARQUIVADO) {
 			return true
@@ -36,7 +44,7 @@ class ArquivadasContainer extends React.Component {
 				<div className='row'>
 					<div className='col-6'>
 						<h4 className='text-secondary'>
-							Tarefas arquivadas:{' '}
+							Tarefas arquivadas:
 							<span
 								style={badgeMargin}
 								className='badge badge-pill badge-secondary'
@@ -74,6 +82,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		deletaTarefa: (tarefa) => dispatch(deletaTarefa(tarefa)),
+		getTarefas: () => dispatch(getAllTarefas()),
 	}
 }
 

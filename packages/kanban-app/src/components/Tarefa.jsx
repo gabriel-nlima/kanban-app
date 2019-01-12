@@ -10,7 +10,7 @@ const Tarefa = ({ tarefa, acao, onClickAction }) => {
 				Adicionado em: {tarefa.adicionadoEm}
 			</p>
 			<p style={{ fontSize: 11 }} className='card-text text-left'>
-				{tarefa.concluidoEm === undefined
+				{tarefa.concluidoEm === ''
 					? ''
 					: 'Concluido em: ' + tarefa.concluidoEm}
 			</p>

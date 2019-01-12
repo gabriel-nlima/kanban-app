@@ -2,7 +2,7 @@
 Tarefa = require('../model/tarefaModel')
 // Handle index actions
 exports.index = function(req, res) {
-	Tarefa.get(function(err, contacts) {
+	Tarefa.get(function(err, tarefas) {
 		if (err) {
 			res.json({
 				status: 'error',
@@ -12,7 +12,7 @@ exports.index = function(req, res) {
 		res.json({
 			status: 'success',
 			message: 'Tarefas retrieved successfully',
-			data: contacts,
+			tarefas,
 		})
 	})
 }
@@ -30,7 +30,7 @@ exports.new = function(req, res) {
 		//     res.json(err);
 		res.json({
 			message: 'Nova Tarefa adicionada',
-			data: tarefa,
+			tarefa,
 		})
 	})
 }
@@ -40,7 +40,7 @@ exports.view = function(req, res) {
 		if (err) res.send(err)
 		res.json({
 			message: 'Carregando Tarefa',
-			data: tarefa,
+			tarefa,
 		})
 	})
 }
@@ -58,7 +58,7 @@ exports.update = function(req, res) {
 			if (err) res.json(err)
 			res.json({
 				message: 'Tarefa Info updated',
-				data: tarefa,
+				tarefa,
 			})
 		})
 	})

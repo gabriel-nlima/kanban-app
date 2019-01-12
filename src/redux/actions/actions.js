@@ -18,7 +18,7 @@ export const getAllTarefas = () => (dispatch) => {
 
 	return Axios.get('/api/tarefas/')
 		.then((res) => {
-			const tarefas = res.data.data
+			const { tarefas } = res.data
 			dispatch({ type: actionsTypes.GET_TAREFAS, tarefas })
 		})
 		.catch((error) => {
@@ -43,7 +43,7 @@ export const addTarefa = (tarefa) => (dispatch) => {
 		.then((res) => {
 			dispatch({
 				type: actionsTypes.ADD_TAREFA,
-				tarefa: res.data.data,
+				tarefa: res.data.tarefa,
 			})
 		})
 		.catch((error) => {
@@ -75,7 +75,7 @@ export const trocaStatus = (tarefa, novoStatus) => (dispatch) => {
 		.then((res) => {
 			dispatch({
 				type: actionsTypes.TROCA_STATUS,
-				tarefa: res.data.data,
+				tarefa: res.data.tarefa,
 			})
 		})
 		.catch((error) => {
@@ -92,7 +92,6 @@ export const deletaTarefa = (tarefa) => (dispatch) => {
 		},
 	})
 		.then((res) => {
-			console.log(res)
 			dispatch({
 				type: actionsTypes.DELETE_TAREFA,
 				tarefa,

@@ -24,6 +24,7 @@ class AddTarefaContainer extends React.Component {
 
 	submitTarefa(e) {
 		this.props.addTarefa(this.state.tarefa)
+		this.setState({ tarefa: [] })
 		e.preventDefault()
 	}
 

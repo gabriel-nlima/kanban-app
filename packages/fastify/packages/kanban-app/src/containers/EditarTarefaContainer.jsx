@@ -1,10 +1,10 @@
 import React from 'react'
-import AddTarefa from '../components/FormTarefa'
-import { addTarefa } from '../redux/actions/actions'
+import EditarTarefa from '../components/FormTarefa'
+import { editarTarefa } from '../redux/actions/actions'
 
 import { connect } from 'react-redux'
 
-class AddTarefaContainer extends React.Component {
+class EditarTarefaContainer extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -14,7 +14,10 @@ class AddTarefaContainer extends React.Component {
 		this.submitTarefa = this.submitTarefa.bind(this)
 	}
 
-	componentDidMount() {}
+	componentDidMount() {
+		const { tarefa } = this.props.location.state
+		this.setState({ tarefa })
+	}
 
 	handleInputChange(e) {
 		const tarefa = Object.assign({}, this.state.tarefa)
@@ -23,13 +26,13 @@ class AddTarefaContainer extends React.Component {
 	}
 
 	submitTarefa(e) {
-		this.props.addTarefa(this.state.tarefa)
+		this.props.editarTarefa(this.state.tarefa)
 		e.preventDefault()
 	}
 
 	render() {
 		return (
-			<AddTarefa
+			<EditarTarefa
 				handleChange={this.handleInputChange}
 				handleSubmit={this.submitTarefa}
 				tarefa={this.state.tarefa}
@@ -45,11 +48,11 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		addTarefa: (tarefa) => dispatch(addTarefa(tarefa)),
+		editarTarefa: (tarefa) => dispatch(editarTarefa(tarefa)),
 	}
 }
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(AddTarefaContainer)
+)(EditarTarefaContainer)

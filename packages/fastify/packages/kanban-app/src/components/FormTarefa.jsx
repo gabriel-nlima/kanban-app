@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AddTarefa = ({ handleSubmit, handleChange }) => {
+const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 	return (
 		<form onSubmit={handleSubmit}>
 			<div className='form-row'>
@@ -11,6 +11,7 @@ const AddTarefa = ({ handleSubmit, handleChange }) => {
 						className='form-control mb-2 mr-sm-2'
 						onChange={handleChange}
 						placeholder='Titulo'
+						value={tarefa.titulo || ''}
 					/>
 				</div>
 				<div className='col-5'>
@@ -20,11 +21,12 @@ const AddTarefa = ({ handleSubmit, handleChange }) => {
 						className='form-control mb-2 mr-sm-2'
 						onChange={handleChange}
 						placeholder='Descrição'
+						value={tarefa.conteudo || ''}
 					/>
 				</div>
 				<div className='col-3'>
 					<button type='submit' className='btn btn-primary'>
-						Nova tarefa
+						Salvar Tarefa
 					</button>
 				</div>
 			</div>
@@ -32,4 +34,4 @@ const AddTarefa = ({ handleSubmit, handleChange }) => {
 	)
 }
 
-export default AddTarefa
+export default FormTarefa

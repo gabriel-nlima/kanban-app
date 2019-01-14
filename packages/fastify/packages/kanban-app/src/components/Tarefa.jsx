@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 const Tarefa = ({ tarefa, acao, onClickAction }) => {
@@ -14,6 +15,13 @@ const Tarefa = ({ tarefa, acao, onClickAction }) => {
 					? ''
 					: 'Concluido em: ' + tarefa.concluidoEm}
 			</p>
+			<Link
+				style={{ marginRight: 5 }}
+				to={{ pathname: '/editar', state: { tarefa } }}
+				className='btn btn-sm btn-light'
+			>
+				Editar{' '}
+			</Link>
 			<button
 				className={'btn btn-sm ' + acao.btnBg}
 				onClick={() => onClickAction(tarefa)}

@@ -54,7 +54,7 @@ class ArquivadasContainer extends React.Component {
 						</h4>
 					</div>
 					<div className='col-6 text-right'>
-						<Link className='btn btn-primary' to='/' replace>
+						<Link className='btn btn-primary' to='/'>
 							Voltar para o Quadro Kanban
 						</Link>
 					</div>

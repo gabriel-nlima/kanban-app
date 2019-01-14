@@ -7,6 +7,7 @@ import configureStore from './redux/store/configureStore'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 import ArquivadasContainer from './containers/ArquivadasContainer'
+import EditarTarefaContainer from './containers/EditarTarefaContainer'
 import TarefasContainer from './containers/TarefasContainer'
 import Header from './components/Header'
 
@@ -25,6 +26,11 @@ ReactDOM.render(
 						path='/arquivadas'
 						exact
 						component={ArquivadasContainer}
+					/>
+					<Route
+						path='/editar'
+						exact
+						component={EditarTarefaContainer}
 					/>
 				</Switch>
 			</div>

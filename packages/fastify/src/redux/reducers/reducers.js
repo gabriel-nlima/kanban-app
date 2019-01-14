@@ -3,53 +3,70 @@ const initialState = {
 	tarefas: [],
 	error: false,
 }
+
+function started(state) {
+	return {
+		...state,
+	}
+}
+function failed(state, action) {
+	return {
+		...state,
+		error: action.error,
+	}
+}
+
+function getTarefas(state, action) {
+	return {
+		...state,
+		tarefas: action.tarefas,
+	}
+}
+
+function addTarefa(state, action) {
+	return {
+		...state,
+		tarefas: [...state.tarefas, action.tarefa],
+	}
+}
+
+function editarTarefa(state, action) {
+	return {
+		...state,
+		tarefas: state.tarefas.map((tarefa) => {
+			if (tarefa._id !== action.tarefa._id) {
+				return tarefa
+			}
+			return {
+				...tarefa,
+				status: action.tarefa.status,
+				concluidoEm: action.tarefa.concluidoEm,
+			}
+		}),
+	}
+}
+function deletaTarefa(state, action) {
+	return {
+		...state,
+		tarefas: state.tarefas.filter((el) => el._id !== action.tarefa._id),
+	}
+}
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case actionTypes.STARTED:
-			return {
-				...state,
-			}
+			return started(state)
 		case actionTypes.FAILED:
-			return {
-				...state,
-				error: action.error,
-			}
-		case actionTypes.SET_TAREFAS:
-			return {
-				...state,
-				tarefas: action.tarefas,
-			}
+			return failed(state, action)
 		case actionTypes.GET_TAREFAS:
-			return {
-				...state,
-				tarefas: action.tarefas,
-			}
+			return getTarefas(state, action)
 		case actionTypes.ADD_TAREFA:
-			return {
-				...state,
-				tarefas: [...state.tarefas, action.tarefa],
-			}
+			return addTarefa(state, action)
 		case actionTypes.TROCA_STATUS:
-			return {
-				...state,
-				tarefas: state.tarefas.map((tarefa) => {
-					if (tarefa._id !== action.tarefa._id) {
-						return tarefa
-					}
-					return {
-						...tarefa,
-						status: action.tarefa.status,
-						concluidoEm: action.tarefa.concluidoEm,
-					}
-				}),
-			}
+			return editarTarefa(state, action)
+		case actionTypes.UPDATE_TAREFA:
+			return editarTarefa(state, action)
 		case actionTypes.DELETE_TAREFA:
-			return {
-				...state,
-				tarefas: state.tarefas.filter(
-					(el) => el._id !== action.tarefa._id
-				),
-			}
+			return deletaTarefa(state, action)
 		default:
 			return state
 	}

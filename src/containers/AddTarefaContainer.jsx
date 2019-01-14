@@ -21,7 +21,6 @@ class AddTarefaContainer extends React.Component {
 		tarefa[e.target.name] = e.target.value
 		this.setState({ tarefa })
 	}
-
 	submitTarefa(e) {
 		this.props.addTarefa(this.state.tarefa)
 		this.setState({ tarefa: [] })

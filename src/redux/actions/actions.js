@@ -83,6 +83,26 @@ export const trocaStatus = (tarefa, novoStatus) => (dispatch) => {
 		})
 }
 
+export const editarTarefa = (tarefa) => (dispatch) => {
+	dispatch(actionStarted())
+
+	return Axios.put('/api/tarefas/' + tarefa._id, tarefa, {
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+	})
+		.then((res) => {
+			dispatch({
+				type: actionsTypes.UPDATE_TAREFA,
+				tarefa: res.data.tarefa,
+			})
+		})
+		.catch((error) => {
+			dispatch(actionFailed(error))
+		})
+}
+
 export const deletaTarefa = (tarefa) => (dispatch) => {
 	dispatch(actionStarted())
 	return Axios.delete('/api/tarefas/' + tarefa._id, tarefa, {

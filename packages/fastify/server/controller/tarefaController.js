@@ -1,5 +1,5 @@
 // Import Tarefa model
-Tarefa = require('../model/tarefaModel')
+var Tarefa = require('../model/tarefaModel')
 // Handle index actions
 exports.index = function(req, res) {
 	Tarefa.get(function(err, tarefas) {

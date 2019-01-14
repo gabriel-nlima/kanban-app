@@ -2,7 +2,7 @@ import React from 'react'
 
 const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit} className='needs-validation'>
 			<div className='form-row'>
 				<div className='col-4'>
 					<input
@@ -12,6 +12,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 						onChange={handleChange}
 						placeholder='Titulo'
 						value={tarefa.titulo || ''}
+						required
 					/>
 				</div>
 				<div className='col-5'>

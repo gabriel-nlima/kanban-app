@@ -7,8 +7,8 @@ export function setTarefas() {
 		type: actionsTypes.SET_TAREFAS,
 	}
 }
-export function actionStarted() {
-	return { type: actionsTypes.STARTED }
+export function actionStarted(tarefa) {
+	return { type: actionsTypes.STARTED, tarefa }
 }
 export function actionFailed() {
 	return { type: actionsTypes.FAILED, error: true }
@@ -84,7 +84,7 @@ export const trocaStatus = (tarefa, novoStatus) => (dispatch) => {
 }
 
 export const editarTarefa = (tarefa) => (dispatch) => {
-	dispatch(actionStarted())
+	dispatch(actionStarted(tarefa))
 
 	return Axios.put('/api/tarefas/' + tarefa._id, tarefa, {
 		headers: {

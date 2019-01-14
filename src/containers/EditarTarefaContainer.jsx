@@ -4,6 +4,8 @@ import { editarTarefa } from '../redux/actions/actions'
 
 import { connect } from 'react-redux'
 
+import { withRouter } from 'react-router-dom'
+
 class EditarTarefaContainer extends React.Component {
 	constructor(props) {
 		super(props)
@@ -27,6 +29,7 @@ class EditarTarefaContainer extends React.Component {
 
 	submitTarefa(e) {
 		this.props.editarTarefa(this.state.tarefa)
+		this.props.history.push('/')
 		e.preventDefault()
 	}
 
@@ -52,7 +55,9 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(EditarTarefaContainer)
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(EditarTarefaContainer)
+)

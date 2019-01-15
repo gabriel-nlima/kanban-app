@@ -4,6 +4,8 @@ import Tarefas from '../Tarefas'
 
 import * as status from '../../containers/status'
 
+import { renderWithRouter } from '../../utils/utils'
+
 afterEach(cleanup)
 describe('Tarefas', () => {
 	test('renderiza uma lista de tarefas a partir de um array de tarefas', () => {
@@ -36,7 +38,7 @@ describe('Tarefas', () => {
 			],
 		}
 		//Act
-		const { getByText } = render(
+		const { getByText } = renderWithRouter(
 			<Tarefas {...props} acao={acao} onClickAction={onChangeStatus} />
 		)
 

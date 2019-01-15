@@ -1,23 +1,17 @@
 import React from 'react'
-import { render, fireEvent, cleanup } from 'react-testing-library'
+import { fireEvent, cleanup } from 'react-testing-library'
 
-import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import configureMockStore from 'redux-mock-store'
-import { ADD_TAREFA, STARTED } from '../../redux/actions/actionTypes'
+import { STARTED } from '../../redux/actions/actionTypes'
+
+import renderWithRedux from '../../utils/utils'
 
 import AddTarefaContainer from '../AddTarefaContainer'
 
 const middlewares = [thunk] // add your middlewares like `redux-thunk`
 const mockStore = configureMockStore(middlewares)
 const store = mockStore({ tarefas: [] })
-
-function renderWithRedux(ui, { initialState, store }) {
-	return {
-		...render(<Provider store={store}>{ui}</Provider>),
-		store,
-	}
-}
 
 const setup = () => {
 	const utils = renderWithRedux(<AddTarefaContainer />, {
@@ -26,7 +20,7 @@ const setup = () => {
 	})
 	const inputTitulo = utils.getByPlaceholderText('Titulo')
 	const inputConteudo = utils.getByPlaceholderText('Descrição')
-	const btnAdicionar = utils.getByText('Nova tarefa')
+	const btnAdicionar = utils.getByText('Salvar Tarefa')
 	return {
 		inputTitulo,
 		inputConteudo,

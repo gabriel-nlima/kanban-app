@@ -1,6 +1,8 @@
 import React from 'react'
-import { render, cleanup } from 'react-testing-library'
+import { cleanup } from 'react-testing-library'
 import Tarefa from '../Tarefa'
+
+import { renderWithRouter } from '../../utils/utils'
 
 describe('Tarefa', () => {
 	afterEach(cleanup)
@@ -19,7 +21,7 @@ describe('Tarefa', () => {
 		}
 
 		//Act
-		const { getByText } = render(
+		const { getByText } = renderWithRouter(
 			<Tarefa
 				tarefa={tarefa}
 				acao={acao}

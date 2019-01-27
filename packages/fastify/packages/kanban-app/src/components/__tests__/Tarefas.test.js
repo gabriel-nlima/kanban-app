@@ -39,12 +39,17 @@ describe('Tarefas', () => {
 		}
 		//Act
 		const { getByText } = renderWithRouter(
-			<Tarefas {...props} acao={acao} onClickAction={onChangeStatus} />
+			<Tarefas
+				{...props}
+				acao={acao}
+				onClickAction={onChangeStatus}
+				background='bg-info'
+			/>
 		)
 
 		//Assert
 		const tituloNode = getByText(props.tarefas[1].titulo)
-		const conteudoNode = getByText(props.tarefas[1].conteudo)
+		const conteudoNode = getByText(props.tarefas[2].conteudo)
 
 		expect(tituloNode).toBeDefined()
 		expect(conteudoNode).toBeDefined()

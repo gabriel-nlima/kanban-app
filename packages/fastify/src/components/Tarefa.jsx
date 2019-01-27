@@ -34,11 +34,14 @@ const Tarefa = ({ tarefa, acao, onClickAction }) => {
 Tarefa.propTypes = {
 	tarefa: PropTypes.shape({
 		titulo: PropTypes.string.isRequired,
-		conteudo: PropTypes.string.isRequired,
+		conteudo: PropTypes.string,
 		adicionadoEm: PropTypes.string.isRequired,
 		concluidoEm: PropTypes.string,
 	}).isRequired,
-	acao: PropTypes.object.isRequired,
+	acao: PropTypes.shape({
+		text: PropTypes.string,
+		btnBg: PropTypes.string,
+	}).isRequired,
 	onClickAction: PropTypes.func.isRequired,
 }
 export default Tarefa

@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
 
+import PropTypes from 'prop-types'
+
 class EditarTarefaContainer extends React.Component {
 	constructor(props) {
 		super(props)
@@ -56,6 +58,10 @@ class EditarTarefaContainer extends React.Component {
 			</React.Fragment>
 		)
 	}
+}
+
+EditarTarefaContainer.propTypes = {
+	editarTarefa: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {

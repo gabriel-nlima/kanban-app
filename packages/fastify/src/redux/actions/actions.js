@@ -16,7 +16,7 @@ export function actionFailed() {
 export const getAllTarefas = () => (dispatch) => {
 	dispatch(actionStarted())
 
-	return Axios.get('/api/tarefas/')
+	return Axios.get('/tarefas')
 		.then((res) => {
 			const { tarefas } = res.data
 			dispatch({ type: actionsTypes.GET_TAREFAS, tarefas })
@@ -34,7 +34,7 @@ export const addTarefa = (tarefa) => (dispatch) => {
 		status: status.FAZER,
 		adicionadoEm: adicionadoEm.toLocaleString(),
 	}
-	return Axios.post('/api/tarefas', tarefa, {
+	return Axios.post('/tarefas', tarefa, {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ export const trocaStatus = (tarefa, novoStatus) => (dispatch) => {
 			status: novoStatus,
 		}
 	}
-	return Axios.put('/api/tarefas/' + tarefa._id, tarefa, {
+	return Axios.put('/tarefas/' + tarefa._id, tarefa, {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export const trocaStatus = (tarefa, novoStatus) => (dispatch) => {
 export const editarTarefa = (tarefa) => (dispatch) => {
 	dispatch(actionStarted(tarefa))
 
-	return Axios.put('/api/tarefas/' + tarefa._id, tarefa, {
+	return Axios.put('/tarefas/' + tarefa._id, tarefa, {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ export const editarTarefa = (tarefa) => (dispatch) => {
 
 export const deletaTarefa = (tarefa) => (dispatch) => {
 	dispatch(actionStarted())
-	return Axios.delete('/api/tarefas/' + tarefa._id, tarefa, {
+	return Axios.delete('/tarefas/' + tarefa._id, tarefa, {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',

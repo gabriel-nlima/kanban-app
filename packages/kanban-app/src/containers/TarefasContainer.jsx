@@ -4,13 +4,11 @@ import * as status from './status'
 
 import { Link } from 'react-router-dom'
 
-import {
-	setTarefas,
-	getAllTarefas,
-	trocaStatus,
-} from '../redux/actions/actions'
+import { getAllTarefas, trocaStatus } from '../redux/actions/actions'
 import { connect } from 'react-redux'
 import AddTarefaContainer from './AddTarefaContainer'
+
+import PropTypes from 'prop-types'
 
 /*
  *Recebe as tarefas da redux store, separa por status e os
@@ -25,7 +23,6 @@ class TarefasContainer extends React.Component {
 		}
 		this.getStatusTarefas = this.getStatusTarefas.bind(this)
 		this.handleStatusChange = this.handleStatusChange.bind(this)
-		this.atualizarTarefa = this.atualizarTarefa.bind(this)
 	}
 	componentDidMount() {
 		this.props.getTarefas()
@@ -61,9 +58,6 @@ class TarefasContainer extends React.Component {
 		}
 	}
 
-	atualizarTarefa(tarefa) {
-		console.log('atualiza essa tarefa ai')
-	}
 	//Passa o novo status da terafa para o action creator, de acordo com o status atual
 	//fazer>fazendo>concluido>arquivado>deletado
 	handleStatusChange(tarefa) {
@@ -162,6 +156,11 @@ class TarefasContainer extends React.Component {
 		)
 	}
 }
+
+TarefasContainer.propTypes = {
+	getTarefas: PropTypes.func.isRequired,
+	trocaStatus: PropTypes.func.isRequired,
+}
 function mapStateToProps(state) {
 	return {
 		tarefas: state.tarefas,
@@ -169,7 +168,6 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setTarefas: () => dispatch(setTarefas()),
 		getTarefas: () => dispatch(getAllTarefas()),
 		trocaStatus: (tarefa, novoStatus) =>
 			dispatch(trocaStatus(tarefa, novoStatus)),

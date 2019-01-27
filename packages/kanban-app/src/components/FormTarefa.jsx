@@ -12,6 +12,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 						onChange={handleChange}
 						placeholder='Titulo'
 						value={tarefa.titulo || ''}
+						maxLength='35'
 						required
 					/>
 				</div>

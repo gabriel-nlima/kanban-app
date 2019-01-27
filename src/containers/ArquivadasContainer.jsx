@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom'
 import { getAllTarefas, deletaTarefa } from '../redux/actions/actions'
 import { connect } from 'react-redux'
 
+import PropTypes from 'prop-types'
+
 /*
  *Recebe as tarefas da redux store, separa as que tem o status === ARQUIVADO
  *passa para os componentes <Tarefas/> para renderizar, junto com a função delete
@@ -72,6 +74,11 @@ class ArquivadasContainer extends React.Component {
 			</React.Fragment>
 		)
 	}
+}
+
+ArquivadasContainer.propTypes = {
+	getTarefas: PropTypes.func.isRequired,
+	deletaTarefa: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {

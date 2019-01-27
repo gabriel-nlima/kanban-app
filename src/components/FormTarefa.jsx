@@ -22,6 +22,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 						className='form-control mb-2 mr-sm-2'
 						onChange={handleChange}
 						placeholder='Descrição'
+						maxLength='55'
 						value={tarefa.conteudo || ''}
 					/>
 				</div>

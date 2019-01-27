@@ -4,6 +4,8 @@ import { addTarefa } from '../redux/actions/actions'
 
 import { connect } from 'react-redux'
 
+import PropTypes from 'prop-types'
+
 class AddTarefaContainer extends React.Component {
 	constructor(props) {
 		super(props)
@@ -36,6 +38,10 @@ class AddTarefaContainer extends React.Component {
 			/>
 		)
 	}
+}
+
+AddTarefaContainer.propTypes = {
+	addTarefa: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {

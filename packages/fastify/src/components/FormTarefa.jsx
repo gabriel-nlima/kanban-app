@@ -1,12 +1,16 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 	return (
 		<form onSubmit={handleSubmit} className='needs-validation'>
 			<div className='form-row'>
-				<div className='col-4'>
+				<div className='form-group col-5'>
+					<label htmlFor='titulo'>Titulo</label>
 					<input
 						name='titulo'
+						id='titulo'
 						type='text'
 						className='form-control mb-2 mr-sm-2'
 						onChange={handleChange}
@@ -17,9 +21,14 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 						required
 					/>
 				</div>
-				<div className='col-5'>
-					<input
+			</div>
+			<div className='form-row'>
+				<div className='form-group col-5'>
+					<label htmlFor='descricao'>Descrição</label>
+					<textarea
+						rows='2'
 						name='conteudo'
+						id='descricao'
 						type='text'
 						className='form-control mb-2 mr-sm-2'
 						onChange={handleChange}
@@ -29,8 +38,47 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 						value={tarefa.conteudo || ''}
 					/>
 				</div>
-				<div className='col-3'>
-					<button type='submit' className='btn btn-primary'>
+			</div>
+			<div className='form-row'>
+				<div className='col-5'>
+					<label htmlFor='tag1'>Tag 01</label>
+					<input
+						id='tag1'
+						name='tag1'
+						type='text'
+						className='form-control mb-2 mr-sm-2'
+						onChange={handleChange}
+						placeholder='Tag 01'
+						value={tarefa.tag1 || ''}
+						maxLength='15'
+					/>
+				</div>
+			</div>
+			<div className='form-row'>
+				<div className='col-5'>
+					<label htmlFor='tag2'>Tag 02</label>
+					<input
+						id='tag2'
+						name='tag2'
+						type='text'
+						className='form-control mb-2 mr-sm-2'
+						onChange={handleChange}
+						placeholder='Tag 02'
+						value={tarefa.tag2 || ''}
+						maxLength='15'
+					/>
+				</div>
+			</div>
+			<div className='form-row text-right'>
+				<div className='col-5'>
+					<Link to='/' className='btn btn-secondary'>
+						Voltar
+					</Link>
+					<button
+						type='submit'
+						style={{ marginLeft: 5 }}
+						className='btn btn-primary'
+					>
 						Salvar Tarefa
 					</button>
 				</div>
@@ -39,4 +87,4 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 	)
 }
 
-export default FormTarefa
+export default withRouter(FormTarefa)

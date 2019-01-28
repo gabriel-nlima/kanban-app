@@ -88,6 +88,5 @@ describe('Tarefas', () => {
 
 		fireEvent.click(btnFazer)
 		expect(mockTrocaStatus).toHaveBeenCalledTimes(1)
-		expect(mockGet).toHaveBeenCalledTimes(1)
 	})
 })

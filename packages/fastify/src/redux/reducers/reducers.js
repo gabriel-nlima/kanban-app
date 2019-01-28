@@ -38,9 +38,7 @@ function editarTarefa(state, action) {
 				return tarefa
 			}
 			return {
-				...tarefa,
-				status: action.tarefa.status,
-				concluidoEm: action.tarefa.concluidoEm,
+				...action.tarefa,
 			}
 		}),
 	}

@@ -14,14 +14,14 @@ import PropTypes from 'prop-types'
  *passa para os componentes <Tarefas/> para renderizar, junto com a função delete
  */
 
-class ArquivadasContainer extends React.Component {
+export class ArquivadasContainer extends React.Component {
 	constructor(props) {
 		super(props)
 		this.deletaTarefa = this.deletaTarefa.bind(this)
 	}
 
 	componentDidMount() {
-		this.props.getTarefas()
+		//this.props.getTarefas()
 	}
 	filtraArquivadas(tarefa) {
 		if (tarefa.status === status.ARQUIVADO) {
@@ -48,6 +48,7 @@ class ArquivadasContainer extends React.Component {
 						<h4 className='text-secondary'>
 							Tarefas arquivadas:
 							<span
+								data-testid='badge'
 								style={badgeMargin}
 								className='badge badge-pill badge-secondary'
 							>

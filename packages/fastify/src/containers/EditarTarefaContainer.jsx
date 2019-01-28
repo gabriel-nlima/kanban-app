@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom'
 
 import PropTypes from 'prop-types'
 
-class EditarTarefaContainer extends React.Component {
+export class EditarTarefaContainer extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -51,6 +51,7 @@ class EditarTarefaContainer extends React.Component {
 
 				<button
 					className='btn btn-secondary'
+					data-testid='btnVoltar'
 					onClick={() => this.voltar()}
 				>
 					Voltar

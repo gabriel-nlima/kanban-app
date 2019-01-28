@@ -74,6 +74,5 @@ describe('Tarefas Arquivadas', () => {
 
 		fireEvent.click(btnDelete)
 		expect(mockDelete).toHaveBeenCalledTimes(1)
-		expect(mockGet).toHaveBeenCalledTimes(1)
 	})
 })

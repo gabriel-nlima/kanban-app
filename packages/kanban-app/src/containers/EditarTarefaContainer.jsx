@@ -16,7 +16,6 @@ export class EditarTarefaContainer extends React.Component {
 		}
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.submitTarefa = this.submitTarefa.bind(this)
-		this.voltar = this.voltar.bind(this)
 	}
 
 	componentDidMount() {
@@ -36,10 +35,6 @@ export class EditarTarefaContainer extends React.Component {
 		e.preventDefault()
 	}
 
-	voltar() {
-		this.props.history.push('/')
-	}
-
 	render() {
 		return (
 			<React.Fragment>
@@ -48,14 +43,6 @@ export class EditarTarefaContainer extends React.Component {
 					handleSubmit={this.submitTarefa}
 					tarefa={this.state.tarefa}
 				/>
-
-				<button
-					className='btn btn-secondary'
-					data-testid='btnVoltar'
-					onClick={() => this.voltar()}
-				>
-					Voltar
-				</button>
 			</React.Fragment>
 		)
 	}

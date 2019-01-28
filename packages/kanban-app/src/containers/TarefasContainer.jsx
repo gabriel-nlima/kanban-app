@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 
 import { getAllTarefas, trocaStatus } from '../redux/actions/actions'
 import { connect } from 'react-redux'
-import AddTarefaContainer from './AddTarefaContainer'
 
 import PropTypes from 'prop-types'
 
@@ -39,13 +38,13 @@ export class TarefasContainer extends React.Component {
 				return []
 			}
 			if (tarefa.status === status.FAZER) {
-				tarefasAFazer.unshift(tarefa)
+				tarefasAFazer.push(tarefa)
 			} else if (tarefa.status === status.FAZENDO) {
-				tarefasSendoFeitas.unshift(tarefa)
+				tarefasSendoFeitas.push(tarefa)
 			} else if (tarefa.status === status.CONCLUIDO) {
-				tarefasConcluidas.unshift(tarefa)
+				tarefasConcluidas.push(tarefa)
 			} else if (tarefa.status === status.ARQUIVADO) {
-				tarefasArquivadas.unshift(tarefa)
+				tarefasArquivadas.push(tarefa)
 			}
 			return { tarefasAFazer, tarefasSendoFeitas, tarefasConcluidas }
 		})
@@ -84,18 +83,27 @@ export class TarefasContainer extends React.Component {
 
 		return (
 			<React.Fragment>
-				<AddTarefaContainer />
 				<div className='row text-left'>
-					<div className='col-12 col-md-6 col-lg-6 col-xl-6'>
+					<div className='col-6 col-md-6 col-lg-6 col-xl-6'>
 						<h5 className='text-muted'>
-							<Link to='/arquivadas'>ARQUIVADAS:</Link>
-							<span
-								style={badgeMargin}
-								className='badge badge-pill badge-secondary'
+							<Link
+								to='/arquivadas'
+								className='btn btn-secondary'
 							>
-								{tarefasArquivadas.length}
-							</span>
+								ARQUIVADAS{' '}
+								<span
+									style={badgeMargin}
+									className='badge badge-pill badge-info'
+								>
+									{tarefasArquivadas.length}
+								</span>
+							</Link>
 						</h5>
+					</div>
+					<div className='col-6 col-md-6 col-lg-6 col-xl-6 text-right'>
+						<Link to='/adicionar' className='btn btn-primary'>
+							Adicionar nova tarefa
+						</Link>
 					</div>
 				</div>
 				<div className='row'>

@@ -15,7 +15,7 @@ import PropTypes from 'prop-types'
  *passa para os componentes <Tarefas/> para renderizar.
  */
 
-class TarefasContainer extends React.Component {
+export class TarefasContainer extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -25,7 +25,7 @@ class TarefasContainer extends React.Component {
 		this.handleStatusChange = this.handleStatusChange.bind(this)
 	}
 	componentDidMount() {
-		this.props.getTarefas()
+		//this.props.getTarefas()
 		this.getStatusTarefas(this.props.tarefas)
 	}
 
@@ -110,7 +110,6 @@ class TarefasContainer extends React.Component {
 							</span>
 						</h3>
 						<Tarefas
-							key='a_fazer'
 							tarefas={tarefasAFazer}
 							background='text-white bg-info'
 							acao={{ text: 'Fazer', btnBg: 'btn-secondary' }}

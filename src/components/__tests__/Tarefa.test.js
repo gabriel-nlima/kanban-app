@@ -1,5 +1,5 @@
 import React from 'react'
-import { cleanup } from 'react-testing-library'
+import { cleanup, fireEvent } from 'react-testing-library'
 import Tarefa from '../Tarefa'
 
 import { renderWithRouter } from '../../utils/utils'
@@ -9,7 +9,7 @@ describe('Tarefa', () => {
 	test('renderiza uma tarefa com titulo, conteudo e data', () => {
 		//Arrange
 		const acao = { text: 'FAZER', btnBg: 'btn-secondary' }
-		const onChangeStatus = () => {}
+		const onChangeStatus = jest.fn()
 		const tarefa = {
 			titulo: 'Fazer o quadro Kanban',
 			conteudo: 'Fazer o quadro Kanban com react, redux etc',
@@ -32,8 +32,13 @@ describe('Tarefa', () => {
 		//Assert
 		const tituloNode = getByText(tarefa.titulo)
 		const conteudoNode = getByText(tarefa.conteudo)
+		const btn = getByText(acao.text)
 
 		expect(tituloNode).toBeDefined()
 		expect(conteudoNode).toBeDefined()
+		expect(btn).toBeDefined()
+		fireEvent.click(btn)
+
+		expect(onChangeStatus).toHaveBeenCalled()
 	})
 })

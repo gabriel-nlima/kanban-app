@@ -1,0 +1,246 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tarefas deve renderizar um quadro de tarefas com 3 tarefas 1`] = `
+<DocumentFragment>
+  <form
+    class="needs-validation"
+  >
+    <div
+      class="form-row"
+    >
+      <div
+        class="col-4"
+      >
+        <input
+          class="form-control mb-2 mr-sm-2"
+          data-testid="inputTitulo"
+          maxlength="35"
+          name="titulo"
+          placeholder="Titulo"
+          required=""
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        class="col-5"
+      >
+        <input
+          class="form-control mb-2 mr-sm-2"
+          data-testid="inputConteudo"
+          maxlength="55"
+          name="conteudo"
+          placeholder="Descrição"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        class="col-3"
+      >
+        <button
+          class="btn btn-primary"
+          type="submit"
+        >
+          Salvar Tarefa
+        </button>
+      </div>
+    </div>
+  </form>
+  <div
+    class="row text-left"
+  >
+    <div
+      class="col-12 col-md-6 col-lg-6 col-xl-6"
+    >
+      <h5
+        class="text-muted"
+      >
+        <a
+          href="/arquivadas"
+        >
+          ARQUIVADAS:
+        </a>
+        <span
+          class="badge badge-pill badge-secondary"
+          style="margin-left: 6px;"
+        >
+          0
+        </span>
+      </h5>
+    </div>
+  </div>
+  <div
+    class="row"
+  >
+    <div
+      class="col-6 col-md-4 col-lg-4 col-xl-4"
+    >
+      <h3
+        class="text-center text-info"
+      >
+        A FAZER
+        <span
+          class="badge badge-pill badge-info"
+          style="margin-left: 6px;"
+        >
+          1
+        </span>
+      </h3>
+      <div
+        class="card w-100 h-auto text-white bg-info"
+        style="margin-bottom: 5px;"
+      >
+        <div
+          class="card-body text-center"
+        >
+          <h5
+            class="card-title"
+          >
+            fazer algo1
+          </h5>
+          <p
+            class="card-text text-justify"
+          >
+            fazer alguma coisa1
+          </p>
+          <p
+            class="card-text text-left "
+            style="font-size: 11px;"
+          >
+            Adicionado em: 28/01
+          </p>
+          <p
+            class="card-text text-left"
+            style="font-size: 11px;"
+          />
+          <a
+            class="btn btn-sm btn-light"
+            href="/editar"
+            style="margin-right: 5px;"
+          >
+            Editar 
+          </a>
+          <button
+            class="btn btn-sm btn-secondary"
+          >
+            Fazer
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-6 col-md-4 col-lg-4 col-xl-4"
+    >
+      <h3
+        class="text-center text-warning"
+      >
+        FAZENDO
+        <span
+          class="badge badge-pill badge-info"
+          style="margin-left: 6px;"
+        >
+          1
+        </span>
+      </h3>
+      <div
+        class="card w-100 h-auto bg-warning"
+        style="margin-bottom: 5px;"
+      >
+        <div
+          class="card-body text-center"
+        >
+          <h5
+            class="card-title"
+          >
+            fazer algo2
+          </h5>
+          <p
+            class="card-text text-justify"
+          >
+            fazer alguma coisa2
+          </p>
+          <p
+            class="card-text text-left "
+            style="font-size: 11px;"
+          >
+            Adicionado em: 28/01
+          </p>
+          <p
+            class="card-text text-left"
+            style="font-size: 11px;"
+          />
+          <a
+            class="btn btn-sm btn-light"
+            href="/editar"
+            style="margin-right: 5px;"
+          >
+            Editar 
+          </a>
+          <button
+            class="btn btn-sm btn-secondary"
+          >
+            Concluir
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-12 col-md-4 col-lg-4 col-xl-4"
+    >
+      <h3
+        class="text-center text-success"
+      >
+        FEITO
+        <span
+          class="badge badge-pill badge-info"
+          style="margin-left: 6px;"
+        >
+          1
+        </span>
+      </h3>
+      <div
+        class="card w-100 h-auto bg-success"
+        style="margin-bottom: 5px;"
+      >
+        <div
+          class="card-body text-center"
+        >
+          <h5
+            class="card-title"
+          >
+            fazer algo3
+          </h5>
+          <p
+            class="card-text text-justify"
+          >
+            fazer alguma coisa3
+          </p>
+          <p
+            class="card-text text-left "
+            style="font-size: 11px;"
+          >
+            Adicionado em: 28/01
+          </p>
+          <p
+            class="card-text text-left"
+            style="font-size: 11px;"
+          />
+          <a
+            class="btn btn-sm btn-light"
+            href="/editar"
+            style="margin-right: 5px;"
+          >
+            Editar 
+          </a>
+          <button
+            class="btn btn-sm btn-secondary"
+          >
+            Arquivar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

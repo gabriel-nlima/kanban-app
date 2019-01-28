@@ -4,7 +4,6 @@ export const STARTED = 'STARTED'
 export const FAILED = 'FAILED'
 //TAREFAS
 export const GET_TAREFAS = 'GET_TAREFAS'
-export const SET_TAREFAS = 'SET_TAREFAS'
 export const ADD_TAREFA = 'ADD_TAREFA'
 export const UPDATE_TAREFA = 'UPDATE_TAREFA'
 export const DELETE_TAREFA = 'DELETE_TAREFA'

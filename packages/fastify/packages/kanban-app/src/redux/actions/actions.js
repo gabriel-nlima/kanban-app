@@ -2,13 +2,8 @@ import * as actionsTypes from './actionTypes'
 import * as status from '../../containers/status'
 import Axios from 'axios'
 
-export function setTarefas() {
-	return {
-		type: actionsTypes.SET_TAREFAS,
-	}
-}
-export function actionStarted(tarefa) {
-	return { type: actionsTypes.STARTED, tarefa }
+export function actionStarted() {
+	return { type: actionsTypes.STARTED }
 }
 export function actionFailed() {
 	return { type: actionsTypes.FAILED, error: true }
@@ -84,7 +79,7 @@ export const trocaStatus = (tarefa, novoStatus) => (dispatch) => {
 }
 
 export const editarTarefa = (tarefa) => (dispatch) => {
-	dispatch(actionStarted(tarefa))
+	dispatch(actionStarted())
 
 	return Axios.put('/tarefas/' + tarefa._id, tarefa, {
 		headers: {

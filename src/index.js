@@ -7,6 +7,7 @@ import configureStore from './redux/store/configureStore'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 import ArquivadasContainer from './containers/ArquivadasContainer'
+import AddTarefaContainer from './containers/AddTarefaContainer'
 import EditarTarefaContainer from './containers/EditarTarefaContainer'
 import TarefasContainer from './containers/TarefasContainer'
 import Header from './components/Header'
@@ -27,7 +28,13 @@ ReactDOM.render(
 				<Header />
 				<Switch>
 					<Route path='/' exact component={App} />
+
 					<Route path='/tarefas' exact component={TarefasContainer} />
+					<Route
+						path='/adicionar'
+						exact
+						component={AddTarefaContainer}
+					/>
 					<Route
 						path='/arquivadas'
 						exact
@@ -45,4 +52,4 @@ ReactDOM.render(
 	document.getElementById('root')
 )
 
-serviceWorker.unregister()
+serviceWorker.register()

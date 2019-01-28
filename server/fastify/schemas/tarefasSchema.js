@@ -9,6 +9,8 @@ async function schemas(fastify) {
 			status: { type: 'string' },
 			adicionadoEm: { type: 'string' },
 			concluidoEm: { type: 'string' },
+			tag1: { type: 'string' },
+			tag2: { type: 'string' },
 		},
 		required: ['titulo', 'status'],
 	})

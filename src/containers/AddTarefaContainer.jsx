@@ -2,6 +2,8 @@ import React from 'react'
 import AddTarefa from '../components/FormTarefa'
 import { addTarefa } from '../redux/actions/actions'
 
+import { withRouter } from 'react-router-dom'
+
 import { connect } from 'react-redux'
 
 import PropTypes from 'prop-types'
@@ -26,6 +28,7 @@ class AddTarefaContainer extends React.Component {
 	submitTarefa(e) {
 		this.props.addTarefa(this.state.tarefa)
 		this.setState({ tarefa: [] })
+		this.props.history.push('/')
 		e.preventDefault()
 	}
 
@@ -55,7 +58,9 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(AddTarefaContainer)
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(AddTarefaContainer)
+)

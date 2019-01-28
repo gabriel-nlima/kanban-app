@@ -26,7 +26,7 @@ function getTarefas(state, action) {
 function addTarefa(state, action) {
 	return {
 		...state,
-		tarefas: [...state.tarefas, action.tarefa],
+		tarefas: [action.tarefa, ...state.tarefas],
 	}
 }
 

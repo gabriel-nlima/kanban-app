@@ -11,6 +11,7 @@ import AddTarefaContainer from './containers/AddTarefaContainer'
 import EditarTarefaContainer from './containers/EditarTarefaContainer'
 import TarefasContainer from './containers/TarefasContainer'
 import Header from './components/Header'
+import NoMatch from './components/NoMatch'
 import { getAllTarefas } from './redux/actions/actions'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -45,6 +46,7 @@ ReactDOM.render(
 						exact
 						component={EditarTarefaContainer}
 					/>
+					<Route component={NoMatch} />
 				</Switch>
 			</div>
 		</BrowserRouter>

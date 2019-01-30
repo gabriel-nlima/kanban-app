@@ -3,10 +3,10 @@ import * as status from '../../containers/status'
 import Axios from 'axios'
 
 export function actionStarted() {
-	return { type: actionsTypes.STARTED }
+	return { type: actionsTypes.STARTED, isLoading: true, error: false }
 }
-export function actionFailed() {
-	return { type: actionsTypes.FAILED, error: true }
+export function actionFailed(error) {
+	return { type: actionsTypes.FAILED, isLoading: false, error: error.message }
 }
 export const getAllTarefas = () => (dispatch) => {
 	dispatch(actionStarted())
@@ -14,10 +14,15 @@ export const getAllTarefas = () => (dispatch) => {
 	return Axios.get('/tarefas')
 		.then((res) => {
 			const { tarefas } = res.data
-			dispatch({ type: actionsTypes.GET_TAREFAS, tarefas })
+			dispatch({
+				type: actionsTypes.GET_TAREFAS,
+				tarefas,
+				isLoading: false,
+				error: false,
+			})
 		})
 		.catch((error) => {
-			dispatch(actionFailed())
+			dispatch(actionFailed(error))
 		})
 }
 
@@ -39,6 +44,8 @@ export const addTarefa = (tarefa) => (dispatch) => {
 			dispatch({
 				type: actionsTypes.ADD_TAREFA,
 				tarefa: res.data.tarefa,
+				isLoading: false,
+				error: false,
 			})
 		})
 		.catch((error) => {
@@ -71,6 +78,8 @@ export const trocaStatus = (tarefa, novoStatus) => (dispatch) => {
 			dispatch({
 				type: actionsTypes.TROCA_STATUS,
 				tarefa: res.data.tarefa,
+				isLoading: false,
+				error: false,
 			})
 		})
 		.catch((error) => {
@@ -91,6 +100,8 @@ export const editarTarefa = (tarefa) => (dispatch) => {
 			dispatch({
 				type: actionsTypes.UPDATE_TAREFA,
 				tarefa: res.data.tarefa,
+				isLoading: false,
+				error: false,
 			})
 		})
 		.catch((error) => {
@@ -110,6 +121,8 @@ export const deletaTarefa = (tarefa) => (dispatch) => {
 			dispatch({
 				type: actionsTypes.DELETE_TAREFA,
 				tarefa,
+				isLoading: false,
+				error: false,
 			})
 		})
 		.catch((error) => {

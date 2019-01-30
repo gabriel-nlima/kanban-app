@@ -18,6 +18,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 const initalState = {
 	tarefas: [],
 	error: false,
+	isLoading: false,
 }
 //Inicia a store com as tarefas do servidor
 const store = configureStore(initalState)
@@ -54,4 +55,4 @@ ReactDOM.render(
 	document.getElementById('root')
 )
 
-serviceWorker.register()
+serviceWorker.unregister()

@@ -1,5 +1,6 @@
 import React from 'react'
 import Tarefas from '../components/Tarefas'
+import Spinner from '../components/Spinner'
 import * as status from './status'
 
 import { Link } from 'react-router-dom'
@@ -62,14 +63,37 @@ export class ArquivadasContainer extends React.Component {
 						</Link>
 					</div>
 				</div>
+				{this.props.error !== false ? (
+					<div className='row'>
+						<div className='col-12'>
+							<div className='alert alert-danger' role='alert'>
+								Algo deu errado,{' '}
+								<Link
+									className='alert-link'
+									to='/arquivadas'
+									onClick={() => window.location.reload()}
+								>
+									recarregue a página.
+								</Link>
+							</div>
+						</div>
+					</div>
+				) : (
+					''
+				)}
 				<div className='row' style={{ marginTop: 10 }}>
 					<div className='col-12 card-columns'>
-						<Tarefas
-							tarefas={tarefasArquivadas}
-							background='bg-secondary'
-							acao={{ text: 'Deletar', btnBg: 'btn-danger' }}
-							onClickAction={this.deletaTarefa}
-						/>
+						{this.props.isLoading &&
+						tarefasArquivadas.length === 0 ? (
+							<Spinner bg='text-secondary' />
+						) : (
+							<Tarefas
+								tarefas={tarefasArquivadas}
+								background='bg-secondary'
+								acao={{ text: 'Deletar', btnBg: 'btn-danger' }}
+								onClickAction={this.deletaTarefa}
+							/>
+						)}
 					</div>
 				</div>
 			</React.Fragment>
@@ -85,6 +109,8 @@ ArquivadasContainer.propTypes = {
 function mapStateToProps(state) {
 	return {
 		tarefas: state.tarefas,
+		error: state.error,
+		isLoading: state.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

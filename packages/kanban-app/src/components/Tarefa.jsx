@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-const Tarefa = ({ tarefa, acao, onClickAction, props }) => {
+const Tarefa = ({ tarefa, acao, onClickAction }) => {
 	return (
 		<div className='card-body text-center'>
 			<h5 className='card-title'>{tarefa.titulo}</h5>
@@ -34,20 +34,24 @@ const Tarefa = ({ tarefa, acao, onClickAction, props }) => {
 					</span>
 				)}
 			</p>
-
-			<Link
-				style={{ marginRight: 5 }}
-				to={{ pathname: '/editar', state: { tarefa } }}
-				className='btn btn-sm btn-light'
+			<div
+				className='btn-group btn-group-sm'
+				role='group'
+				aria-label='Botões Editar e de ações'
 			>
-				Editar{' '}
-			</Link>
-			<button
-				className={'btn btn-sm ' + acao.btnBg}
-				onClick={() => onClickAction(tarefa)}
-			>
-				{acao.text}
-			</button>
+				<Link
+					to={{ pathname: '/editar', state: { tarefa } }}
+					className='btn btn-sm btn-light'
+				>
+					Editar{' '}
+				</Link>
+				<button
+					className={'btn btn-sm ' + acao.btnBg}
+					onClick={() => onClickAction(tarefa)}
+				>
+					{acao.text}
+				</button>
+			</div>
 		</div>
 	)
 }

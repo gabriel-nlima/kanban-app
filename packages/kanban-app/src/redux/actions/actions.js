@@ -6,6 +6,7 @@ export function actionStarted() {
 	return { type: actionsTypes.STARTED, isLoading: true, error: false }
 }
 export function actionFailed(error) {
+	console.log(error)
 	return { type: actionsTypes.FAILED, isLoading: false, error: error.message }
 }
 export const getAllTarefas = () => (dispatch) => {
@@ -41,6 +42,7 @@ export const addTarefa = (tarefa) => (dispatch) => {
 		},
 	})
 		.then((res) => {
+			console.log(res)
 			dispatch({
 				type: actionsTypes.ADD_TAREFA,
 				tarefa: res.data.tarefa,

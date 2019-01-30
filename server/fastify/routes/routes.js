@@ -21,7 +21,9 @@ async function routes(fastify) {
 
 	fastify.post('/tarefas', schemas.addTarefa, function insert(req, reply) {
 		function addTarefa(err, col) {
+			if (err) reply.send(err)
 			col.insertOne(req.body, (error, result) => {
+				if (error) reply.send(error)
 				const tarefa = result.ops[0]
 				reply.send({ tarefa })
 			})

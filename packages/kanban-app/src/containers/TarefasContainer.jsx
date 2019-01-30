@@ -23,6 +23,8 @@ export class TarefasContainer extends React.Component {
 		}
 		this.getStatusTarefas = this.getStatusTarefas.bind(this)
 		this.handleStatusChange = this.handleStatusChange.bind(this)
+		this.onDragOver = this.onDragOver.bind(this)
+		this.onDrop = this.onDrop.bind(this)
 	}
 	componentDidMount() {
 		//this.props.getTarefas()
@@ -71,6 +73,14 @@ export class TarefasContainer extends React.Component {
 		}
 
 		this.props.trocaStatus(tarefa, novoStatus)
+	}
+	onDragOver = (e) => {
+		e.preventDefault()
+		e.dataTransfer.dropEffect = 'move'
+	}
+	onDrop = async (e) => {
+		let tarefa = JSON.parse(e.dataTransfer.getData('tarefa'))
+		await this.handleStatusChange(tarefa)
 	}
 	render() {
 		const {
@@ -129,7 +139,11 @@ export class TarefasContainer extends React.Component {
 					''
 				)}
 				<div className='row'>
-					<div className='col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4'>
+					<div
+						className='col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4'
+						onDragOver={(e) => this.onDragOver(e)}
+						onDrop={(e) => this.onDrop(e)}
+					>
 						<h3 className='text-center text-info'>
 							A FAZER
 							<span
@@ -150,7 +164,11 @@ export class TarefasContainer extends React.Component {
 							/>
 						)}
 					</div>
-					<div className='col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4'>
+					<div
+						className='col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4'
+						onDragOver={(e) => this.onDragOver(e)}
+						onDrop={(e) => this.onDrop(e, status.FAZENDO)}
+					>
 						<h3 className='text-center text-warning'>
 							FAZENDO
 							<span
@@ -175,7 +193,11 @@ export class TarefasContainer extends React.Component {
 							/>
 						)}
 					</div>
-					<div className='col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4'>
+					<div
+						className='col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4'
+						onDragOver={(e) => this.onDragOver(e)}
+						onDrop={(e) => this.onDrop(e)}
+					>
 						<h3 className='text-center text-success'>
 							FEITO
 							<span

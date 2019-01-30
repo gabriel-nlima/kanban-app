@@ -7,6 +7,7 @@ const onDragStart = (e, tarefa) => {
 	e.dropEffect = 'move'
 	const tarefaJson = JSON.stringify(tarefa)
 	e.dataTransfer.setData('tarefa', tarefaJson)
+	e.dataTransfer.effectAllowed = 'move'
 }
 const Tarefas = ({ tarefas, background, acao, onClickAction }) =>
 	tarefas.map((tarefa, index) => {

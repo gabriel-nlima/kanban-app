@@ -1,5 +1,6 @@
 import React from 'react'
 import Tarefas from '../components/Tarefas'
+import Spinner from '../components/Spinner'
 import * as status from './status'
 
 import { Link } from 'react-router-dom'
@@ -81,10 +82,13 @@ export class TarefasContainer extends React.Component {
 
 		const badgeMargin = { marginLeft: 6 }
 
+		// if (this.props.error !== false) {
+		// 	throw this.props.error
+		// }
 		return (
 			<React.Fragment>
 				<div className='row text-left'>
-					<div className='col-6 col-md-6 col-lg-6 col-xl-6'>
+					<div className='col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6'>
 						<h5 className='text-muted'>
 							<Link
 								to='/arquivadas'
@@ -100,14 +104,32 @@ export class TarefasContainer extends React.Component {
 							</Link>
 						</h5>
 					</div>
-					<div className='col-6 col-md-6 col-lg-6 col-xl-6 text-right'>
+					<div className='col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-right'>
 						<Link to='/adicionar' className='btn btn-primary'>
 							Adicionar nova tarefa
 						</Link>
 					</div>
 				</div>
+				{this.props.error !== false ? (
+					<div className='row'>
+						<div className='col-12'>
+							<div className='alert alert-danger' role='alert'>
+								Algo deu errado,{' '}
+								<Link
+									className='alert-link'
+									to='/'
+									onClick={() => window.location.reload()}
+								>
+									recarregue a página.
+								</Link>
+							</div>
+						</div>
+					</div>
+				) : (
+					''
+				)}
 				<div className='row'>
-					<div className='col-6 col-md-4 col-lg-4 col-xl-4'>
+					<div className='col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4'>
 						<h3 className='text-center text-info'>
 							A FAZER
 							<span
@@ -117,14 +139,18 @@ export class TarefasContainer extends React.Component {
 								{tarefasAFazer.length}
 							</span>
 						</h3>
-						<Tarefas
-							tarefas={tarefasAFazer}
-							background='text-white bg-info'
-							acao={{ text: 'Fazer', btnBg: 'btn-secondary' }}
-							onClickAction={this.handleStatusChange}
-						/>
+						{this.props.isLoading && tarefasAFazer.length === 0 ? (
+							<Spinner bg='text-info' />
+						) : (
+							<Tarefas
+								tarefas={tarefasAFazer}
+								background='text-white bg-info'
+								acao={{ text: 'Fazer', btnBg: 'btn-secondary' }}
+								onClickAction={this.handleStatusChange}
+							/>
+						)}
 					</div>
-					<div className='col-6 col-md-4 col-lg-4 col-xl-4'>
+					<div className='col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4'>
 						<h3 className='text-center text-warning'>
 							FAZENDO
 							<span
@@ -134,14 +160,22 @@ export class TarefasContainer extends React.Component {
 								{tarefasSendoFeitas.length}
 							</span>
 						</h3>
-						<Tarefas
-							tarefas={tarefasSendoFeitas}
-							background='bg-warning'
-							acao={{ text: 'Concluir', btnBg: 'btn-secondary' }}
-							onClickAction={this.handleStatusChange}
-						/>
+						{this.props.isLoading &&
+						tarefasSendoFeitas.length === 0 ? (
+							<Spinner bg='text-warning' />
+						) : (
+							<Tarefas
+								tarefas={tarefasSendoFeitas}
+								background='bg-warning'
+								acao={{
+									text: 'Concluir',
+									btnBg: 'btn-secondary',
+								}}
+								onClickAction={this.handleStatusChange}
+							/>
+						)}
 					</div>
-					<div className='col-12 col-md-4 col-lg-4 col-xl-4'>
+					<div className='col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4'>
 						<h3 className='text-center text-success'>
 							FEITO
 							<span
@@ -151,12 +185,20 @@ export class TarefasContainer extends React.Component {
 								{tarefasConcluidas.length}
 							</span>
 						</h3>
-						<Tarefas
-							tarefas={tarefasConcluidas}
-							background='bg-success'
-							acao={{ text: 'Arquivar', btnBg: 'btn-secondary' }}
-							onClickAction={this.handleStatusChange}
-						/>
+						{this.props.isLoading &&
+						tarefasConcluidas.length === 0 ? (
+							<Spinner bg='text-success' />
+						) : (
+							<Tarefas
+								tarefas={tarefasConcluidas}
+								background='bg-success'
+								acao={{
+									text: 'Arquivar',
+									btnBg: 'btn-secondary',
+								}}
+								onClickAction={this.handleStatusChange}
+							/>
+						)}
 					</div>
 				</div>
 			</React.Fragment>
@@ -171,6 +213,8 @@ TarefasContainer.propTypes = {
 function mapStateToProps(state) {
 	return {
 		tarefas: state.tarefas,
+		error: state.error,
+		isLoading: state.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

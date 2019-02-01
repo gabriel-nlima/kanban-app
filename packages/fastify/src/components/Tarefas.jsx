@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Tarefa from './Tarefa'
-import { CONCLUIDO } from '../containers/status'
+import { CONCLUIDO, ARQUIVADO } from '../containers/status'
 
 const onDragStart = (e, tarefa) => {
 	e.dropEffect = 'move'
@@ -14,7 +14,11 @@ const Tarefas = ({ tarefas, background, acao, onClickAction }) =>
 		return (
 			<div
 				key={index}
-				draggable={tarefa.status === CONCLUIDO ? false : true}
+				draggable={
+					tarefa.status === CONCLUIDO || tarefa.status === ARQUIVADO
+						? false
+						: true
+				}
 				onDragStart={(e) => onDragStart(e, tarefa)}
 				className={'card w-100 h-auto ' + background}
 				style={{ marginBottom: 5 }}

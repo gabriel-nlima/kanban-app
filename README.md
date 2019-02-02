@@ -1,6 +1,6 @@
 # Quadro Kanban app
 
-Quadro Kanban simples com React e Redux.
+Quadro Kanban simples com React e Redux, API usando o framework Fastify e banco de dados MongoDB.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -39,6 +39,10 @@ Para iniciar o front-end:
 E para iniciar a API:
 ```bash
  nodemon index
+```
+Para rodar os testes, na raiz do projeto:
+```bash
+npm test
 ```
 
 O quadro abrirá em localhost:3000, adicione uma tarefa e uma collection será criada no MongoDB automaticamente.

@@ -7,6 +7,7 @@ describe('reducers de tarefas', () => {
 	const initialState = {
 		tarefas: [],
 		error: false,
+		isLoading: false,
 	}
 	const tarefas = [
 		{
@@ -42,37 +43,50 @@ describe('reducers de tarefas', () => {
 		adicionadoEm: '28/01',
 		concluidoEm: undefined,
 	}
-
+	afterEach(cleanup)
 	test('deve lidar com action started', () => {
 		const expectedState = {
 			tarefas: [],
 			error: false,
+			isLoading: true,
 		}
 
-		expect(reducers(initialState, { type: actionTypes.STARTED })).toEqual(
-			expectedState
-		)
+		expect(
+			reducers(initialState, {
+				type: actionTypes.STARTED,
+				error: false,
+				isLoading: true,
+			})
+		).toEqual(expectedState)
 	})
 	test('deve lidar com action failed', () => {
 		const expectedState = {
 			tarefas: [],
 			error: true,
+			isLoading: false,
 		}
 
 		expect(
-			reducers(initialState, { type: actionTypes.FAILED, error: true })
+			reducers(initialState, {
+				type: actionTypes.FAILED,
+				isLoading: false,
+				error: true,
+			})
 		).toEqual(expectedState)
 	})
 	test('deve lidar com get success', () => {
 		const expectedState = {
 			tarefas: tarefas,
 			error: false,
+			isLoading: false,
 		}
 
 		expect(
 			reducers(initialState, {
 				type: actionTypes.GET_TAREFAS,
 				tarefas: tarefas,
+				isLoading: false,
+				error: false,
 			})
 		).toEqual(expectedState)
 	})
@@ -80,12 +94,15 @@ describe('reducers de tarefas', () => {
 		const expectedState = {
 			tarefas: [tarefa],
 			error: false,
+			isLoading: false,
 		}
 
 		expect(
 			reducers(initialState, {
 				type: actionTypes.ADD_TAREFA,
 				tarefa: tarefa,
+				isLoading: false,
+				error: false,
 			})
 		).toEqual(expectedState)
 	})
@@ -103,6 +120,8 @@ describe('reducers de tarefas', () => {
 			reducers(initialState, {
 				type: actionTypes.UPDATE_TAREFA,
 				tarefa: tarefaAtualizada,
+				isLoading: false,
+				error: false,
 			}).tarefas
 		).toContainEqual(tarefaAtualizada)
 	})
@@ -120,6 +139,8 @@ describe('reducers de tarefas', () => {
 			reducers(initialState, {
 				type: actionTypes.UPDATE_TAREFA,
 				tarefa: tarefaAtualizada,
+				isLoading: false,
+				error: false,
 			}).tarefas
 		).toContainEqual(tarefaAtualizada)
 	})
@@ -128,11 +149,14 @@ describe('reducers de tarefas', () => {
 		const expectedState = {
 			tarefas: [],
 			error: false,
+			isLoading: false,
 		}
 		expect(
 			reducers(initialState, {
 				type: actionTypes.DELETE_TAREFA,
 				tarefa: tarefa,
+				isLoading: false,
+				error: false,
 			})
 		).toEqual(expectedState)
 	})

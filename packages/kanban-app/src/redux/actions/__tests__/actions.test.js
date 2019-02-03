@@ -41,8 +41,13 @@ describe('Get actions', () => {
 		axios.get.mockImplementationOnce(() => Promise.resolve(resp))
 
 		const expectedActions = [
-			{ type: actionTypes.STARTED },
-			{ type: actionTypes.GET_TAREFAS, tarefas: tarefas },
+			{ type: actionTypes.STARTED, isLoading: true, error: false },
+			{
+				type: actionTypes.GET_TAREFAS,
+				tarefas: tarefas,
+				isLoading: false,
+				error: false,
+			},
 		]
 		const store = mockStore({ tarefas: [] })
 		return store.dispatch(actions.getAllTarefas()).then(() => {
@@ -54,8 +59,12 @@ describe('Get actions', () => {
 		axios.get.mockImplementationOnce(() => Promise.reject(error))
 
 		const expectedActions = [
-			{ type: actionTypes.STARTED },
-			{ type: actionTypes.FAILED, error: true },
+			{ type: actionTypes.STARTED, isLoading: true, error: false },
+			{
+				type: actionTypes.FAILED,
+				error: error.message,
+				isLoading: false,
+			},
 		]
 		const store = mockStore({ tarefas: [] })
 		return store.dispatch(actions.getAllTarefas()).then(() => {
@@ -78,8 +87,13 @@ describe('Add actions', () => {
 		axios.post.mockImplementationOnce(() => Promise.resolve(resp))
 
 		const expectedActions = [
-			{ type: actionTypes.STARTED },
-			{ type: actionTypes.ADD_TAREFA, tarefa },
+			{ type: actionTypes.STARTED, isLoading: true, error: false },
+			{
+				type: actionTypes.ADD_TAREFA,
+				tarefa,
+				isLoading: false,
+				error: false,
+			},
 		]
 		const store = mockStore({ tarefas: [] })
 		return store.dispatch(actions.addTarefa(tarefa)).then(() => {
@@ -97,8 +111,12 @@ describe('Add actions', () => {
 		axios.post.mockImplementationOnce(() => Promise.reject(error))
 
 		const expectedActions = [
-			{ type: actionTypes.STARTED },
-			{ type: actionTypes.FAILED, error: true },
+			{ type: actionTypes.STARTED, isLoading: true, error: false },
+			{
+				type: actionTypes.FAILED,
+				error: error.message,
+				isLoading: false,
+			},
 		]
 		const store = mockStore({ contacts: [] })
 		return store.dispatch(actions.addTarefa(tarefa)).then(() => {
@@ -120,8 +138,13 @@ describe('update action', () => {
 		axios.put.mockImplementationOnce(() => Promise.resolve(resp))
 
 		const expectedActions = [
-			{ type: actionTypes.STARTED },
-			{ type: actionTypes.UPDATE_TAREFA, tarefa },
+			{ type: actionTypes.STARTED, isLoading: true, error: false },
+			{
+				type: actionTypes.UPDATE_TAREFA,
+				tarefa,
+				isLoading: false,
+				error: false,
+			},
 		]
 		const store = mockStore({ tarefas: [] })
 		return store.dispatch(actions.editarTarefa(tarefa)).then(() => {
@@ -139,8 +162,12 @@ describe('update action', () => {
 		axios.put.mockImplementationOnce(() => Promise.reject(error))
 
 		const expectedActions = [
-			{ type: actionTypes.STARTED },
-			{ type: actionTypes.FAILED, error: true },
+			{ type: actionTypes.STARTED, isLoading: true, error: false },
+			{
+				type: actionTypes.FAILED,
+				isLoading: false,
+				error: error.message,
+			},
 		]
 		const store = mockStore({ contacts: [] })
 		return store.dispatch(actions.editarTarefa(tarefa)).then(() => {
@@ -159,8 +186,13 @@ describe('update action', () => {
 		axios.put.mockImplementationOnce(() => Promise.resolve(resp))
 
 		const expectedActions = [
-			{ type: actionTypes.STARTED },
-			{ type: actionTypes.TROCA_STATUS, tarefa },
+			{ type: actionTypes.STARTED, isLoading: true, error: false },
+			{
+				type: actionTypes.TROCA_STATUS,
+				tarefa,
+				isLoading: false,
+				error: false,
+			},
 		]
 		const store = mockStore({ tarefas: [] })
 		return store
@@ -185,8 +217,13 @@ describe('delete action', () => {
 		axios.delete.mockImplementationOnce(() => Promise.resolve(resp))
 
 		const expectedActions = [
-			{ type: actionTypes.STARTED },
-			{ type: actionTypes.DELETE_TAREFA, tarefa },
+			{ type: actionTypes.STARTED, isLoading: true, error: false },
+			{
+				type: actionTypes.DELETE_TAREFA,
+				tarefa,
+				isLoading: false,
+				error: false,
+			},
 		]
 		const store = mockStore({ tarefas: [] })
 		return store.dispatch(actions.deletaTarefa(tarefa)).then(() => {
@@ -204,8 +241,12 @@ describe('delete action', () => {
 		axios.delete.mockImplementationOnce(() => Promise.reject(error))
 
 		const expectedActions = [
-			{ type: actionTypes.STARTED },
-			{ type: actionTypes.FAILED, error: true },
+			{ type: actionTypes.STARTED, isLoading: true, error: false },
+			{
+				type: actionTypes.FAILED,
+				isLoading: false,
+				error: error.message,
+			},
 		]
 		const store = mockStore({ contacts: [] })
 		return store.dispatch(actions.deletaTarefa(tarefa)).then(() => {

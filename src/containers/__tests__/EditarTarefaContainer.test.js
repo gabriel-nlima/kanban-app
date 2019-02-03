@@ -37,7 +37,7 @@ describe('EditarTarefaContainer', () => {
 		const titulo = getByTestId('inputTitulo')
 		const conteudo = getByTestId('inputConteudo')
 		const salvarBtn = getByText('Salvar Tarefa')
-		const voltarBtn = getByTestId('btnVoltar')
+		const btnVoltar = getByTestId('btnVoltar')
 
 		expect(titulo.value).toEqual(tarefa.titulo)
 		expect(conteudo.value).toEqual(tarefa.conteudo)
@@ -54,8 +54,8 @@ describe('EditarTarefaContainer', () => {
 
 		expect(mockSubmit).toHaveBeenCalledTimes(1)
 
-		fireEvent.click(voltarBtn)
+		fireEvent.click(btnVoltar)
 
-		expect(mockPush).toHaveBeenCalledTimes(2)
+		expect(mockPush).toHaveBeenCalledTimes(1)
 	})
 })

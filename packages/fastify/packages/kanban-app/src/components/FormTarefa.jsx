@@ -6,7 +6,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 	return (
 		<form onSubmit={handleSubmit} className='needs-validation'>
 			<div className='form-row'>
-				<div className='form-group col-5'>
+				<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
 					<label htmlFor='titulo'>Titulo</label>
 					<input
 						name='titulo'
@@ -23,7 +23,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 				</div>
 			</div>
 			<div className='form-row'>
-				<div className='form-group col-5'>
+				<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
 					<label htmlFor='descricao'>Descrição</label>
 					<textarea
 						rows='2'
@@ -40,7 +40,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 				</div>
 			</div>
 			<div className='form-row'>
-				<div className='col-5'>
+				<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
 					<label htmlFor='tag1'>Tag 01</label>
 					<input
 						id='tag1'
@@ -55,7 +55,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 				</div>
 			</div>
 			<div className='form-row'>
-				<div className='col-5'>
+				<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
 					<label htmlFor='tag2'>Tag 02</label>
 					<input
 						id='tag2'
@@ -70,8 +70,12 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 				</div>
 			</div>
 			<div className='form-row text-right'>
-				<div className='col-5'>
-					<Link to='/' className='btn btn-secondary'>
+				<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
+					<Link
+						to='/'
+						className='btn btn-secondary'
+						data-testid='btnVoltar'
+					>
 						Voltar
 					</Link>
 					<button

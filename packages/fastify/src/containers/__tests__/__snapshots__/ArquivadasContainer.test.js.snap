@@ -34,6 +34,26 @@ exports[`Tarefas Arquivadas deve renderizar um quadro de tarefas com 2 tarefas a
   </div>
   <div
     class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-danger"
+        role="alert"
+      >
+        Algo deu errado, 
+        <a
+          class="alert-link"
+          href="/arquivadas"
+        >
+          recarregue a página.
+        </a>
+      </div>
+    </div>
+  </div>
+  <div
+    class="row"
     style="margin-top: 10px;"
   >
     <div
@@ -41,6 +61,7 @@ exports[`Tarefas Arquivadas deve renderizar um quadro de tarefas com 2 tarefas a
     >
       <div
         class="card w-100 h-auto bg-secondary"
+        draggable="false"
         style="margin-bottom: 5px;"
       >
         <div
@@ -66,22 +87,31 @@ exports[`Tarefas Arquivadas deve renderizar um quadro de tarefas com 2 tarefas a
             class="card-text text-left"
             style="font-size: 11px;"
           />
-          <a
-            class="btn btn-sm btn-light"
-            href="/editar"
-            style="margin-right: 5px;"
+          <p
+            class="card-text text-center"
+          />
+          <div
+            aria-label="Botões Editar e de ações"
+            class="btn-group btn-group-sm"
+            role="group"
           >
-            Editar 
-          </a>
-          <button
-            class="btn btn-sm btn-danger"
-          >
-            Deletar
-          </button>
+            <a
+              class="btn btn-sm btn-light"
+              href="/editar"
+            >
+              Editar 
+            </a>
+            <button
+              class="btn btn-sm btn-danger"
+            >
+              Deletar
+            </button>
+          </div>
         </div>
       </div>
       <div
         class="card w-100 h-auto bg-secondary"
+        draggable="false"
         style="margin-bottom: 5px;"
       >
         <div
@@ -107,18 +137,26 @@ exports[`Tarefas Arquivadas deve renderizar um quadro de tarefas com 2 tarefas a
             class="card-text text-left"
             style="font-size: 11px;"
           />
-          <a
-            class="btn btn-sm btn-light"
-            href="/editar"
-            style="margin-right: 5px;"
+          <p
+            class="card-text text-center"
+          />
+          <div
+            aria-label="Botões Editar e de ações"
+            class="btn-group btn-group-sm"
+            role="group"
           >
-            Editar 
-          </a>
-          <button
-            class="btn btn-sm btn-danger"
-          >
-            Deletar
-          </button>
+            <a
+              class="btn btn-sm btn-light"
+              href="/editar"
+            >
+              Editar 
+            </a>
+            <button
+              class="btn btn-sm btn-danger"
+            >
+              Deletar
+            </button>
+          </div>
         </div>
       </div>
     </div>

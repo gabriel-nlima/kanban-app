@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, cleanup } from 'react-testing-library'
 import AddTarefa from '../FormTarefa'
+import { renderWithRouter } from '../../utils/utils'
 
 afterEach(cleanup)
 describe('Adiciona Tarefa', () => {
@@ -18,7 +19,7 @@ describe('Adiciona Tarefa', () => {
 			btnBg: 'btn-light',
 		}
 		//Act
-		const { getByText, getByPlaceholderText } = render(
+		const { getByText, getByPlaceholderText } = renderWithRouter(
 			<AddTarefa
 				tarefa={tarefa}
 				handleChange={handleInputChange}

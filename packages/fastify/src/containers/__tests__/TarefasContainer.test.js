@@ -20,7 +20,7 @@ describe('Tarefas', () => {
 		const aFazer = getByText('A FAZER')
 		const fazendo = getByText('FAZENDO')
 		const feito = getByText('FEITO')
-		const arquivadas = getByText('ARQUIVADAS:')
+		const arquivadas = getByText('ARQUIVADAS')
 
 		expect(aFazer).toBeDefined()
 		expect(fazendo).toBeDefined()

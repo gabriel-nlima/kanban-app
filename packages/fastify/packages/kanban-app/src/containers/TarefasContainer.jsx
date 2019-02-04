@@ -173,7 +173,7 @@ export class TarefasContainer extends React.Component {
 							FAZENDO
 							<span
 								style={badgeMargin}
-								className='badge badge-pill badge-info'
+								className='badge badge-pill badge-warning'
 							>
 								{tarefasSendoFeitas.length}
 							</span>
@@ -202,7 +202,7 @@ export class TarefasContainer extends React.Component {
 							FEITO
 							<span
 								style={badgeMargin}
-								className='badge badge-pill badge-info'
+								className='badge badge-pill badge-success'
 							>
 								{tarefasConcluidas.length}
 							</span>

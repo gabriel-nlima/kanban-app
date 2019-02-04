@@ -10,10 +10,10 @@ const onDragStart = (e, tarefa) => {
 	e.dataTransfer.effectAllowed = 'move'
 }
 const Tarefas = ({ tarefas, background, acao, onClickAction }) =>
-	tarefas.map((tarefa, index) => {
+	tarefas.map((tarefa) => {
 		return (
 			<div
-				key={index}
+				key={tarefa._id}
 				draggable={
 					tarefa.status === CONCLUIDO || tarefa.status === ARQUIVADO
 						? false

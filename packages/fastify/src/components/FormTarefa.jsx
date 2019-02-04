@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 
+import * as status from '../containers/status'
+
 const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 	return (
 		<form onSubmit={handleSubmit} className='needs-validation'>
@@ -39,6 +41,28 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 					/>
 				</div>
 			</div>
+			{tarefa._id ? (
+				<div className='form-row'>
+					<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
+						<label htmlFor='selectStatus'>Status</label>
+						<select
+							className='form-control'
+							id='selectStatus'
+							name='status'
+							onChange={handleChange}
+							value={tarefa.status}
+						>
+							<option value={status.FAZER}>A FAZER</option>
+							<option value={status.FAZENDO}>FAZENDO</option>
+							<option value={status.CONCLUIDO}>CONCLUIDO</option>
+							<option value={status.ARQUIVADO}>ARQUIVADO</option>
+						</select>
+					</div>
+				</div>
+			) : (
+				''
+			)}
+
 			<div className='form-row'>
 				<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
 					<label htmlFor='tag1'>Tag 01</label>

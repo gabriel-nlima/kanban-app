@@ -5,7 +5,7 @@ const Spinner = ({ bg }) => {
 		<div className='d-flex justify-content-center'>
 			<div
 				className={'spinner-border ' + bg}
-				style={{ width: 75, height: 75 }}
+				style={{ width: 80, height: 80 }}
 				role='status'
 			>
 				<span className='sr-only'>Carregando...</span>

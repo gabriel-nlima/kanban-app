@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Tarefa from './Tarefa'
 import { CONCLUIDO, ARQUIVADO } from '../containers/status'
+import Card from 'react-bootstrap/Card'
 
 const onDragStart = (e, tarefa) => {
 	e.dropEffect = 'move'
@@ -12,7 +13,8 @@ const onDragStart = (e, tarefa) => {
 const Tarefas = ({ tarefas, background, acao, onClickAction }) =>
 	tarefas.map((tarefa) => {
 		return (
-			<div
+			<Card
+				bg={background}
 				key={tarefa._id}
 				draggable={
 					tarefa.status === CONCLUIDO || tarefa.status === ARQUIVADO
@@ -20,7 +22,7 @@ const Tarefas = ({ tarefas, background, acao, onClickAction }) =>
 						: true
 				}
 				onDragStart={(e) => onDragStart(e, tarefa)}
-				className={'card w-100 h-auto ' + background}
+				className={'card w-100 h-auto'}
 				style={{ marginBottom: 5 }}
 			>
 				<Tarefa
@@ -29,7 +31,7 @@ const Tarefas = ({ tarefas, background, acao, onClickAction }) =>
 					tarefa={tarefa}
 					onClickAction={onClickAction}
 				/>
-			</div>
+			</Card>
 		)
 	})
 Tarefas.propTypes = {

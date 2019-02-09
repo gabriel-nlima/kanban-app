@@ -1,18 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Alert from 'react-bootstrap/Alert'
 
 const NoMatch = ({ location }) => {
 	return (
-		<div className='row'>
-			<div className='col-12'>
-				<div className='alert alert-danger' role='alert'>
+		<Row>
+			<Col>
+				<Alert variant='danger'>
 					URL {location.pathname} não encontrada.{' '}
 					<Link className='alert-link' to='/'>
 						Ir para página inicial
 					</Link>
-				</div>
-			</div>
-		</div>
+				</Alert>
+			</Col>
+		</Row>
 	)
 }
 

@@ -1,58 +1,56 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Badge from 'react-bootstrap/Badge'
 
 const Tarefa = ({ tarefa, acao, onClickAction }) => {
 	return (
-		<div className='card-body text-center'>
-			<h5 className='card-title'>{tarefa.titulo}</h5>
-			<p className='card-text text-justify'>{tarefa.conteudo}</p>
-			<p style={{ fontSize: 11 }} className='card-text text-left '>
+		<Card.Body className='text-center'>
+			<Card.Title>{tarefa.titulo}</Card.Title>
+			<Card.Text className='text-justify'>{tarefa.conteudo}</Card.Text>
+			<Card.Text style={{ fontSize: 11 }} className='text-left '>
 				Adicionado em: {tarefa.adicionadoEm}
-			</p>
-			<p style={{ fontSize: 11 }} className='card-text text-left'>
+			</Card.Text>
+			<Card.Text style={{ fontSize: 11 }} className='text-left'>
 				{tarefa.concluidoEm === undefined
 					? ''
 					: 'Concluido em: ' + tarefa.concluidoEm}
-			</p>
-			<p className='card-text text-center'>
+			</Card.Text>
+			<Card.Text className='text-center'>
 				{tarefa.tag1 === undefined ? (
 					''
 				) : (
-					<span
-						className='badge badge-pill badge-light'
-						style={{ marginRight: 5 }}
-					>
+					<Badge pill variant='light' style={{ marginRight: 5 }}>
 						{tarefa.tag1}
-					</span>
+					</Badge>
 				)}
 				{tarefa.tag2 === undefined ? (
 					''
 				) : (
-					<span className='badge badge-pill badge-light'>
+					<Badge pill variant='light'>
 						{tarefa.tag2}
-					</span>
+					</Badge>
 				)}
-			</p>
-			<div
-				className='btn-group btn-group-sm'
-				role='group'
-				aria-label='Botões Editar e de ações'
-			>
+			</Card.Text>
+			<ButtonGroup size='sm'>
 				<Link
 					to={{ pathname: '/editar', state: { tarefa } }}
 					className='btn btn-sm btn-light'
 				>
 					Editar{' '}
 				</Link>
-				<button
-					className={'btn btn-sm ' + acao.btnBg}
+				<Button
+					size='sm'
+					variant={acao.btnBg}
 					onClick={() => onClickAction(tarefa)}
 				>
 					{acao.text}
-				</button>
-			</div>
-		</div>
+				</Button>
+			</ButtonGroup>
+		</Card.Body>
 	)
 }
 Tarefa.propTypes = {

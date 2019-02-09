@@ -1,20 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 import * as status from '../containers/status'
 
 const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 	return (
-		<form onSubmit={handleSubmit} className='needs-validation'>
-			<div className='form-row'>
-				<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
-					<label htmlFor='titulo'>Titulo</label>
-					<input
+		<Form onSubmit={handleSubmit}>
+			<Form.Row>
+				<Form.Group className='col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
+					<Form.Label htmlFor='titulo'>Titulo</Form.Label>
+					<Form.Control
 						name='titulo'
 						id='titulo'
 						type='text'
-						className='form-control mb-2 mr-sm-2'
+						className='mb-2 mr-sm-2'
 						onChange={handleChange}
 						placeholder='Titulo'
 						data-testid='inputTitulo'
@@ -22,31 +24,32 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 						maxLength='35'
 						required
 					/>
-				</div>
-			</div>
-			<div className='form-row'>
-				<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
-					<label htmlFor='descricao'>Descrição</label>
-					<textarea
+				</Form.Group>
+			</Form.Row>
+			<Form.Row>
+				<Form.Group className='col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
+					<Form.Label htmlFor='descricao'>Descrição</Form.Label>
+					<Form.Control
+						as='textarea'
 						rows='2'
 						name='conteudo'
 						id='descricao'
 						type='text'
-						className='form-control mb-2 mr-sm-2'
+						className='mb-2 mr-sm-2'
 						onChange={handleChange}
 						placeholder='Descrição'
 						maxLength='75'
 						data-testid='inputConteudo'
 						value={tarefa.conteudo || ''}
 					/>
-				</div>
-			</div>
+				</Form.Group>
+			</Form.Row>
 			{tarefa._id ? (
-				<div className='form-row'>
-					<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
-						<label htmlFor='selectStatus'>Status</label>
-						<select
-							className='form-control'
+				<Form.Row>
+					<Form.Group className='col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
+						<Form.Label htmlFor='selectStatus'>Status</Form.Label>
+						<Form.Control
+							as='select'
 							id='selectStatus'
 							name='status'
 							onChange={handleChange}
@@ -56,17 +59,17 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 							<option value={status.FAZENDO}>FAZENDO</option>
 							<option value={status.CONCLUIDO}>CONCLUIDO</option>
 							<option value={status.ARQUIVADO}>ARQUIVADO</option>
-						</select>
-					</div>
-				</div>
+						</Form.Control>
+					</Form.Group>
+				</Form.Row>
 			) : (
 				''
 			)}
 
-			<div className='form-row'>
-				<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
-					<label htmlFor='tag1'>Tag 01</label>
-					<input
+			<Form.Row>
+				<Form.Group className='col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
+					<Form.Label htmlFor='tag1'>Tag 01</Form.Label>
+					<Form.Control
 						id='tag1'
 						name='tag1'
 						type='text'
@@ -76,12 +79,12 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 						value={tarefa.tag1 || ''}
 						maxLength='15'
 					/>
-				</div>
-			</div>
-			<div className='form-row'>
-				<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
-					<label htmlFor='tag2'>Tag 02</label>
-					<input
+				</Form.Group>
+			</Form.Row>
+			<Form.Row>
+				<Form.Group className='col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
+					<Form.Label htmlFor='tag2'>Tag 02</Form.Label>
+					<Form.Control
 						id='tag2'
 						name='tag2'
 						type='text'
@@ -91,10 +94,10 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 						value={tarefa.tag2 || ''}
 						maxLength='15'
 					/>
-				</div>
-			</div>
-			<div className='form-row text-right'>
-				<div className='form-group col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
+				</Form.Group>
+			</Form.Row>
+			<Form.Row className='text-right'>
+				<Form.Group className='col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
 					<Link
 						to='/'
 						className='btn btn-secondary'
@@ -102,16 +105,16 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 					>
 						Voltar
 					</Link>
-					<button
+					<Button
 						type='submit'
 						style={{ marginLeft: 5 }}
 						className='btn btn-primary'
 					>
 						Salvar Tarefa
-					</button>
-				</div>
-			</div>
-		</form>
+					</Button>
+				</Form.Group>
+			</Form.Row>
+		</Form>
 	)
 }
 

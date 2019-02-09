@@ -89,8 +89,8 @@ export class ArquivadasContainer extends React.Component {
 						) : (
 							<Tarefas
 								tarefas={tarefasArquivadas}
-								background='bg-secondary'
-								acao={{ text: 'Deletar', btnBg: 'btn-danger' }}
+								background='secondary'
+								acao={{ text: 'Deletar', btnBg: 'danger' }}
 								onClickAction={this.deletaTarefa}
 							/>
 						)}

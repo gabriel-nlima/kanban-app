@@ -158,8 +158,8 @@ export class TarefasContainer extends React.Component {
 						) : (
 							<Tarefas
 								tarefas={tarefasAFazer}
-								background='text-white bg-info'
-								acao={{ text: 'Fazer', btnBg: 'btn-secondary' }}
+								background='info'
+								acao={{ text: 'Fazer', btnBg: 'secondary' }}
 								onClickAction={this.handleStatusChange}
 							/>
 						)}
@@ -184,10 +184,10 @@ export class TarefasContainer extends React.Component {
 						) : (
 							<Tarefas
 								tarefas={tarefasSendoFeitas}
-								background='bg-warning'
+								background='warning'
 								acao={{
 									text: 'Concluir',
-									btnBg: 'btn-secondary',
+									btnBg: 'secondary',
 								}}
 								onClickAction={this.handleStatusChange}
 							/>
@@ -213,10 +213,10 @@ export class TarefasContainer extends React.Component {
 						) : (
 							<Tarefas
 								tarefas={tarefasConcluidas}
-								background='bg-success'
+								background='success'
 								acao={{
 									text: 'Arquivar',
-									btnBg: 'btn-secondary',
+									btnBg: 'secondary',
 								}}
 								onClickAction={this.handleStatusChange}
 							/>

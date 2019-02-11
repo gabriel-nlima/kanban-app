@@ -38,7 +38,7 @@ Para iniciar o front-end:
 ```
 E para iniciar a API:
 ```bash
- nodemon index
+ node index
 ```
 Para rodar os testes, na raiz do projeto:
 ```bash

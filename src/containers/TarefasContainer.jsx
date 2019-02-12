@@ -35,7 +35,6 @@ export class TarefasContainer extends React.Component {
 	}
 	componentDidMount() {
 		//this.props.getTarefas()
-		console.log(status.AllStatus)
 		this.getStatusTarefas(this.props.tarefas)
 	}
 
@@ -71,17 +70,19 @@ export class TarefasContainer extends React.Component {
 	//Passa o novo status da terafa para o action creator, de acordo com o status atual
 	//fazer>fazendo>concluido>arquivado>deletado
 	handleStatusChange(tarefa, novoStatus) {
+		console.log(tarefa)
 		tarefa = {
 			...tarefa,
 			status: novoStatus,
 			ultimoStatus: tarefa.status,
 		}
-
-		this.props.editarTarefa(tarefa, novoStatus)
+		console.log(tarefa)
+		this.props.editarTarefa(tarefa)
 	}
-	actionsDropdown(tarefa) {
+	actionsDropdown({ tarefa }) {
+		//TO DO: Adicionar a opção excluir
 		return (
-			<DropdownButton id='actions' title='Ações'>
+			<DropdownButton size='sm' id='actions' title='Ações'>
 				{status.AllStatus.map((status) => {
 					return (
 						<Dropdown.Item
@@ -215,7 +216,7 @@ export class TarefasContainer extends React.Component {
 									text: 'Concluir',
 									btnBg: 'secondary',
 								}}
-								onClickAction={this.handleStatusChange}
+								OnClickAction={this.actionsDropdown}
 							/>
 						)}
 					</Col>
@@ -250,7 +251,7 @@ export class TarefasContainer extends React.Component {
 									text: 'Arquivar',
 									btnBg: 'secondary',
 								}}
-								onClickAction={this.handleStatusChange}
+								OnClickAction={this.actionsDropdown}
 							/>
 						)}
 					</Col>

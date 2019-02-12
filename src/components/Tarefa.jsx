@@ -36,13 +36,17 @@ const Tarefa = ({ tarefa, acao, OnClickAction }) => {
 				)}
 			</Card.Text>
 			<ButtonGroup size='sm'>
-				<Link
+				<Button
+					href='/editar'
+					variant='light'
+					size='sm'
+					as={Link}
+					type='button'
 					to={{ pathname: '/editar', state: { tarefa } }}
-					className='btn btn-sm btn-light'
 				>
 					Editar{' '}
-				</Link>
-				<OnClickAction />
+				</Button>
+				<OnClickAction tarefa={tarefa} />
 			</ButtonGroup>
 		</Card.Body>
 	)

@@ -10,7 +10,7 @@ const onDragStart = (e, tarefa) => {
 	e.dataTransfer.setData('tarefa', tarefaJson)
 	e.dataTransfer.effectAllowed = 'move'
 }
-const Tarefas = ({ tarefas, background, acao, onClickAction }) =>
+const Tarefas = ({ tarefas, background, acao, OnClickAction }) =>
 	tarefas.map((tarefa) => {
 		return (
 			<Card
@@ -29,7 +29,7 @@ const Tarefas = ({ tarefas, background, acao, onClickAction }) =>
 					{...tarefa}
 					acao={acao}
 					tarefa={tarefa}
-					onClickAction={onClickAction}
+					OnClickAction={OnClickAction}
 				/>
 			</Card>
 		)

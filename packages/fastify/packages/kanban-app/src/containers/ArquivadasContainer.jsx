@@ -1,6 +1,10 @@
 import React from 'react'
 import Tarefas from '../components/Tarefas'
 import Spinner from '../components/Spinner'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import CardColumns from 'react-bootstrap/CardColumns'
+import Alert from 'react-bootstrap/Alert'
 import * as status from './status'
 
 import { Link } from 'react-router-dom'
@@ -44,8 +48,8 @@ export class ArquivadasContainer extends React.Component {
 
 		return (
 			<React.Fragment>
-				<div className='row'>
-					<div className='col-6'>
+				<Row>
+					<Col xs={6}>
 						<h4 className='text-secondary'>
 							Tarefas arquivadas:
 							<span
@@ -56,17 +60,17 @@ export class ArquivadasContainer extends React.Component {
 								{tarefasArquivadas.length}
 							</span>
 						</h4>
-					</div>
-					<div className='col-6 text-right'>
+					</Col>
+					<Col xs={6} className='text-right'>
 						<Link className='btn btn-primary' to='/'>
 							Voltar para o Quadro Kanban
 						</Link>
-					</div>
-				</div>
+					</Col>
+				</Row>
 				{this.props.error !== false ? (
-					<div className='row'>
-						<div className='col-12'>
-							<div className='alert alert-danger' role='alert'>
+					<Row>
+						<Col xs={12}>
+							<Alert variant='danger'>
 								Algo deu errado,{' '}
 								<Link
 									className='alert-link'
@@ -75,14 +79,14 @@ export class ArquivadasContainer extends React.Component {
 								>
 									recarregue a página.
 								</Link>
-							</div>
-						</div>
-					</div>
+							</Alert>
+						</Col>
+					</Row>
 				) : (
 					''
 				)}
-				<div className='row' style={{ marginTop: 10 }}>
-					<div className='col-12 card-columns'>
+				<Row style={{ marginTop: 10 }}>
+					<CardColumns>
 						{this.props.isLoading &&
 						tarefasArquivadas.length === 0 ? (
 							<Spinner bg='text-secondary' />
@@ -94,8 +98,8 @@ export class ArquivadasContainer extends React.Component {
 								onClickAction={this.deletaTarefa}
 							/>
 						)}
-					</div>
-				</div>
+					</CardColumns>
+				</Row>
 			</React.Fragment>
 		)
 	}

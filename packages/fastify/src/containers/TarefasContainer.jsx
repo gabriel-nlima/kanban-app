@@ -1,11 +1,17 @@
 import React from 'react'
 import Tarefas from '../components/Tarefas'
 import Spinner from '../components/Spinner'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Alert from 'react-bootstrap/Alert'
+import Badge from 'react-bootstrap/Badge'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown'
 import * as status from './status'
 
 import { Link } from 'react-router-dom'
 
-import { getAllTarefas, trocaStatus } from '../redux/actions/actions'
+import { getAllTarefas, editarTarefa } from '../redux/actions/actions'
 import { connect } from 'react-redux'
 
 import PropTypes from 'prop-types'
@@ -25,9 +31,11 @@ export class TarefasContainer extends React.Component {
 		this.handleStatusChange = this.handleStatusChange.bind(this)
 		this.onDragOver = this.onDragOver.bind(this)
 		this.onDrop = this.onDrop.bind(this)
+		this.actionsDropdown = this.actionsDropdown.bind(this)
 	}
 	componentDidMount() {
 		//this.props.getTarefas()
+		console.log(status.AllStatus)
 		this.getStatusTarefas(this.props.tarefas)
 	}
 
@@ -62,17 +70,32 @@ export class TarefasContainer extends React.Component {
 
 	//Passa o novo status da terafa para o action creator, de acordo com o status atual
 	//fazer>fazendo>concluido>arquivado>deletado
-	handleStatusChange(tarefa) {
-		let novoStatus = []
-		if (tarefa.status === status.FAZER) {
-			novoStatus = status.FAZENDO
-		} else if (tarefa.status === status.FAZENDO) {
-			novoStatus = status.CONCLUIDO
-		} else if (tarefa.status === status.CONCLUIDO) {
-			novoStatus = status.ARQUIVADO
+	handleStatusChange(tarefa, novoStatus) {
+		tarefa = {
+			...tarefa,
+			status: novoStatus,
+			ultimoStatus: tarefa.status,
 		}
 
-		this.props.trocaStatus(tarefa, novoStatus)
+		this.props.editarTarefa(tarefa, novoStatus)
+	}
+	actionsDropdown(tarefa) {
+		return (
+			<DropdownButton id='actions' title='Ações'>
+				{status.AllStatus.map((status) => {
+					return (
+						<Dropdown.Item
+							key={status}
+							onClick={() =>
+								this.handleStatusChange(tarefa, status)
+							}
+						>
+							{status}
+						</Dropdown.Item>
+					)
+				})}
+			</DropdownButton>
+		)
 	}
 	onDragOver = (e) => {
 		e.preventDefault()
@@ -92,38 +115,39 @@ export class TarefasContainer extends React.Component {
 
 		const badgeMargin = { marginLeft: 6 }
 
-		// if (this.props.error !== false) {
-		// 	throw this.props.error
-		// }
 		return (
 			<React.Fragment>
-				<div className='row text-left'>
-					<div className='col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6'>
+				<Row className='text-left'>
+					<Col xs={6} sm={6} md={6} lg={6} xl={6}>
 						<h5 className='text-muted'>
 							<Link
 								to='/arquivadas'
 								className='btn btn-secondary'
 							>
 								ARQUIVADAS{' '}
-								<span
-									style={badgeMargin}
-									className='badge badge-pill badge-info'
-								>
+								<Badge pill variant='info' style={badgeMargin}>
 									{tarefasArquivadas.length}
-								</span>
+								</Badge>
 							</Link>
 						</h5>
-					</div>
-					<div className='col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-right'>
+					</Col>
+					<Col
+						xs={6}
+						sm={6}
+						md={6}
+						lg={6}
+						xl={6}
+						className='text-right'
+					>
 						<Link to='/adicionar' className='btn btn-primary'>
 							Adicionar nova tarefa
 						</Link>
-					</div>
-				</div>
+					</Col>
+				</Row>
 				{this.props.error !== false ? (
-					<div className='row'>
-						<div className='col-12'>
-							<div className='alert alert-danger' role='alert'>
+					<Row>
+						<Col xs={12}>
+							<Alert value='danger'>
 								Algo deu errado,{' '}
 								<Link
 									className='alert-link'
@@ -132,26 +156,27 @@ export class TarefasContainer extends React.Component {
 								>
 									recarregue a página.
 								</Link>
-							</div>
-						</div>
-					</div>
+							</Alert>
+						</Col>
+					</Row>
 				) : (
 					''
 				)}
-				<div className='row'>
-					<div
-						className='col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4'
+				<Row>
+					<Col
+						xs={6}
+						sm={6}
+						md={4}
+						lg={4}
+						xl={4}
 						onDragOver={(e) => this.onDragOver(e)}
 						onDrop={(e) => this.onDrop(e)}
 					>
 						<h3 className='text-center text-info'>
 							A FAZER
-							<span
-								style={badgeMargin}
-								className='badge badge-pill badge-info'
-							>
+							<Badge pill variant='info' style={badgeMargin}>
 								{tarefasAFazer.length}
-							</span>
+							</Badge>
 						</h3>
 						{this.props.isLoading && tarefasAFazer.length === 0 ? (
 							<Spinner bg='text-info' />
@@ -160,23 +185,24 @@ export class TarefasContainer extends React.Component {
 								tarefas={tarefasAFazer}
 								background='info'
 								acao={{ text: 'Fazer', btnBg: 'secondary' }}
-								onClickAction={this.handleStatusChange}
+								OnClickAction={this.actionsDropdown}
 							/>
 						)}
-					</div>
-					<div
-						className='col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4'
+					</Col>
+					<Col
+						xs={6}
+						sm={6}
+						md={4}
+						lg={4}
+						xl={4}
 						onDragOver={(e) => this.onDragOver(e)}
 						onDrop={(e) => this.onDrop(e, status.FAZENDO)}
 					>
 						<h3 className='text-center text-warning'>
 							FAZENDO
-							<span
-								style={badgeMargin}
-								className='badge badge-pill badge-warning'
-							>
+							<Badge pill variant='warning' style={badgeMargin}>
 								{tarefasSendoFeitas.length}
-							</span>
+							</Badge>
 						</h3>
 						{this.props.isLoading &&
 						tarefasSendoFeitas.length === 0 ? (
@@ -192,20 +218,26 @@ export class TarefasContainer extends React.Component {
 								onClickAction={this.handleStatusChange}
 							/>
 						)}
-					</div>
-					<div
-						className='col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4'
+					</Col>
+					<Col
+						xs={12}
+						sm={12}
+						md={4}
+						lg={4}
+						xl={4}
 						onDragOver={(e) => this.onDragOver(e)}
 						onDrop={(e) => this.onDrop(e)}
 					>
 						<h3 className='text-center text-success'>
 							FEITO
-							<span
+							<Badge
+								pill
+								variant='success'
 								style={badgeMargin}
 								className='badge badge-pill badge-success'
 							>
 								{tarefasConcluidas.length}
-							</span>
+							</Badge>
 						</h3>
 						{this.props.isLoading &&
 						tarefasConcluidas.length === 0 ? (
@@ -221,8 +253,8 @@ export class TarefasContainer extends React.Component {
 								onClickAction={this.handleStatusChange}
 							/>
 						)}
-					</div>
-				</div>
+					</Col>
+				</Row>
 			</React.Fragment>
 		)
 	}
@@ -242,8 +274,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		getTarefas: () => dispatch(getAllTarefas()),
-		trocaStatus: (tarefa, novoStatus) =>
-			dispatch(trocaStatus(tarefa, novoStatus)),
+		editarTarefa: (tarefa) => dispatch(editarTarefa(tarefa)),
 	}
 }
 

@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Badge from 'react-bootstrap/Badge'
 
-const Tarefa = ({ tarefa, acao, onClickAction }) => {
+const Tarefa = ({ tarefa, acao, OnClickAction }) => {
 	return (
 		<Card.Body className='text-center'>
 			<Card.Title>{tarefa.titulo}</Card.Title>
@@ -42,13 +42,7 @@ const Tarefa = ({ tarefa, acao, onClickAction }) => {
 				>
 					Editar{' '}
 				</Link>
-				<Button
-					size='sm'
-					variant={acao.btnBg}
-					onClick={() => onClickAction(tarefa)}
-				>
-					{acao.text}
-				</Button>
+				<OnClickAction />
 			</ButtonGroup>
 		</Card.Body>
 	)

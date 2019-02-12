@@ -4,6 +4,7 @@ import Spinner from '../components/Spinner'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardColumns from 'react-bootstrap/CardColumns'
+import Buttuon from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
 import * as status from './status'
 
@@ -36,8 +37,16 @@ export class ArquivadasContainer extends React.Component {
 		}
 	}
 
-	deletaTarefa(tarefa) {
-		this.props.deletaTarefa(tarefa)
+	deletaTarefa({ tarefa }) {
+		return (
+			<Buttuon
+				size='sm'
+				variant='danger'
+				onClick={() => this.props.deletaTarefa(tarefa)}
+			>
+				Deletar
+			</Buttuon>
+		)
 	}
 
 	render() {
@@ -95,7 +104,7 @@ export class ArquivadasContainer extends React.Component {
 								tarefas={tarefasArquivadas}
 								background='secondary'
 								acao={{ text: 'Deletar', btnBg: 'danger' }}
-								onClickAction={this.deletaTarefa}
+								OnClickAction={this.deletaTarefa}
 							/>
 						)}
 					</CardColumns>

@@ -4,13 +4,18 @@ import Spinner from '../components/Spinner'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardColumns from 'react-bootstrap/CardColumns'
-import Buttuon from 'react-bootstrap/Button'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown'
 import Alert from 'react-bootstrap/Alert'
-import * as status from './status'
+import * as status from '../utils/status'
 
 import { Link } from 'react-router-dom'
 
-import { getAllTarefas, deletaTarefa } from '../redux/actions/actions'
+import {
+	getTarefas,
+	deletaTarefa,
+	editarTarefa,
+} from '../redux/actions/actions'
 import { connect } from 'react-redux'
 
 import PropTypes from 'prop-types'
@@ -23,11 +28,14 @@ import PropTypes from 'prop-types'
 export class ArquivadasContainer extends React.Component {
 	constructor(props) {
 		super(props)
-		this.deletaTarefa = this.deletaTarefa.bind(this)
+		this.actionsDropdown = this.actionsDropdown.bind(this)
+		this.handleStatusChange = this.handleStatusChange.bind(this)
 	}
 
 	componentDidMount() {
-		//this.props.getTarefas()
+		if (this.props.tarefas.length === 0) {
+			this.props.getTarefas()
+		}
 	}
 	filtraArquivadas(tarefa) {
 		if (tarefa.status === status.ARQUIVADO) {
@@ -37,15 +45,51 @@ export class ArquivadasContainer extends React.Component {
 		}
 	}
 
-	deletaTarefa({ tarefa }) {
+	handleStatusChange(tarefa, novoStatus) {
+		tarefa = {
+			...tarefa,
+			status: novoStatus,
+			ultimoStatus: tarefa.status,
+		}
+		if (novoStatus === status.DELETADO) {
+			this.props.deletaTarefa(tarefa)
+		} else {
+			this.props.editarTarefa(tarefa)
+		}
+	}
+	actionsDropdown({ tarefa }) {
 		return (
-			<Buttuon
+			<DropdownButton
+				variant='primary'
 				size='sm'
-				variant='danger'
-				onClick={() => this.props.deletaTarefa(tarefa)}
+				id='actions'
+				title='Ações'
 			>
-				Deletar
-			</Buttuon>
+				{status.acoes.map((acao) => {
+					let texto = ''
+					if (acao === status.FAZER) {
+						texto = 'A Fazer'
+					} else if (acao === status.FAZENDO) {
+						texto = 'Fazer'
+					} else if (acao === status.CONCLUIDO) {
+						texto = 'Concluir'
+					} else if (acao === status.ARQUIVADO) {
+						return ''
+					} else {
+						texto = 'Deletar'
+					}
+					return (
+						<Dropdown.Item
+							key={acao}
+							onClick={() =>
+								this.handleStatusChange(tarefa, acao)
+							}
+						>
+							{texto}
+						</Dropdown.Item>
+					)
+				})}
+			</DropdownButton>
 		)
 	}
 
@@ -94,20 +138,30 @@ export class ArquivadasContainer extends React.Component {
 				) : (
 					''
 				)}
+				{tarefasArquivadas.length === 0 ? (
+					<Row style={{ marginTop: 10 }}>
+						<Col xs='12' className='text-center'>
+							<h3>Você não tem tarefas arquivadas.</h3>
+						</Col>
+					</Row>
+				) : (
+					''
+				)}
 				<Row style={{ marginTop: 10 }}>
-					<CardColumns>
-						{this.props.isLoading &&
-						tarefasArquivadas.length === 0 ? (
+					{this.props.isLoading ? (
+						<Col xs='12' className='text-center'>
 							<Spinner bg='text-secondary' />
-						) : (
+						</Col>
+					) : (
+						<CardColumns>
 							<Tarefas
 								tarefas={tarefasArquivadas}
 								background='secondary'
 								acao={{ text: 'Deletar', btnBg: 'danger' }}
-								OnClickAction={this.deletaTarefa}
+								OnClickAction={this.actionsDropdown}
 							/>
-						)}
-					</CardColumns>
+						</CardColumns>
+					)}
 				</Row>
 			</React.Fragment>
 		)
@@ -117,6 +171,7 @@ export class ArquivadasContainer extends React.Component {
 ArquivadasContainer.propTypes = {
 	getTarefas: PropTypes.func.isRequired,
 	deletaTarefa: PropTypes.func.isRequired,
+	editarTarefa: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {
@@ -129,7 +184,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		deletaTarefa: (tarefa) => dispatch(deletaTarefa(tarefa)),
-		getTarefas: () => dispatch(getAllTarefas()),
+		editarTarefa: (tarefa) => dispatch(editarTarefa(tarefa)),
+		getTarefas: () => dispatch(getTarefas()),
 	}
 }
 

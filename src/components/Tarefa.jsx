@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Badge from 'react-bootstrap/Badge'
 
-const Tarefa = ({ tarefa, acao, OnClickAction }) => {
+const Tarefa = ({ tarefa, OnClickAction }) => {
 	return (
 		<Card.Body className='text-center'>
 			<Card.Title>{tarefa.titulo}</Card.Title>
@@ -60,11 +60,7 @@ Tarefa.propTypes = {
 		adicionadoEm: PropTypes.string.isRequired,
 		concluidoEm: PropTypes.string,
 	}).isRequired,
-	acao: PropTypes.shape({
-		text: PropTypes.string,
-		btnBg: PropTypes.string,
-	}).isRequired,
-	onClickAction: PropTypes.func.isRequired,
+	OnClickAction: PropTypes.func.isRequired,
 }
 
 export default Tarefa

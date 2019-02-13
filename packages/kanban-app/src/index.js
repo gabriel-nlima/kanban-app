@@ -12,7 +12,7 @@ import EditarTarefaContainer from './containers/EditarTarefaContainer'
 import TarefasContainer from './containers/TarefasContainer'
 import Header from './components/Header'
 import NoMatch from './components/NoMatch'
-import { getAllTarefas } from './redux/actions/actions'
+import { getTarefas } from './redux/actions/actions'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 const initalState = {
@@ -22,7 +22,7 @@ const initalState = {
 }
 //Inicia a store com as tarefas do servidor
 const store = configureStore(initalState)
-store.dispatch(getAllTarefas())
+store.dispatch(getTarefas())
 ReactDOM.render(
 	<Provider store={store}>
 		<BrowserRouter>

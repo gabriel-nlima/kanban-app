@@ -7,14 +7,19 @@ import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
-import * as status from './status'
+import * as status from '../utils/status'
 
 import { Link } from 'react-router-dom'
 
-import { getAllTarefas, editarTarefa } from '../redux/actions/actions'
+import {
+	getTarefas,
+	editarTarefa,
+	deletaTarefa,
+} from '../redux/actions/actions'
 import { connect } from 'react-redux'
 
 import PropTypes from 'prop-types'
+import Button from 'react-bootstrap/Button'
 
 /*
  *Recebe as tarefas da redux store, separa por status e os
@@ -32,10 +37,6 @@ export class TarefasContainer extends React.Component {
 		this.onDragOver = this.onDragOver.bind(this)
 		this.onDrop = this.onDrop.bind(this)
 		this.actionsDropdown = this.actionsDropdown.bind(this)
-	}
-	componentDidMount() {
-		//this.props.getTarefas()
-		this.getStatusTarefas(this.props.tarefas)
 	}
 
 	getStatusTarefas(tarefas) {
@@ -67,31 +68,43 @@ export class TarefasContainer extends React.Component {
 		}
 	}
 
-	//Passa o novo status da terafa para o action creator, de acordo com o status atual
-	//fazer>fazendo>concluido>arquivado>deletado
 	handleStatusChange(tarefa, novoStatus) {
-		console.log(tarefa)
 		tarefa = {
 			...tarefa,
 			status: novoStatus,
 			ultimoStatus: tarefa.status,
 		}
-		console.log(tarefa)
-		this.props.editarTarefa(tarefa)
+		if (novoStatus === status.DELETADO) {
+			this.props.deletaTarefa(tarefa)
+		} else {
+			this.props.editarTarefa(tarefa)
+		}
 	}
 	actionsDropdown({ tarefa }) {
 		//TO DO: Adicionar a opção excluir
 		return (
 			<DropdownButton size='sm' id='actions' title='Ações'>
-				{status.AllStatus.map((status) => {
+				{status.acoes.map((acao) => {
+					let texto = ''
+					if (acao === status.FAZER) {
+						texto = 'A Fazer'
+					} else if (acao === status.FAZENDO) {
+						texto = 'Fazer'
+					} else if (acao === status.CONCLUIDO) {
+						texto = 'Concluir'
+					} else if (acao === status.ARQUIVADO) {
+						texto = 'Arquivar'
+					} else {
+						texto = 'Deletar'
+					}
 					return (
 						<Dropdown.Item
-							key={status}
+							key={acao}
 							onClick={() =>
-								this.handleStatusChange(tarefa, status)
+								this.handleStatusChange(tarefa, acao)
 							}
 						>
-							{status}
+							{texto}
 						</Dropdown.Item>
 					)
 				})}
@@ -102,9 +115,9 @@ export class TarefasContainer extends React.Component {
 		e.preventDefault()
 		e.dataTransfer.dropEffect = 'move'
 	}
-	onDrop = async (e) => {
+	onDrop = async (e, status) => {
 		let tarefa = JSON.parse(e.dataTransfer.getData('tarefa'))
-		await this.handleStatusChange(tarefa)
+		await this.handleStatusChange(tarefa, status)
 	}
 	render() {
 		const {
@@ -140,15 +153,22 @@ export class TarefasContainer extends React.Component {
 						xl={6}
 						className='text-right'
 					>
-						<Link to='/adicionar' className='btn btn-primary'>
+						<Button
+							variant='primary'
+							type='button'
+							href='/adicionar'
+							as={Link}
+							to='/adicionar'
+							disabled={this.props.error !== false ? true : false}
+						>
 							Adicionar nova tarefa
-						</Link>
+						</Button>
 					</Col>
 				</Row>
 				{this.props.error !== false ? (
 					<Row>
 						<Col xs={12}>
-							<Alert value='danger'>
+							<Alert variant='danger'>
 								Algo deu errado,{' '}
 								<Link
 									className='alert-link'
@@ -171,7 +191,7 @@ export class TarefasContainer extends React.Component {
 						lg={4}
 						xl={4}
 						onDragOver={(e) => this.onDragOver(e)}
-						onDrop={(e) => this.onDrop(e)}
+						onDrop={(e) => this.onDrop(e, status.FAZER)}
 					>
 						<h3 className='text-center text-info'>
 							A FAZER
@@ -179,13 +199,19 @@ export class TarefasContainer extends React.Component {
 								{tarefasAFazer.length}
 							</Badge>
 						</h3>
-						{this.props.isLoading && tarefasAFazer.length === 0 ? (
+						{tarefasAFazer.length === 0 ? (
+							<h4 className='text-center'>
+								Sem tarefas a fazer.
+							</h4>
+						) : (
+							''
+						)}
+						{this.props.isLoading ? (
 							<Spinner bg='text-info' />
 						) : (
 							<Tarefas
 								tarefas={tarefasAFazer}
 								background='info'
-								acao={{ text: 'Fazer', btnBg: 'secondary' }}
 								OnClickAction={this.actionsDropdown}
 							/>
 						)}
@@ -205,17 +231,19 @@ export class TarefasContainer extends React.Component {
 								{tarefasSendoFeitas.length}
 							</Badge>
 						</h3>
-						{this.props.isLoading &&
-						tarefasSendoFeitas.length === 0 ? (
+						{tarefasSendoFeitas.length === 0 ? (
+							<h4 className='text-center'>
+								Sem tarefas em andamento.
+							</h4>
+						) : (
+							''
+						)}
+						{this.props.isLoading ? (
 							<Spinner bg='text-warning' />
 						) : (
 							<Tarefas
 								tarefas={tarefasSendoFeitas}
 								background='warning'
-								acao={{
-									text: 'Concluir',
-									btnBg: 'secondary',
-								}}
 								OnClickAction={this.actionsDropdown}
 							/>
 						)}
@@ -227,7 +255,7 @@ export class TarefasContainer extends React.Component {
 						lg={4}
 						xl={4}
 						onDragOver={(e) => this.onDragOver(e)}
-						onDrop={(e) => this.onDrop(e)}
+						onDrop={(e) => this.onDrop(e, status.CONCLUIDO)}
 					>
 						<h3 className='text-center text-success'>
 							FEITO
@@ -240,6 +268,13 @@ export class TarefasContainer extends React.Component {
 								{tarefasConcluidas.length}
 							</Badge>
 						</h3>
+						{tarefasConcluidas.length === 0 ? (
+							<h4 className='text-center'>
+								Nenhuma tarefa concluida.
+							</h4>
+						) : (
+							''
+						)}
 						{this.props.isLoading &&
 						tarefasConcluidas.length === 0 ? (
 							<Spinner bg='text-success' />
@@ -247,10 +282,6 @@ export class TarefasContainer extends React.Component {
 							<Tarefas
 								tarefas={tarefasConcluidas}
 								background='success'
-								acao={{
-									text: 'Arquivar',
-									btnBg: 'secondary',
-								}}
 								OnClickAction={this.actionsDropdown}
 							/>
 						)}
@@ -263,7 +294,8 @@ export class TarefasContainer extends React.Component {
 
 TarefasContainer.propTypes = {
 	getTarefas: PropTypes.func.isRequired,
-	trocaStatus: PropTypes.func.isRequired,
+	editarTarefa: PropTypes.func.isRequired,
+	deletaTarefa: PropTypes.func.isRequired,
 }
 function mapStateToProps(state) {
 	return {
@@ -274,8 +306,9 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		getTarefas: () => dispatch(getAllTarefas()),
+		getTarefas: () => dispatch(getTarefas()),
 		editarTarefa: (tarefa) => dispatch(editarTarefa(tarefa)),
+		deletaTarefa: (tarefa) => dispatch(deletaTarefa(tarefa)),
 	}
 }
 

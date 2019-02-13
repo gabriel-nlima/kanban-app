@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-import * as status from '../containers/status'
+import * as status from '../utils/status'
 
 const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 	return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import Tarefas from '../components/Tarefas'
+import Tarefa from '../components/Tarefa'
 import Spinner from '../components/Spinner'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -209,11 +209,17 @@ export class TarefasContainer extends React.Component {
 						{this.props.isLoading ? (
 							<Spinner bg='text-info' />
 						) : (
-							<Tarefas
-								tarefas={tarefasAFazer}
-								background='info'
-								OnClickAction={this.actionsDropdown}
-							/>
+							tarefasAFazer.map((tarefa) => {
+								return (
+									<Tarefa
+										key={tarefa._id}
+										background='info'
+										{...tarefa}
+										tarefa={tarefa}
+										OnClickAction={this.actionsDropdown}
+									/>
+								)
+							})
 						)}
 					</Col>
 					<Col
@@ -241,11 +247,17 @@ export class TarefasContainer extends React.Component {
 						{this.props.isLoading ? (
 							<Spinner bg='text-warning' />
 						) : (
-							<Tarefas
-								tarefas={tarefasSendoFeitas}
-								background='warning'
-								OnClickAction={this.actionsDropdown}
-							/>
+							tarefasSendoFeitas.map((tarefa) => {
+								return (
+									<Tarefa
+										key={tarefa._id}
+										background='warning'
+										{...tarefa}
+										tarefa={tarefa}
+										OnClickAction={this.actionsDropdown}
+									/>
+								)
+							})
 						)}
 					</Col>
 					<Col
@@ -279,11 +291,17 @@ export class TarefasContainer extends React.Component {
 						tarefasConcluidas.length === 0 ? (
 							<Spinner bg='text-success' />
 						) : (
-							<Tarefas
-								tarefas={tarefasConcluidas}
-								background='success'
-								OnClickAction={this.actionsDropdown}
-							/>
+							tarefasConcluidas.map((tarefa) => {
+								return (
+									<Tarefa
+										key={tarefa._id}
+										background='success'
+										{...tarefa}
+										tarefa={tarefa}
+										OnClickAction={this.actionsDropdown}
+									/>
+								)
+							})
 						)}
 					</Col>
 				</Row>

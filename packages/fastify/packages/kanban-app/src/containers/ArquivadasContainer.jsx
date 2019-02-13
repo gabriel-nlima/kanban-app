@@ -1,5 +1,5 @@
 import React from 'react'
-import Tarefas from '../components/Tarefas'
+import Tarefa from '../components/Tarefa'
 import Spinner from '../components/Spinner'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -154,12 +154,17 @@ export class ArquivadasContainer extends React.Component {
 						</Col>
 					) : (
 						<CardColumns>
-							<Tarefas
-								tarefas={tarefasArquivadas}
-								background='secondary'
-								acao={{ text: 'Deletar', btnBg: 'danger' }}
-								OnClickAction={this.actionsDropdown}
-							/>
+							{tarefasArquivadas.map((tarefa) => {
+								return (
+									<Tarefa
+										key={tarefa._id}
+										{...tarefa}
+										tarefa={tarefa}
+										background='secondary'
+										OnClickAction={this.actionsDropdown}
+									/>
+								)
+							})}
 						</CardColumns>
 					)}
 				</Row>

@@ -1,5 +1,5 @@
 import * as actionsTypes from './actionTypes'
-import * as status from '../../containers/status'
+import * as status from '../../utils/status'
 import Axios from 'axios'
 
 export function actionStarted() {
@@ -8,7 +8,7 @@ export function actionStarted() {
 export function actionFailed(error) {
 	return { type: actionsTypes.FAILED, isLoading: false, error: error.message }
 }
-export const getAllTarefas = () => (dispatch) => {
+export const getTarefas = () => (dispatch) => {
 	dispatch(actionStarted())
 
 	return Axios.get('/tarefas')

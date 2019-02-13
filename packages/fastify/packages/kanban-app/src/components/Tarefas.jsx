@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Tarefa from './Tarefa'
-import { CONCLUIDO, ARQUIVADO } from '../containers/status'
+import { ARQUIVADO } from '../utils/status'
 import Card from 'react-bootstrap/Card'
 
 const onDragStart = (e, tarefa) => {
@@ -10,24 +10,19 @@ const onDragStart = (e, tarefa) => {
 	e.dataTransfer.setData('tarefa', tarefaJson)
 	e.dataTransfer.effectAllowed = 'move'
 }
-const Tarefas = ({ tarefas, background, acao, OnClickAction }) =>
+const Tarefas = ({ tarefas, background, OnClickAction }) =>
 	tarefas.map((tarefa) => {
 		return (
 			<Card
 				bg={background}
 				key={tarefa._id}
-				draggable={
-					tarefa.status === CONCLUIDO || tarefa.status === ARQUIVADO
-						? false
-						: true
-				}
+				draggable={tarefa.status === ARQUIVADO ? false : true}
 				onDragStart={(e) => onDragStart(e, tarefa)}
 				className={'card w-100 h-auto'}
 				style={{ marginBottom: 5 }}
 			>
 				<Tarefa
 					{...tarefa}
-					acao={acao}
 					tarefa={tarefa}
 					OnClickAction={OnClickAction}
 				/>
@@ -37,10 +32,6 @@ const Tarefas = ({ tarefas, background, acao, OnClickAction }) =>
 Tarefas.propTypes = {
 	tarefas: PropTypes.array.isRequired,
 	background: PropTypes.string.isRequired,
-	acao: PropTypes.shape({
-		text: PropTypes.string,
-		btnBg: PropTypes.string,
-	}).isRequired,
-	onClickAction: PropTypes.func.isRequired,
+	OnClickAction: PropTypes.func.isRequired,
 }
 export default Tarefas

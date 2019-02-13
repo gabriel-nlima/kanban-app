@@ -27,6 +27,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - mongodb
 
 ## Uso
+Instale as extensões Eslint e Prettier no Visual Studio Code.
 
 Na raiz do projeto e em server/fastify, rodar o seguinte comando:
 ```bash

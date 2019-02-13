@@ -13,10 +13,10 @@
 	"author": "Gabriel N lima",
 	"license": "ISC",
 	"dependencies": {
-		"fastify": "^1.13.4",
-		"fastify-mongodb": "^1.0.0",
-		"fastify-plugin": "^1.4.0",
-		"fastify-swagger": "^1.1.0",
+		"fastify": "^1.14.1",
+		"fastify-mongodb": "^1.0.1",
+		"fastify-plugin": "^1.5.0",
+		"fastify-swagger": "^1.2.0",
 		"mongodb": "^3.1.13",
 		"nodemon": "^1.18.10"
 	}

@@ -2,22 +2,34 @@
 
 # dependencies
 /node_modules
+packages/**/node_modules
 /.pnp
+packages/**/.pnp
 .pnp.js
+packages/**/.pnp.js
 
 # testing
 /coverage
+packages/**/coverage
 
 # production
 /build
+packages/**/build
 
 # misc
 .DS_Store
+packages/**/.DS_Store
 .env.local
+packages/**/.env.local
 .env.development.local
+packages/**/.env.development.local
 .env.test.local
+packages/**/.env.test.local
 .env.production.local
+packages/**/.env.production.local
 
 npm-debug.log*
 yarn-debug.log*
+packages/**/yarn-debug.log*
 yarn-error.log*
+packages/**/yarn-error.log*

@@ -1,7 +1,0 @@
-{
-	"explorer.confirmDelete": false,
-	"prettier.eslintIntegration": true,
-	"editor.formatOnSave": true,
-	"javascript.updateImportsOnFileMove.enabled": "always",
-	"files.eol": "\r\n"
-}

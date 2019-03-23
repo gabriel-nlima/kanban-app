@@ -1,41 +1,41 @@
-const getarefas = {
+const getTasks = {
 	schema: {
-		tags: ['tarefas'],
+		tags: ['tasks'],
 		response: {
 			200: {
 				type: 'object',
 				properties: {
-					tarefas: { type: 'array', items: 'tarefa#' },
+					tasks: { type: 'array', items: 'task#' },
 				},
 			},
 		},
 	},
 }
-const addTarefa = {
+const addTask = {
 	schema: {
-		body: 'tarefa#',
-		tags: ['tarefas'],
+		body: 'task#',
+		tags: ['tasks'],
 		response: {
-			200: { type: 'object', properties: { tarefa: 'tarefa#' } },
+			200: { type: 'object', properties: { task: 'task#' } },
 		},
 	},
 }
-const updateTarefa = {
+const updateTask = {
 	schema: {
 		params: 'idParam#',
-		tags: ['tarefas'],
-		body: 'tarefa#',
+		tags: ['tasks'],
+		body: 'task#',
 		response: {
-			200: { type: 'object', properties: { tarefa: 'tarefa#' } },
+			200: { type: 'object', properties: { task: 'task#' } },
 		},
 	},
 }
 
-const deleteTarefa = {
-	schema: { params: 'idParam#', tags: ['tarefas'] },
+const deleteTask = {
+	schema: { params: 'idParam#', tags: ['tasks'] },
 }
 
-exports.getTarefas = getarefas
-exports.addTarefa = addTarefa
-exports.updateTarefa = updateTarefa
-exports.deleteTarefa = deleteTarefa
+exports.getTasks = getTasks
+exports.addTask = addTask
+exports.updateTask = updateTask
+exports.deleteTask = deleteTask

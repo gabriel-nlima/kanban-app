@@ -1,0 +1,71 @@
+import React from 'react'
+import EditTaskForm from '../components/FormTask'
+import { editTask } from '../redux/actions/actions'
+
+import { connect } from 'react-redux'
+
+import { withRouter } from 'react-router-dom'
+
+import PropTypes from 'prop-types'
+
+export class EditTask extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			task: [],
+		}
+		this.handleInputChange = this.handleInputChange.bind(this)
+		this.submitTask = this.submitTask.bind(this)
+	}
+
+	componentDidMount() {
+		const { task } = this.props.location.state
+		this.setState({ task })
+	}
+
+	handleInputChange(e) {
+		const task = Object.assign({}, this.state.task)
+		task[e.target.name] = e.target.value
+		this.setState({ task })
+	}
+
+	submitTask(e) {
+		this.props.editTask(this.state.task)
+		this.props.history.push('/')
+		e.preventDefault()
+	}
+
+	render() {
+		return (
+			<React.Fragment>
+				<EditTaskForm
+					handleChange={this.handleInputChange}
+					handleSubmit={this.submitTask}
+					task={this.state.task}
+				/>
+			</React.Fragment>
+		)
+	}
+}
+
+EditTask.propTypes = {
+	EditTask: PropTypes.func.isRequired,
+}
+
+function mapStateToProps(state) {
+	return {
+		tasks: state,
+	}
+}
+const mapDispatchToProps = (dispatch) => {
+	return {
+		editTask: (task) => dispatch(editTask(task)),
+	}
+}
+
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(EditTask)
+)

@@ -8,15 +8,15 @@ export function actionStarted() {
 export function actionFailed(error) {
 	return { type: actionsTypes.FAILED, isLoading: false, error: error.message }
 }
-export const getTarefas = () => (dispatch) => {
+export const getTasks = () => (dispatch) => {
 	dispatch(actionStarted())
 
-	return Axios.get('/tarefas')
+	return Axios.get('/api/tasks')
 		.then((res) => {
-			const { tarefas } = res.data
+			const { tasks } = res.data
 			dispatch({
-				type: actionsTypes.GET_TAREFAS,
-				tarefas,
+				type: actionsTypes.GET_TASKS,
+				tasks,
 				isLoading: false,
 				error: false,
 			})
@@ -26,15 +26,15 @@ export const getTarefas = () => (dispatch) => {
 		})
 }
 
-export const addTarefa = (tarefa) => (dispatch) => {
+export const addTask = (task) => (dispatch) => {
 	dispatch(actionStarted())
-	const adicionadoEm = new Date()
-	tarefa = {
-		...tarefa,
+	const addedIn = new Date()
+	task = {
+		...task,
 		status: status.FAZER,
-		adicionadoEm: adicionadoEm.toLocaleString(),
+		addedIn: addedIn.toLocaleString(),
 	}
-	return Axios.post('/tarefas', tarefa, {
+	return Axios.post('/api/tasks', task, {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
@@ -42,8 +42,8 @@ export const addTarefa = (tarefa) => (dispatch) => {
 	})
 		.then((res) => {
 			dispatch({
-				type: actionsTypes.ADD_TAREFA,
-				tarefa: res.data.tarefa,
+				type: actionsTypes.ADD_TASK,
+				task: res.data.task,
 				isLoading: false,
 				error: false,
 			})
@@ -53,22 +53,10 @@ export const addTarefa = (tarefa) => (dispatch) => {
 		})
 }
 
-export const trocaStatus = (tarefa, novoStatus) => (dispatch) => {
+export const editTask = (task) => (dispatch) => {
 	dispatch(actionStarted())
-	if (novoStatus === status.CONCLUIDO) {
-		const concluidoEm = new Date()
-		tarefa = {
-			...tarefa,
-			status: novoStatus,
-			concluidoEm: concluidoEm.toLocaleString(),
-		}
-	} else {
-		tarefa = {
-			...tarefa,
-			status: novoStatus,
-		}
-	}
-	return Axios.put('/tarefas/' + tarefa._id, tarefa, {
+
+	return Axios.put('/api/tasks/' + task._id, task, {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
@@ -76,8 +64,8 @@ export const trocaStatus = (tarefa, novoStatus) => (dispatch) => {
 	})
 		.then((res) => {
 			dispatch({
-				type: actionsTypes.TROCA_STATUS,
-				tarefa: res.data.tarefa,
+				type: actionsTypes.UPDATE_TASK,
+				task: res.data.task,
 				isLoading: false,
 				error: false,
 			})
@@ -87,10 +75,9 @@ export const trocaStatus = (tarefa, novoStatus) => (dispatch) => {
 		})
 }
 
-export const editarTarefa = (tarefa) => (dispatch) => {
+export const deleteTask = (task) => (dispatch) => {
 	dispatch(actionStarted())
-
-	return Axios.put('/tarefas/' + tarefa._id, tarefa, {
+	return Axios.delete('/api/tasks/' + task._id, task, {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
@@ -98,29 +85,8 @@ export const editarTarefa = (tarefa) => (dispatch) => {
 	})
 		.then((res) => {
 			dispatch({
-				type: actionsTypes.UPDATE_TAREFA,
-				tarefa: res.data.tarefa,
-				isLoading: false,
-				error: false,
-			})
-		})
-		.catch((error) => {
-			dispatch(actionFailed(error))
-		})
-}
-
-export const deletaTarefa = (tarefa) => (dispatch) => {
-	dispatch(actionStarted())
-	return Axios.delete('/tarefas/' + tarefa._id, tarefa, {
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-		},
-	})
-		.then((res) => {
-			dispatch({
-				type: actionsTypes.DELETE_TAREFA,
-				tarefa,
+				type: actionsTypes.DELETE_TASK,
+				task,
 				isLoading: false,
 				error: false,
 			})

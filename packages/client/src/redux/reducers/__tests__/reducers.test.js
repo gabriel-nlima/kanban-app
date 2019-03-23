@@ -3,50 +3,50 @@ import reducers from '../reducers'
 import * as actionTypes from '../../actions/actionTypes'
 import * as status from '../../../containers/status'
 
-describe('reducers de tarefas', () => {
+describe('reducers de tasks', () => {
 	const initialState = {
-		tarefas: [],
+		tasks: [],
 		error: false,
 		isLoading: false,
 	}
-	const tarefas = [
+	const tasks = [
 		{
 			_id: 1,
-			titulo: 'fazer algo1',
-			conteudo: 'fazer alguma coisa1',
+			title: 'fazer algo1',
+			desc: 'fazer alguma coisa1',
 			status: status.FAZER,
-			adicionadoEm: '28/01',
-			concluidoEm: undefined,
+			addedIn: '28/01',
+			finishedIn: undefined,
 		},
 		{
 			_id: 2,
-			titulo: 'fazer algo2',
-			conteudo: 'fazer alguma coisa2',
+			title: 'fazer algo2',
+			desc: 'fazer alguma coisa2',
 			status: status.FAZENDO,
-			adicionadoEm: '28/01',
-			concluidoEm: undefined,
+			addedIn: '28/01',
+			finishedIn: undefined,
 		},
 		{
 			_id: 3,
-			titulo: 'fazer algo3',
-			conteudo: 'fazer alguma coisa3',
+			title: 'fazer algo3',
+			desc: 'fazer alguma coisa3',
 			status: status.CONCLUIDO,
-			adicionadoEm: '28/01',
-			concluidoEm: undefined,
+			addedIn: '28/01',
+			finishedIn: undefined,
 		},
 	]
-	const tarefa = {
+	const task = {
 		_id: 3,
-		titulo: 'fazer algo4',
-		conteudo: 'fazer alguma coisa4',
+		title: 'fazer algo4',
+		desc: 'fazer alguma coisa4',
 		status: status.FAZER,
-		adicionadoEm: '28/01',
-		concluidoEm: undefined,
+		addedIn: '28/01',
+		finishedIn: undefined,
 	}
 	afterEach(cleanup)
 	test('deve lidar com action started', () => {
 		const expectedState = {
-			tarefas: [],
+			tasks: [],
 			error: false,
 			isLoading: true,
 		}
@@ -61,7 +61,7 @@ describe('reducers de tarefas', () => {
 	})
 	test('deve lidar com action failed', () => {
 		const expectedState = {
-			tarefas: [],
+			tasks: [],
 			error: true,
 			isLoading: false,
 		}
@@ -76,85 +76,66 @@ describe('reducers de tarefas', () => {
 	})
 	test('deve lidar com get success', () => {
 		const expectedState = {
-			tarefas: tarefas,
+			tasks: tasks,
 			error: false,
 			isLoading: false,
 		}
 
 		expect(
 			reducers(initialState, {
-				type: actionTypes.GET_TAREFAS,
-				tarefas: tarefas,
+				type: actionTypes.GET_TASKS,
+				tasks: tasks,
 				isLoading: false,
 				error: false,
 			})
 		).toEqual(expectedState)
 	})
-	test('deve lidar com add tarefa', () => {
+	test('deve lidar com add task', () => {
 		const expectedState = {
-			tarefas: [tarefa],
+			tasks: [task],
 			error: false,
 			isLoading: false,
 		}
 
 		expect(
 			reducers(initialState, {
-				type: actionTypes.ADD_TAREFA,
-				tarefa: tarefa,
+				type: actionTypes.ADD_TASK,
+				task: task,
 				isLoading: false,
 				error: false,
 			})
 		).toEqual(expectedState)
 	})
 	test('deve lidar com update success', () => {
-		initialState.tarefas = tarefas
-		const tarefaAtualizada = {
+		initialState.tasks = tasks
+		const taskAtualizada = {
 			_id: 3,
-			titulo: 'fazer qualquer coisa2',
-			conteudo: 'fazer alguma coisa4',
+			title: 'fazer qualquer coisa2',
+			desc: 'fazer alguma coisa4',
 			status: status.FAZER,
-			adicionadoEm: '28/01',
-			concluidoEm: undefined,
+			addedIn: '28/01',
+			finishedIn: undefined,
 		}
 		expect(
 			reducers(initialState, {
-				type: actionTypes.UPDATE_TAREFA,
-				tarefa: tarefaAtualizada,
+				type: actionTypes.UPDATE_TASK,
+				task: taskAtualizada,
 				isLoading: false,
 				error: false,
-			}).tarefas
-		).toContainEqual(tarefaAtualizada)
-	})
-	test('deve lidar com troca_status', () => {
-		initialState.tarefas = tarefas
-		const tarefaAtualizada = {
-			_id: 1,
-			titulo: 'fazer algo1',
-			conteudo: 'fazer alguma coisa1',
-			status: status.FAZENDO,
-			adicionadoEm: '28/01',
-			concluidoEm: undefined,
-		}
-		expect(
-			reducers(initialState, {
-				type: actionTypes.UPDATE_TAREFA,
-				tarefa: tarefaAtualizada,
-				isLoading: false,
-				error: false,
-			}).tarefas
-		).toContainEqual(tarefaAtualizada)
+			}).tasks
+		).toContainEqual(taskAtualizada)
 	})
 	test('deve lidar com delete success', () => {
-		initialState.tarefas = [tarefa]
+		initialState.tasks = [task]
 		const expectedState = {
-			tarefas: [],
+			tasks: [],
 			error: false,
 			isLoading: false,
 		}
 		expect(
 			reducers(initialState, {
-				type: actionTypes.DELETE_TAREFA,
-				tarefa: tarefa,
+				type: actionTypes.DELETE_TASK,
+				task: task,
 				isLoading: false,
 				error: false,
 			})

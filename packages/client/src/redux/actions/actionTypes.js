@@ -3,8 +3,7 @@ export const STARTED = 'STARTED'
 //FAILURE
 export const FAILED = 'FAILED'
 //TAREFAS
-export const GET_TAREFAS = 'GET_TAREFAS'
-export const ADD_TAREFA = 'ADD_TAREFA'
-export const UPDATE_TAREFA = 'UPDATE_TAREFA'
-export const DELETE_TAREFA = 'DELETE_TAREFA'
-export const TROCA_STATUS = 'TROCA_STATUS'
+export const GET_TASKS = 'GET_TASKS'
+export const ADD_TASK = 'ADD_TASK'
+export const UPDATE_TASK = 'UPDATE_TASK'
+export const DELETE_TASK = 'DELETE_TASK'

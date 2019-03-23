@@ -7,7 +7,6 @@ const fastify = require('fastify')({
 const swagger = require('./swagger')
 
 fastify.register(require('fastify-swagger'), swagger.options)
-fastify.register(require('./schemas/tarefasSchema'))
 
 fastify.register(require('fastify-mongodb'), {
 	forceClose: true,

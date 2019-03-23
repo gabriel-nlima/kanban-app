@@ -1,8 +1,8 @@
 import React from 'react'
 
-import TarefasContainer from './containers/TarefasContainer'
+import Tasks from './containers/Tasks'
 
 const App = () => {
-	return <TarefasContainer />
+	return <Tasks />
 }
 export default App

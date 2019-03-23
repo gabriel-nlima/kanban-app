@@ -1,18 +1,18 @@
 async function schemas(fastify) {
 	await fastify.addSchema({
-		$id: 'tarefa',
+		$id: 'task',
 		type: 'object',
 		properties: {
 			_id: { type: 'string' },
-			titulo: { type: 'string' },
-			conteudo: { type: 'string' },
+			title: { type: 'string' },
+			desc: { type: 'string' },
 			status: { type: 'string' },
-			adicionadoEm: { type: 'string' },
-			concluidoEm: { type: 'string' },
+			addedIn: { type: 'string' },
+			fineshedIn: { type: 'string' },
 			tag1: { type: 'string' },
 			tag2: { type: 'string' },
 		},
-		required: ['titulo', 'status'],
+		required: ['title', 'status'],
 	})
 	await fastify.addSchema({
 		$id: 'idParam',

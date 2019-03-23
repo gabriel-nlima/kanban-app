@@ -1,6 +1,6 @@
 import * as actionTypes from '../actions/actionTypes'
 const initialState = {
-	tarefas: [],
+	tasks: [],
 	error: false,
 	isLoading: false,
 }
@@ -20,43 +20,43 @@ function failed(state, action) {
 	}
 }
 
-function getTarefas(state, action) {
+function getTasks(state, action) {
 	return {
 		...state,
-		tarefas: action.tarefas,
+		tasks: action.tasks,
 		isLoading: action.isLoading,
 		error: action.error,
 	}
 }
 
-function addTarefa(state, action) {
+function addTask(state, action) {
 	return {
 		...state,
-		tarefas: [action.tarefa, ...state.tarefas],
+		tasks: [action.task, ...state.tasks],
 		isLoading: action.isLoading,
 		error: action.error,
 	}
 }
 
-function editarTarefa(state, action) {
+function editTask(state, action) {
 	return {
 		...state,
-		tarefas: state.tarefas.map((tarefa) => {
-			if (tarefa._id !== action.tarefa._id) {
-				return tarefa
+		tasks: state.tasks.map((task) => {
+			if (task._id !== action.task._id) {
+				return task
 			}
 			return {
-				...action.tarefa,
+				...action.task,
 			}
 		}),
 		isLoading: action.isLoading,
 		error: action.error,
 	}
 }
-function deletaTarefa(state, action) {
+function deleteTask(state, action) {
 	return {
 		...state,
-		tarefas: state.tarefas.filter((el) => el._id !== action.tarefa._id),
+		tasks: state.tasks.filter((el) => el._id !== action.task._id),
 		isLoading: action.isLoading,
 		error: action.error,
 	}
@@ -67,16 +67,14 @@ export default function reducer(state = initialState, action) {
 			return started(state, action)
 		case actionTypes.FAILED:
 			return failed(state, action)
-		case actionTypes.GET_TAREFAS:
-			return getTarefas(state, action)
-		case actionTypes.ADD_TAREFA:
-			return addTarefa(state, action)
-		case actionTypes.TROCA_STATUS:
-			return editarTarefa(state, action)
-		case actionTypes.UPDATE_TAREFA:
-			return editarTarefa(state, action)
-		case actionTypes.DELETE_TAREFA:
-			return deletaTarefa(state, action)
+		case actionTypes.GET_TASKS:
+			return getTasks(state, action)
+		case actionTypes.ADD_TASK:
+			return addTask(state, action)
+		case actionTypes.UPDATE_TASK:
+			return editTask(state, action)
+		case actionTypes.DELETE_TASK:
+			return deleteTask(state, action)
 		default:
 			return state
 	}

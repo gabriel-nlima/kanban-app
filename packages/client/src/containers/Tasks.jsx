@@ -1,5 +1,5 @@
 import React from 'react'
-import Tarefa from '../components/Tarefa'
+import Task from '../components/Task'
 import Spinner from '../components/Spinner'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -11,97 +11,92 @@ import * as status from '../utils/status'
 
 import { Link } from 'react-router-dom'
 
-import {
-	getTarefas,
-	editarTarefa,
-	deletaTarefa,
-} from '../redux/actions/actions'
+import { getTasks, editTask, deleteTask } from '../redux/actions/actions'
 import { connect } from 'react-redux'
 
 import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button'
 
 /*
- *Recebe as tarefas da redux store, separa por status e os
- *passa para os componentes <Tarefas/> para renderizar.
+ *Recebe as tasks da redux store, separa por status e os
+ *passa para os componentes <Tasks/> para renderizar.
  */
 
-export class TarefasContainer extends React.Component {
+export class Tasks extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			tarefas: [],
+			tasks: [],
 		}
-		this.getStatusTarefas = this.getStatusTarefas.bind(this)
+		this.getTaskStatus = this.getTaskStatus.bind(this)
 		this.handleStatusChange = this.handleStatusChange.bind(this)
 		this.onDragOver = this.onDragOver.bind(this)
 		this.onDrop = this.onDrop.bind(this)
 		this.actionsDropdown = this.actionsDropdown.bind(this)
 	}
 
-	getStatusTarefas(tarefas) {
-		const tarefasAFazer = []
-		const tarefasSendoFeitas = []
-		const tarefasConcluidas = []
-		const tarefasArquivadas = []
-		tarefas.map((tarefa) => {
-			if (tarefa.length === 0) {
+	getTaskStatus(tasks) {
+		const tasksToDo = []
+		const taskBeingDone = []
+		const fineshedTasks = []
+		const filedTasks = []
+		tasks.map((task) => {
+			if (task.length === 0) {
 				return []
 			}
-			if (tarefa.status === status.FAZER) {
-				tarefasAFazer.push(tarefa)
-			} else if (tarefa.status === status.FAZENDO) {
-				tarefasSendoFeitas.push(tarefa)
-			} else if (tarefa.status === status.CONCLUIDO) {
-				tarefasConcluidas.push(tarefa)
-			} else if (tarefa.status === status.ARQUIVADO) {
-				tarefasArquivadas.push(tarefa)
+			if (task.status === status.FAZER) {
+				tasksToDo.push(task)
+			} else if (task.status === status.FAZENDO) {
+				taskBeingDone.push(task)
+			} else if (task.status === status.CONCLUIDO) {
+				fineshedTasks.push(task)
+			} else if (task.status === status.ARQUIVADO) {
+				filedTasks.push(task)
 			}
-			return { tarefasAFazer, tarefasSendoFeitas, tarefasConcluidas }
+			return { tasksToDo, taskBeingDone, fineshedTasks }
 		})
 
 		return {
-			tarefasAFazer,
-			tarefasSendoFeitas,
-			tarefasConcluidas,
-			tarefasArquivadas,
+			tasksToDo,
+			taskBeingDone,
+			fineshedTasks,
+			filedTasks,
 		}
 	}
 
-	handleStatusChange(tarefa, novoStatus) {
-		tarefa = {
-			...tarefa,
-			status: novoStatus,
-			ultimoStatus: tarefa.status,
+	handleStatusChange(task, newStatus) {
+		task = {
+			...task,
+			status: newStatus,
+			lastStatus: task.status,
 		}
-		if (novoStatus === status.DELETADO) {
-			this.props.deletaTarefa(tarefa)
+		if (newStatus === status.DELETADO) {
+			this.props.deleteTask(task)
 		} else {
-			this.props.editarTarefa(tarefa)
+			this.props.editTask(task)
 		}
 	}
-	actionsDropdown({ tarefa }) {
-		//TO DO: Adicionar a opção excluir
+	actionsDropdown({ task }) {
 		return (
 			<DropdownButton size='sm' id='actions' title='Ações'>
-				{status.acoes.map((acao) => {
+				{status.actions.map((action) => {
 					let texto = ''
-					if (acao === status.FAZER) {
+					if (action === status.FAZER) {
 						texto = 'A Fazer'
-					} else if (acao === status.FAZENDO) {
+					} else if (action === status.FAZENDO) {
 						texto = 'Fazer'
-					} else if (acao === status.CONCLUIDO) {
+					} else if (action === status.CONCLUIDO) {
 						texto = 'Concluir'
-					} else if (acao === status.ARQUIVADO) {
+					} else if (action === status.ARQUIVADO) {
 						texto = 'Arquivar'
 					} else {
 						texto = 'Deletar'
 					}
 					return (
 						<Dropdown.Item
-							key={acao}
+							key={action}
 							onClick={() =>
-								this.handleStatusChange(tarefa, acao)
+								this.handleStatusChange(task, action)
 							}
 						>
 							{texto}
@@ -116,16 +111,16 @@ export class TarefasContainer extends React.Component {
 		e.dataTransfer.dropEffect = 'move'
 	}
 	onDrop = async (e, status) => {
-		let tarefa = JSON.parse(e.dataTransfer.getData('tarefa'))
-		await this.handleStatusChange(tarefa, status)
+		let task = JSON.parse(e.dataTransfer.getData('task'))
+		await this.handleStatusChange(task, status)
 	}
 	render() {
 		const {
-			tarefasAFazer,
-			tarefasSendoFeitas,
-			tarefasConcluidas,
-			tarefasArquivadas,
-		} = this.getStatusTarefas(this.props.tarefas)
+			tasksToDo,
+			taskBeingDone,
+			fineshedTasks,
+			filedTasks,
+		} = this.getTaskStatus(this.props.tasks)
 
 		const badgeMargin = { marginLeft: 6 }
 
@@ -134,13 +129,10 @@ export class TarefasContainer extends React.Component {
 				<Row className='text-left'>
 					<Col xs={6} sm={6} md={6} lg={6} xl={6}>
 						<h5 className='text-muted'>
-							<Link
-								to='/arquivadas'
-								className='btn btn-secondary'
-							>
+							<Link to='/fileds' className='btn btn-secondary'>
 								ARQUIVADAS{' '}
 								<Badge pill variant='info' style={badgeMargin}>
-									{tarefasArquivadas.length}
+									{filedTasks.length}
 								</Badge>
 							</Link>
 						</h5>
@@ -156,9 +148,9 @@ export class TarefasContainer extends React.Component {
 						<Button
 							variant='primary'
 							type='button'
-							href='/adicionar'
+							href='/addTask'
 							as={Link}
-							to='/adicionar'
+							to='/addTask'
 							disabled={this.props.error !== false ? true : false}
 						>
 							Adicionar nova tarefa
@@ -196,10 +188,10 @@ export class TarefasContainer extends React.Component {
 						<h3 className='text-center text-info'>
 							A FAZER
 							<Badge pill variant='info' style={badgeMargin}>
-								{tarefasAFazer.length}
+								{tasksToDo.length}
 							</Badge>
 						</h3>
-						{tarefasAFazer.length === 0 ? (
+						{tasksToDo.length === 0 ? (
 							<h4 className='text-center'>
 								Sem tarefas a fazer.
 							</h4>
@@ -209,13 +201,13 @@ export class TarefasContainer extends React.Component {
 						{this.props.isLoading ? (
 							<Spinner bg='text-info' />
 						) : (
-							tarefasAFazer.map((tarefa) => {
+							tasksToDo.map((task) => {
 								return (
-									<Tarefa
-										key={tarefa._id}
+									<Task
+										key={task._id}
 										background='info'
-										{...tarefa}
-										tarefa={tarefa}
+										{...task}
+										task={task}
 										OnClickAction={this.actionsDropdown}
 									/>
 								)
@@ -234,10 +226,10 @@ export class TarefasContainer extends React.Component {
 						<h3 className='text-center text-warning'>
 							FAZENDO
 							<Badge pill variant='warning' style={badgeMargin}>
-								{tarefasSendoFeitas.length}
+								{taskBeingDone.length}
 							</Badge>
 						</h3>
-						{tarefasSendoFeitas.length === 0 ? (
+						{taskBeingDone.length === 0 ? (
 							<h4 className='text-center'>
 								Sem tarefas em andamento.
 							</h4>
@@ -247,13 +239,13 @@ export class TarefasContainer extends React.Component {
 						{this.props.isLoading ? (
 							<Spinner bg='text-warning' />
 						) : (
-							tarefasSendoFeitas.map((tarefa) => {
+							taskBeingDone.map((task) => {
 								return (
-									<Tarefa
-										key={tarefa._id}
+									<Task
+										key={task._id}
 										background='warning'
-										{...tarefa}
-										tarefa={tarefa}
+										{...task}
+										task={task}
 										OnClickAction={this.actionsDropdown}
 									/>
 								)
@@ -277,27 +269,26 @@ export class TarefasContainer extends React.Component {
 								style={badgeMargin}
 								className='badge badge-pill badge-success'
 							>
-								{tarefasConcluidas.length}
+								{fineshedTasks.length}
 							</Badge>
 						</h3>
-						{tarefasConcluidas.length === 0 ? (
+						{fineshedTasks.length === 0 ? (
 							<h4 className='text-center'>
 								Nenhuma tarefa concluida.
 							</h4>
 						) : (
 							''
 						)}
-						{this.props.isLoading &&
-						tarefasConcluidas.length === 0 ? (
+						{this.props.isLoading && fineshedTasks.length === 0 ? (
 							<Spinner bg='text-success' />
 						) : (
-							tarefasConcluidas.map((tarefa) => {
+							fineshedTasks.map((task) => {
 								return (
-									<Tarefa
-										key={tarefa._id}
+									<Task
+										key={task._id}
 										background='success'
-										{...tarefa}
-										tarefa={tarefa}
+										{...task}
+										task={task}
 										OnClickAction={this.actionsDropdown}
 									/>
 								)
@@ -310,27 +301,27 @@ export class TarefasContainer extends React.Component {
 	}
 }
 
-TarefasContainer.propTypes = {
-	getTarefas: PropTypes.func.isRequired,
-	editarTarefa: PropTypes.func.isRequired,
-	deletaTarefa: PropTypes.func.isRequired,
+Tasks.propTypes = {
+	getTasks: PropTypes.func.isRequired,
+	editTask: PropTypes.func.isRequired,
+	deleteTask: PropTypes.func.isRequired,
 }
 function mapStateToProps(state) {
 	return {
-		tarefas: state.tarefas,
+		tasks: state.tasks,
 		error: state.error,
 		isLoading: state.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		getTarefas: () => dispatch(getTarefas()),
-		editarTarefa: (tarefa) => dispatch(editarTarefa(tarefa)),
-		deletaTarefa: (tarefa) => dispatch(deletaTarefa(tarefa)),
+		getTasks: () => dispatch(getTasks()),
+		editTask: (task) => dispatch(editTask(task)),
+		deleteTask: (task) => dispatch(deleteTask(task)),
 	}
 }
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(TarefasContainer)
+)(Tasks)

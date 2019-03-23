@@ -1,68 +1,66 @@
-const { ObjectId } = require('mongodb')
+const sharedSchema = require('../schemas/taskSchema')
 const schemas = require('../schemas/responses')
 
 async function routes(fastify) {
-	fastify.get('/tarefas', schemas.getTarefas, function get(req, reply) {
-		async function getTarefas(err, col) {
-			const tarefas = []
-			await col.find({}).forEach(function(tarefa) {
-				if (tarefa) {
-					tarefas.unshift(tarefa)
+	sharedSchema(fastify)
+
+	fastify.get('/api/tasks', schemas.getTasks, function get(req, reply) {
+		async function getTasks(err, col) {
+			const tasks = []
+			await col.find({}).forEach(function(task) {
+				if (task) {
+					tasks.unshift(task)
 				} else {
 					return false
 				}
 			})
 
-			reply.send({ tarefas })
+			reply.send({ tasks })
 		}
 		const { db } = this.mongo
-		db.collection('tarefas', getTarefas)
+		db.collection('tasks', getTasks)
 	})
 
-	fastify.post('/tarefas', schemas.addTarefa, function insert(req, reply) {
-		function addTarefa(err, col) {
+	fastify.post('/api/tasks', schemas.addTask, function insert(req, reply) {
+		function addTask(err, col) {
 			if (err) reply.send(err)
 			col.insertOne(req.body, (error, result) => {
 				if (error) reply.send(error)
-				const tarefa = result.ops[0]
-				reply.send({ tarefa })
+				const task = result.ops[0]
+				reply.send({ task })
 			})
 		}
 		const { db } = this.mongo
-		db.collection('tarefas', addTarefa)
+		db.collection('tasks', addTask)
 	})
 
-	fastify.put('/tarefas/:id', schemas.updateTarefa, function edit(
-		req,
-		reply
-	) {
-		function updateTarefa(err, col) {
+	fastify.put('/api/tasks/:id', schemas.updateTask, function edit(req, reply) {
+		function updateTask(err, col) {
 			const { id } = req.params
-			const { _id, ...tarefa } = req.body
+			const { _id, ...task } = req.body
+			const { ObjectId } = fastify.mongo
 
 			col.findOneAndUpdate(
 				{ _id: ObjectId(id) },
-				{ $set: tarefa },
+				{ $set: task },
 				{ returnOriginal: false },
 				(erro, result) => {
-					reply.send({ tarefa: result.value })
+					reply.send({ task: result.value })
 				}
 			)
 		}
 		const { db } = this.mongo
-		db.collection('tarefas', updateTarefa)
+		db.collection('tasks', updateTask)
 	})
 
-	fastify.delete('/tarefas/:id', schemas.deleteTarefa, function del(
-		req,
-		reply
-	) {
-		function deleteTarefa(err, col) {
+	fastify.delete('/api/tasks/:id', schemas.deleteTask, function del(req, reply) {
+		function deleteTask(err, col) {
+			const { ObjectId } = fastify.mongo
 			col.findOneAndDelete({ _id: ObjectId(req.params.id) })
 			reply.send()
 		}
 		const { db } = this.mongo
-		db.collection('tarefas', deleteTarefa)
+		db.collection('tasks', deleteTask)
 	})
 }
 

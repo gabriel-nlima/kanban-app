@@ -1,5 +1,5 @@
 import React from 'react'
-import Tarefa from '../components/Tarefa'
+import Task from '../components/Task'
 import Spinner from '../components/Spinner'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -11,21 +11,17 @@ import * as status from '../utils/status'
 
 import { Link } from 'react-router-dom'
 
-import {
-	getTarefas,
-	deletaTarefa,
-	editarTarefa,
-} from '../redux/actions/actions'
+import { getTasks, deleteTask, editTask } from '../redux/actions/actions'
 import { connect } from 'react-redux'
 
 import PropTypes from 'prop-types'
 
 /*
- *Recebe as tarefas da redux store, separa as que tem o status === ARQUIVADO
- *passa para os componentes <Tarefas/> para renderizar, junto com a função delete
+ *Recebe as tasks da redux store, separa as que tem o status === ARQUIVADO
+ *passa para os componentes <Tasks/> para renderizar, junto com a função delete
  */
 
-export class ArquivadasContainer extends React.Component {
+export class Fileds extends React.Component {
 	constructor(props) {
 		super(props)
 		this.actionsDropdown = this.actionsDropdown.bind(this)
@@ -33,31 +29,31 @@ export class ArquivadasContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.props.tarefas.length === 0) {
-			this.props.getTarefas()
+		if (this.props.tasks.length === 0) {
+			this.props.getTasks()
 		}
 	}
-	filtraArquivadas(tarefa) {
-		if (tarefa.status === status.ARQUIVADO) {
+	filterFiled(task) {
+		if (task.status === status.ARQUIVADO) {
 			return true
 		} else {
 			return false
 		}
 	}
 
-	handleStatusChange(tarefa, novoStatus) {
-		tarefa = {
-			...tarefa,
-			status: novoStatus,
-			ultimoStatus: tarefa.status,
+	handleStatusChange(task, newStatus) {
+		task = {
+			...task,
+			status: newStatus,
+			lastStatus: task.status,
 		}
-		if (novoStatus === status.DELETADO) {
-			this.props.deletaTarefa(tarefa)
+		if (newStatus === status.DELETADO) {
+			this.props.deleteTask(task)
 		} else {
-			this.props.editarTarefa(tarefa)
+			this.props.editTask(task)
 		}
 	}
-	actionsDropdown({ tarefa }) {
+	actionsDropdown({ task }) {
 		return (
 			<DropdownButton
 				variant='primary'
@@ -65,27 +61,27 @@ export class ArquivadasContainer extends React.Component {
 				id='actions'
 				title='Ações'
 			>
-				{status.acoes.map((acao) => {
-					let texto = ''
-					if (acao === status.FAZER) {
-						texto = 'A Fazer'
-					} else if (acao === status.FAZENDO) {
-						texto = 'Fazer'
-					} else if (acao === status.CONCLUIDO) {
-						texto = 'Concluir'
-					} else if (acao === status.ARQUIVADO) {
+				{status.actions.map((action) => {
+					let text = ''
+					if (action === status.FAZER) {
+						text = 'A Fazer'
+					} else if (action === status.FAZENDO) {
+						text = 'Fazer'
+					} else if (action === status.CONCLUIDO) {
+						text = 'Concluir'
+					} else if (action === status.ARQUIVADO) {
 						return ''
 					} else {
-						texto = 'Deletar'
+						text = 'Deletar'
 					}
 					return (
 						<Dropdown.Item
-							key={acao}
+							key={action}
 							onClick={() =>
-								this.handleStatusChange(tarefa, acao)
+								this.handleStatusChange(task, action)
 							}
 						>
-							{texto}
+							{text}
 						</Dropdown.Item>
 					)
 				})}
@@ -94,9 +90,7 @@ export class ArquivadasContainer extends React.Component {
 	}
 
 	render() {
-		const tarefasArquivadas = this.props.tarefas.filter(
-			this.filtraArquivadas
-		)
+		const filedTask = this.props.tasks.filter(this.filterFiled)
 		const badgeMargin = { marginLeft: 6 }
 
 		return (
@@ -110,7 +104,7 @@ export class ArquivadasContainer extends React.Component {
 								style={badgeMargin}
 								className='badge badge-pill badge-secondary'
 							>
-								{tarefasArquivadas.length}
+								{filedTask.length}
 							</span>
 						</h4>
 					</Col>
@@ -127,7 +121,7 @@ export class ArquivadasContainer extends React.Component {
 								Algo deu errado,{' '}
 								<Link
 									className='alert-link'
-									to='/arquivadas'
+									to='/fileds'
 									onClick={() => window.location.reload()}
 								>
 									recarregue a página.
@@ -138,7 +132,7 @@ export class ArquivadasContainer extends React.Component {
 				) : (
 					''
 				)}
-				{tarefasArquivadas.length === 0 ? (
+				{filedTask.length === 0 ? (
 					<Row style={{ marginTop: 10 }}>
 						<Col xs='12' className='text-center'>
 							<h3>Você não tem tarefas arquivadas.</h3>
@@ -154,12 +148,12 @@ export class ArquivadasContainer extends React.Component {
 						</Col>
 					) : (
 						<CardColumns>
-							{tarefasArquivadas.map((tarefa) => {
+							{filedTask.map((task) => {
 								return (
-									<Tarefa
-										key={tarefa._id}
-										{...tarefa}
-										tarefa={tarefa}
+									<Task
+										key={task._id}
+										{...task}
+										task={task}
 										background='secondary'
 										OnClickAction={this.actionsDropdown}
 									/>
@@ -173,28 +167,28 @@ export class ArquivadasContainer extends React.Component {
 	}
 }
 
-ArquivadasContainer.propTypes = {
-	getTarefas: PropTypes.func.isRequired,
-	deletaTarefa: PropTypes.func.isRequired,
-	editarTarefa: PropTypes.func.isRequired,
+Fileds.propTypes = {
+	getTasks: PropTypes.func.isRequired,
+	deletaTask: PropTypes.func.isRequired,
+	editTask: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {
 	return {
-		tarefas: state.tarefas,
+		tasks: state.tasks,
 		error: state.error,
 		isLoading: state.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		deletaTarefa: (tarefa) => dispatch(deletaTarefa(tarefa)),
-		editarTarefa: (tarefa) => dispatch(editarTarefa(tarefa)),
-		getTarefas: () => dispatch(getTarefas()),
+		deletaTask: (task) => dispatch(deleteTask(task)),
+		editTask: (task) => dispatch(editTask(task)),
+		getTasks: () => dispatch(getTasks()),
 	}
 }
 
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(ArquivadasContainer)
+)(Fileds)

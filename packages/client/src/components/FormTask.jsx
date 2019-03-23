@@ -5,45 +5,45 @@ import Button from 'react-bootstrap/Button'
 
 import * as status from '../utils/status'
 
-const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
+const FormTask = ({ handleSubmit, handleChange, task }) => {
 	return (
 		<Form onSubmit={handleSubmit}>
 			<Form.Row>
 				<Form.Group className='col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
-					<Form.Label htmlFor='titulo'>Titulo</Form.Label>
+					<Form.Label htmlFor='title'>Titulo</Form.Label>
 					<Form.Control
-						name='titulo'
-						id='titulo'
+						name='title'
+						id='title'
 						type='text'
 						className='mb-2 mr-sm-2'
 						onChange={handleChange}
 						placeholder='Titulo'
-						data-testid='inputTitulo'
-						value={tarefa.titulo || ''}
-						maxLength='35'
+						data-testid='inputTitle'
+						value={task.title || ''}
+						maxLength='40'
 						required
 					/>
 				</Form.Group>
 			</Form.Row>
 			<Form.Row>
 				<Form.Group className='col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
-					<Form.Label htmlFor='descricao'>Descrição</Form.Label>
+					<Form.Label htmlFor='desc'>Descrição</Form.Label>
 					<Form.Control
 						as='textarea'
 						rows='2'
-						name='conteudo'
-						id='descricao'
+						name='desc'
+						id='desc'
 						type='text'
 						className='mb-2 mr-sm-2'
 						onChange={handleChange}
 						placeholder='Descrição'
-						maxLength='75'
-						data-testid='inputConteudo'
-						value={tarefa.conteudo || ''}
+						maxLength='100'
+						data-testid='inputDesc'
+						value={task.desc || ''}
 					/>
 				</Form.Group>
 			</Form.Row>
-			{tarefa._id ? (
+			{task._id ? (
 				<Form.Row>
 					<Form.Group className='col-12 col-sm-12 col-md-10 col-lg-8 col-xl-6'>
 						<Form.Label htmlFor='selectStatus'>Status</Form.Label>
@@ -52,7 +52,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 							id='selectStatus'
 							name='status'
 							onChange={handleChange}
-							value={tarefa.status}
+							value={task.status}
 						>
 							<option value={status.FAZER}>A FAZER</option>
 							<option value={status.FAZENDO}>FAZENDO</option>
@@ -75,7 +75,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 						className='form-control mb-2 mr-sm-2'
 						onChange={handleChange}
 						placeholder='Tag 01'
-						value={tarefa.tag1 || ''}
+						value={task.tag1 || ''}
 						maxLength='15'
 					/>
 				</Form.Group>
@@ -90,7 +90,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 						className='form-control mb-2 mr-sm-2'
 						onChange={handleChange}
 						placeholder='Tag 02'
-						value={tarefa.tag2 || ''}
+						value={task.tag2 || ''}
 						maxLength='15'
 					/>
 				</Form.Group>
@@ -100,7 +100,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 					<Link
 						to='/'
 						className='btn btn-secondary'
-						data-testid='btnVoltar'
+						data-testid='btnBack'
 					>
 						Voltar
 					</Link>
@@ -109,7 +109,7 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 						style={{ marginLeft: 5 }}
 						className='btn btn-primary'
 					>
-						Salvar Tarefa
+						Salvar tarefa
 					</Button>
 				</Form.Group>
 			</Form.Row>
@@ -117,4 +117,4 @@ const FormTarefa = ({ handleSubmit, handleChange, tarefa }) => {
 	)
 }
 
-export default withRouter(FormTarefa)
+export default withRouter(FormTask)

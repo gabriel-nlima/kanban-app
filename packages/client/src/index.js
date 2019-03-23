@@ -6,23 +6,23 @@ import App from './App'
 import configureStore from './redux/store/configureStore'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
-import ArquivadasContainer from './containers/ArquivadasContainer'
-import AddTarefaContainer from './containers/AddTarefaContainer'
-import EditarTarefaContainer from './containers/EditarTarefaContainer'
-import TarefasContainer from './containers/TarefasContainer'
+import Fileds from './containers/Fileds'
+import AddTask from './containers/AddTask'
+import EditTask from './containers/EditTask'
+import Tasks from './containers/Tasks'
 import Header from './components/Header'
 import NoMatch from './components/NoMatch'
-import { getTarefas } from './redux/actions/actions'
+import { getTasks } from './redux/actions/actions'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 const initalState = {
-	tarefas: [],
+	tasks: [],
 	error: false,
 	isLoading: false,
 }
 //Inicia a store com as tarefas do servidor
 const store = configureStore(initalState)
-store.dispatch(getTarefas())
+store.dispatch(getTasks())
 ReactDOM.render(
 	<Provider store={store}>
 		<BrowserRouter>
@@ -30,23 +30,10 @@ ReactDOM.render(
 				<Header />
 				<Switch>
 					<Route path='/' exact component={App} />
-
-					<Route path='/tarefas' exact component={TarefasContainer} />
-					<Route
-						path='/adicionar'
-						exact
-						component={AddTarefaContainer}
-					/>
-					<Route
-						path='/arquivadas'
-						exact
-						component={ArquivadasContainer}
-					/>
-					<Route
-						path='/editar'
-						exact
-						component={EditarTarefaContainer}
-					/>
+					<Route path='/tasks' exact component={Tasks} />
+					<Route path='/addTask' exact component={AddTask} />
+					<Route path='/fileds' exact component={Fileds} />
+					<Route path='/editTask' exact component={EditTask} />
 					<Route component={NoMatch} />
 				</Switch>
 			</div>

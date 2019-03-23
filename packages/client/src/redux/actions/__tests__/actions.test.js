@@ -15,46 +15,46 @@ afterEach(cleanup)
 
 describe('Get actions', () => {
 	afterEach(cleanup)
-	test('dispacha action started e get success', () => {
-		const tarefas = [
+	test('Despacha action started e get success', () => {
+		const tasks = [
 			{
-				titulo: 'fazer algo1',
-				conteudo: 'fazer alguma coisa1',
+				title: 'fazer algo1',
+				desc: 'fazer alguma coisa1',
 				status: status.FAZER,
-				adicionadoEm: '28/01',
+				addedIn: '28/01',
 			},
 			{
-				titulo: 'fazer algo2',
-				conteudo: 'fazer alguma coisa2',
+				title: 'fazer algo2',
+				desc: 'fazer alguma coisa2',
 				status: status.FAZENDO,
-				adicionadoEm: '28/01',
+				addedIn: '28/01',
 			},
 			{
-				titulo: 'fazer algo3',
-				conteudo: 'fazer alguma coisa3',
+				title: 'fazer algo3',
+				desc: 'fazer alguma coisa3',
 				status: status.CONCLUIDO,
-				adicionadoEm: '28/01',
+				addedIn: '28/01',
 			},
 		]
 
-		const resp = { data: { tarefas } }
+		const resp = { data: { tasks } }
 		axios.get.mockImplementationOnce(() => Promise.resolve(resp))
 
 		const expectedActions = [
 			{ type: actionTypes.STARTED, isLoading: true, error: false },
 			{
-				type: actionTypes.GET_TAREFAS,
-				tarefas: tarefas,
+				type: actionTypes.GET_tasks,
+				tasks: tasks,
 				isLoading: false,
 				error: false,
 			},
 		]
-		const store = mockStore({ tarefas: [] })
-		return store.dispatch(actions.getAllTarefas()).then(() => {
+		const store = mockStore({ tasks: [] })
+		return store.dispatch(actions.getAllTasks()).then(() => {
 			expect(store.getActions()).toEqual(expectedActions)
 		})
 	})
-	test('dispacha action started e failed', () => {
+	test('Despacha action started e failed', () => {
 		const error = Error('Network Error')
 		axios.get.mockImplementationOnce(() => Promise.reject(error))
 
@@ -66,8 +66,8 @@ describe('Get actions', () => {
 				isLoading: false,
 			},
 		]
-		const store = mockStore({ tarefas: [] })
-		return store.dispatch(actions.getAllTarefas()).then(() => {
+		const store = mockStore({ tasks: [] })
+		return store.dispatch(actions.getAllTasks()).then(() => {
 			expect(store.getActions()).toEqual(expectedActions)
 		})
 	})
@@ -75,38 +75,38 @@ describe('Get actions', () => {
 
 describe('Add actions', () => {
 	afterEach(cleanup)
-	test('dispacha action started e add success', () => {
-		const tarefa = {
-			titulo: 'fazer algo1',
-			conteudo: 'fazer alguma coisa1',
+	test('Despacha action started e add success', () => {
+		const task = {
+			title: 'fazer algo1',
+			desc: 'fazer alguma coisa1',
 			status: status.FAZER,
-			adicionadoEm: '28/01',
+			addedIn: '28/01',
 		}
 
-		const resp = { data: { tarefa } }
+		const resp = { data: { task } }
 		axios.post.mockImplementationOnce(() => Promise.resolve(resp))
 
 		const expectedActions = [
 			{ type: actionTypes.STARTED, isLoading: true, error: false },
 			{
-				type: actionTypes.ADD_TAREFA,
-				tarefa,
+				type: actionTypes.ADD_TASK,
+				task,
 				isLoading: false,
 				error: false,
 			},
 		]
-		const store = mockStore({ tarefas: [] })
-		return store.dispatch(actions.addTarefa(tarefa)).then(() => {
+		const store = mockStore({ tasks: [] })
+		return store.dispatch(actions.addTask(task)).then(() => {
 			expect(store.getActions()).toEqual(expectedActions)
 		})
 	})
-	test('dispacha action add started e failed', () => {
+	test('Despacha action add started e failed', () => {
 		const error = Error('Network Error')
-		const tarefa = {
-			titulo: 'fazer algo1',
-			conteudo: 'fazer alguma coisa1',
+		const task = {
+			title: 'fazer algo1',
+			desc: 'fazer alguma coisa1',
 			status: status.FAZER,
-			adicionadoEm: '28/01',
+			addedIn: '28/01',
 		}
 		axios.post.mockImplementationOnce(() => Promise.reject(error))
 
@@ -119,45 +119,45 @@ describe('Add actions', () => {
 			},
 		]
 		const store = mockStore({ contacts: [] })
-		return store.dispatch(actions.addTarefa(tarefa)).then(() => {
+		return store.dispatch(actions.addTask(task)).then(() => {
 			expect(store.getActions()).toEqual(expectedActions)
 		})
 	})
 })
 
 describe('update action', () => {
-	test('dispacha started e update success', () => {
-		const tarefa = {
-			titulo: 'fazer algo1',
-			conteudo: 'fazer alguma coisa1',
+	test('Despacha started e update success', () => {
+		const task = {
+			title: 'fazer algo1',
+			desc: 'fazer alguma coisa1',
 			status: status.FAZER,
-			adicionadoEm: '28/01',
+			addedIn: '28/01',
 		}
 
-		const resp = { data: { tarefa } }
+		const resp = { data: { task } }
 		axios.put.mockImplementationOnce(() => Promise.resolve(resp))
 
 		const expectedActions = [
 			{ type: actionTypes.STARTED, isLoading: true, error: false },
 			{
-				type: actionTypes.UPDATE_TAREFA,
-				tarefa,
+				type: actionTypes.UPDATE_task,
+				task,
 				isLoading: false,
 				error: false,
 			},
 		]
-		const store = mockStore({ tarefas: [] })
-		return store.dispatch(actions.editarTarefa(tarefa)).then(() => {
+		const store = mockStore({ tasks: [] })
+		return store.dispatch(actions.editTask(task)).then(() => {
 			expect(store.getActions()).toEqual(expectedActions)
 		})
 	})
-	test('dispacha action update started e failed', () => {
+	test('Despacha action update started e failed', () => {
 		const error = Error('Network Error')
-		const tarefa = {
-			titulo: 'fazer algo1',
-			conteudo: 'fazer alguma coisa1',
+		const task = {
+			title: 'fazer algo1',
+			desc: 'fazer alguma coisa1',
 			status: status.FAZER,
-			adicionadoEm: '28/01',
+			addedIn: '28/01',
 		}
 		axios.put.mockImplementationOnce(() => Promise.reject(error))
 
@@ -170,73 +170,46 @@ describe('update action', () => {
 			},
 		]
 		const store = mockStore({ contacts: [] })
-		return store.dispatch(actions.editarTarefa(tarefa)).then(() => {
+		return store.dispatch(actions.editTask(task)).then(() => {
 			expect(store.getActions()).toEqual(expectedActions)
 		})
-	})
-	test('deve trocar o status', () => {
-		const tarefa = {
-			titulo: 'fazer algo1',
-			conteudo: 'fazer alguma coisa1',
-			status: status.FAZER,
-			adicionadoEm: '28/01',
-		}
-
-		const resp = { data: { tarefa } }
-		axios.put.mockImplementationOnce(() => Promise.resolve(resp))
-
-		const expectedActions = [
-			{ type: actionTypes.STARTED, isLoading: true, error: false },
-			{
-				type: actionTypes.TROCA_STATUS,
-				tarefa,
-				isLoading: false,
-				error: false,
-			},
-		]
-		const store = mockStore({ tarefas: [] })
-		return store
-			.dispatch(actions.trocaStatus(tarefa, status.FAZENDO))
-			.then(() => {
-				expect(store.getActions()).toEqual(expectedActions)
-			})
 	})
 })
 
 describe('delete action', () => {
-	test('dispacha action started e add success', () => {
-		const tarefa = {
+	test('Despacha action started e add success', () => {
+		const task = {
 			_id: 2,
-			titulo: 'fazer algo1',
-			conteudo: 'fazer alguma coisa1',
+			title: 'fazer algo1',
+			desc: 'fazer alguma coisa1',
 			status: status.FAZER,
-			adicionadoEm: '28/01',
+			addedIn: '28/01',
 		}
 
-		const resp = { data: { tarefa } }
+		const resp = { data: { task } }
 		axios.delete.mockImplementationOnce(() => Promise.resolve(resp))
 
 		const expectedActions = [
 			{ type: actionTypes.STARTED, isLoading: true, error: false },
 			{
-				type: actionTypes.DELETE_TAREFA,
-				tarefa,
+				type: actionTypes.DELETE_TASK,
+				task,
 				isLoading: false,
 				error: false,
 			},
 		]
-		const store = mockStore({ tarefas: [] })
-		return store.dispatch(actions.deletaTarefa(tarefa)).then(() => {
+		const store = mockStore({ tasks: [] })
+		return store.dispatch(actions.deleteTask(task)).then(() => {
 			expect(store.getActions()).toEqual(expectedActions)
 		})
 	})
-	test('dispacha action add started e failed', () => {
+	test('Despacha action add started e failed', () => {
 		const error = Error('Network Error')
-		const tarefa = {
-			titulo: 'fazer algo1',
-			conteudo: 'fazer alguma coisa1',
+		const task = {
+			title: 'fazer algo1',
+			desc: 'fazer alguma coisa1',
 			status: status.FAZER,
-			adicionadoEm: '28/01',
+			addedIn: '28/01',
 		}
 		axios.delete.mockImplementationOnce(() => Promise.reject(error))
 
@@ -248,8 +221,8 @@ describe('delete action', () => {
 				error: error.message,
 			},
 		]
-		const store = mockStore({ contacts: [] })
-		return store.dispatch(actions.deletaTarefa(tarefa)).then(() => {
+		const store = mockStore({ tasks: [] })
+		return store.dispatch(actions.deleteTask(task)).then(() => {
 			expect(store.getActions()).toEqual(expectedActions)
 		})
 	})

@@ -7,49 +7,47 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import { ARQUIVADO } from '../utils/status'
 import Badge from 'react-bootstrap/Badge'
 
-const onDragStart = (e, tarefa) => {
+const onDragStart = (e, task) => {
 	e.dropEffect = 'move'
-	const tarefaJson = JSON.stringify(tarefa)
-	e.dataTransfer.setData('tarefa', tarefaJson)
+	const taskJson = JSON.stringify(task)
+	e.dataTransfer.setData('task', taskJson)
 	e.dataTransfer.effectAllowed = 'move'
 }
 
-const Tarefa = ({ tarefa, background, OnClickAction }) => {
+const Task = ({ task, background, OnClickAction }) => {
 	return (
 		<Card
 			bg={background}
-			key={tarefa._id}
-			draggable={tarefa.status === ARQUIVADO ? false : true}
-			onDragStart={(e) => onDragStart(e, tarefa)}
+			key={task._id}
+			draggable={task.status === ARQUIVADO ? false : true}
+			onDragStart={(e) => onDragStart(e, task)}
 			className={'card w-100 h-auto'}
 			style={{ marginBottom: 5 }}
 		>
 			<Card.Body className='text-center'>
-				<Card.Title>{tarefa.titulo}</Card.Title>
-				<Card.Text className='text-justify'>
-					{tarefa.conteudo}
-				</Card.Text>
+				<Card.Title>{task.title}</Card.Title>
+				<Card.Text className='text-justify'>{task.desc}</Card.Text>
 				<Card.Text style={{ fontSize: 11 }} className='text-left '>
-					Adicionado em: {tarefa.adicionadoEm}
+					Adicionado em: {task.addedIn}
 				</Card.Text>
 				<Card.Text style={{ fontSize: 11 }} className='text-left'>
-					{tarefa.concluidoEm === undefined
+					{task.finishedIn === undefined
 						? ''
-						: 'Concluido em: ' + tarefa.concluidoEm}
+						: 'Concluido em: ' + task.finishedIn}
 				</Card.Text>
 				<Card.Text className='text-center'>
-					{tarefa.tag1 === undefined ? (
+					{task.tag1 === undefined ? (
 						''
 					) : (
 						<Badge pill variant='light' style={{ marginRight: 5 }}>
-							{tarefa.tag1}
+							{task.tag1}
 						</Badge>
 					)}
-					{tarefa.tag2 === undefined ? (
+					{task.tag2 === undefined ? (
 						''
 					) : (
 						<Badge pill variant='light'>
-							{tarefa.tag2}
+							{task.tag2}
 						</Badge>
 					)}
 				</Card.Text>
@@ -60,26 +58,26 @@ const Tarefa = ({ tarefa, background, OnClickAction }) => {
 						size='sm'
 						as={Link}
 						type='button'
-						to={{ pathname: '/editar', state: { tarefa } }}
+						to={{ pathname: '/editTask', state: { task } }}
 					>
 						Editar{' '}
 					</Button>
-					<OnClickAction tarefa={tarefa} />
+					<OnClickAction task={task} />
 				</ButtonGroup>
 			</Card.Body>
 		</Card>
 	)
 }
-Tarefa.propTypes = {
-	tarefa: PropTypes.shape({
-		titulo: PropTypes.string.isRequired,
-		conteudo: PropTypes.string,
+Task.propTypes = {
+	task: PropTypes.shape({
+		title: PropTypes.string.isRequired,
+		desc: PropTypes.string,
 		tag1: PropTypes.string,
 		tag2: PropTypes.string,
-		adicionadoEm: PropTypes.string.isRequired,
-		concluidoEm: PropTypes.string,
+		addedIn: PropTypes.string.isRequired,
+		finishedIn: PropTypes.string,
 	}).isRequired,
 	OnClickAction: PropTypes.func.isRequired,
 }
 
-export default Tarefa
+export default Task

@@ -7,38 +7,38 @@ import { STARTED } from '../../redux/actions/actionTypes'
 
 import renderWithRedux from '../../utils/utils'
 
-import AddTarefaContainer from '../AddTarefaContainer'
+import AddTask from '../AddTask'
 
-const middlewares = [thunk] // add your middlewares like `redux-thunk`
+const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 const store = mockStore({ tarefas: [] })
 
 const setup = () => {
-	const utils = renderWithRedux(<AddTarefaContainer />, {
+	const utils = renderWithRedux(<AddTask />, {
 		initialState: [],
 		store: store,
 	})
-	const inputTitulo = utils.getByPlaceholderText('Titulo')
-	const inputConteudo = utils.getByPlaceholderText('Descrição')
-	const btnAdicionar = utils.getByText('Salvar Tarefa')
+	const inputTitle= utils.getByPlaceholderText('Titulo')
+	const inputDesc = utils.getByPlaceholderText('Descrição')
+	const btnAdd = utils.getByText('Salvar Tarefa')
 	return {
-		inputTitulo,
-		inputConteudo,
-		btnAdicionar,
+		inputTitle,
+		inputDesc,
+		btnAdd,
 		...utils,
 	}
 }
 afterEach(cleanup)
-describe('AddTarefasContainer', () => {
+describe('AddTask', () => {
 	test('renderiza o formulario, insere uma tarefa e verifica se action STARTED foi despachada', () => {
 		//A tarefa enviada não será igual devido a data e id
 		const expectedActions = { type: STARTED }
-		const { inputTitulo, inputConteudo, btnAdicionar } = setup()
-		fireEvent.change(inputTitulo, { target: { value: 'Fazer algo' } })
-		fireEvent.change(inputConteudo, {
+		const { inputTitle, inputDesc, btnAdd } = setup()
+		fireEvent.change(inputTitle, { target: { value: 'Fazer algo' } })
+		fireEvent.change(inputDesc, {
 			target: { value: 'Fazer alguma coisa' },
 		})
-		fireEvent.click(btnAdicionar)
+		fireEvent.click(btnAdd)
 		const actions = store.getActions()
 		expect(actions[0].type).toEqual(expectedActions.type)
 	})

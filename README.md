@@ -2,8 +2,6 @@
 
 Quadro Kanban simples com React e Redux, API usando o framework Fastify e banco de dados MongoDB.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Requisitos
 
 - [NodeJS](https://nodejs.org)
@@ -23,8 +21,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - Fastify
 - fastify-mongodb
-- fastify-swagger
-- mongodb
 
 ## Uso
 Instale as extensões Eslint e Prettier no Visual Studio Code.
@@ -46,4 +42,4 @@ Para rodar os testes, na raiz do projeto:
 npm test
 ```
 
-O quadro abrirá em localhost:3000, adicione uma tarefa e uma collection será criada no MongoDB automaticamente.
+O quadro abrirá em localhost:3000.

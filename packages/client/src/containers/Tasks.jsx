@@ -17,11 +17,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button'
 
-/*
- *Recebe as tasks da redux store, separa por status e os
- *passa para os componentes <Tasks/> para renderizar.
- */
-
 export class Tasks extends React.Component {
 	constructor(props) {
 		super(props)
@@ -33,6 +28,12 @@ export class Tasks extends React.Component {
 		this.onDragOver = this.onDragOver.bind(this)
 		this.onDrop = this.onDrop.bind(this)
 		this.actionsDropdown = this.actionsDropdown.bind(this)
+	}
+
+	componentDidMount() {
+		if (this.props.tasks.length === 0) {
+			this.props.getTasks()
+		}
 	}
 
 	getTaskStatus(tasks) {
@@ -279,7 +280,7 @@ export class Tasks extends React.Component {
 						) : (
 							''
 						)}
-						{this.props.isLoading && fineshedTasks.length === 0 ? (
+						{this.props.isLoading ? (
 							<Spinner bg='text-success' />
 						) : (
 							fineshedTasks.map((task) => {

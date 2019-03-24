@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import App from './App'
 import configureStore from './redux/store/configureStore'
+import { getTasks } from './redux/actions/actions'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 import Fileds from './containers/Fileds'
@@ -12,7 +13,6 @@ import EditTask from './containers/EditTask'
 import Tasks from './containers/Tasks'
 import Header from './components/Header'
 import NoMatch from './components/NoMatch'
-import { getTasks } from './redux/actions/actions'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 const initalState = {
@@ -20,7 +20,6 @@ const initalState = {
 	error: false,
 	isLoading: false,
 }
-//Inicia a store com as tarefas do servidor
 const store = configureStore(initalState)
 store.dispatch(getTasks())
 ReactDOM.render(
@@ -41,5 +40,4 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('root')
 )
-
-serviceWorker.unregister()
+serviceWorker.register()

@@ -16,11 +16,6 @@ import { connect } from 'react-redux'
 
 import PropTypes from 'prop-types'
 
-/*
- *Recebe as tasks da redux store, separa as que tem o status === ARQUIVADO
- *passa para os componentes <Tasks/> para renderizar, junto com a função delete
- */
-
 export class Fileds extends React.Component {
 	constructor(props) {
 		super(props)
@@ -147,19 +142,21 @@ export class Fileds extends React.Component {
 							<Spinner bg='text-secondary' />
 						</Col>
 					) : (
-						<CardColumns>
-							{filedTask.map((task) => {
-								return (
-									<Task
-										key={task._id}
-										{...task}
-										task={task}
-										background='secondary'
-										OnClickAction={this.actionsDropdown}
-									/>
-								)
-							})}
-						</CardColumns>
+						<Col xs={12} sm={12} md={12} lg={12} xl={12}>
+							<CardColumns>
+								{filedTask.map((task) => {
+									return (
+										<Task
+											key={task._id}
+											{...task}
+											task={task}
+											background='secondary'
+											OnClickAction={this.actionsDropdown}
+										/>
+									)
+								})}
+							</CardColumns>
+						</Col>
 					)}
 				</Row>
 			</React.Fragment>
@@ -169,7 +166,7 @@ export class Fileds extends React.Component {
 
 Fileds.propTypes = {
 	getTasks: PropTypes.func.isRequired,
-	deletaTask: PropTypes.func.isRequired,
+	deleteTask: PropTypes.func.isRequired,
 	editTask: PropTypes.func.isRequired,
 }
 
@@ -182,7 +179,7 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		deletaTask: (task) => dispatch(deleteTask(task)),
+		deleteTask: (task) => dispatch(deleteTask(task)),
 		editTask: (task) => dispatch(editTask(task)),
 		getTasks: () => dispatch(getTasks()),
 	}

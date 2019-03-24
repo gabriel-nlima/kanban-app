@@ -1,6 +1,9 @@
 {
 	"name": "kanban-app",
 	"version": "1.0.0",
+	"scripts":{
+		"start":"lerna run start"
+	},
 	"devDependencies": {
 		"lerna": "^3.13.1"
 	}

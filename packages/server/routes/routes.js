@@ -34,12 +34,16 @@ async function routes(fastify) {
 		db.collection('tasks', addTask)
 	})
 
-	fastify.put('/api/tasks/:id', schemas.updateTask, function edit(req, reply) {
+	fastify.put('/api/tasks/:id', schemas.updateTask, function edit(
+		req,
+		reply
+	) {
 		function updateTask(err, col) {
 			const { id } = req.params
 			const { _id, ...task } = req.body
 			const { ObjectId } = fastify.mongo
 
+			console.log(task)
 			col.findOneAndUpdate(
 				{ _id: ObjectId(id) },
 				{ $set: task },
@@ -53,7 +57,10 @@ async function routes(fastify) {
 		db.collection('tasks', updateTask)
 	})
 
-	fastify.delete('/api/tasks/:id', schemas.deleteTask, function del(req, reply) {
+	fastify.delete('/api/tasks/:id', schemas.deleteTask, function del(
+		req,
+		reply
+	) {
 		function deleteTask(err, col) {
 			const { ObjectId } = fastify.mongo
 			col.findOneAndDelete({ _id: ObjectId(req.params.id) })

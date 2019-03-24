@@ -31,7 +31,7 @@ const Task = ({ task, background, OnClickAction }) => {
 					Adicionado em: {task.addedIn}
 				</Card.Text>
 				<Card.Text style={{ fontSize: 11 }} className='text-left'>
-					{task.finishedIn === undefined
+					{task.finishedIn === undefined || task.finishedIn === ''
 						? ''
 						: 'Concluido em: ' + task.finishedIn}
 				</Card.Text>

@@ -1,6 +1,7 @@
 import React from 'react'
 import EditTaskForm from '../components/FormTask'
 import { editTask } from '../redux/actions/actions'
+import * as status from '../utils/status'
 
 import { connect } from 'react-redux'
 
@@ -30,7 +31,22 @@ export class EditTask extends React.Component {
 	}
 
 	submitTask(e) {
-		this.props.editTask(this.state.task)
+		let { task } = this.state
+		if (task.status === status.CONCLUIDO) {
+			const finishedIn = new Date()
+			task = {
+				...task,
+				finishedIn: finishedIn.toLocaleString(),
+			}
+		} else if (task.status === status.ARQUIVADO) {
+			task = { ...task }
+		} else {
+			task = {
+				...task,
+				finishedIn: '',
+			}
+		}
+		this.props.editTask(task)
 		this.props.history.push('/')
 		e.preventDefault()
 	}
@@ -49,7 +65,7 @@ export class EditTask extends React.Component {
 }
 
 EditTask.propTypes = {
-	EditTask: PropTypes.func.isRequired,
+	editTask: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {

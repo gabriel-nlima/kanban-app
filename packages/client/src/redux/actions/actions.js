@@ -55,6 +55,20 @@ export const addTask = (task) => (dispatch) => {
 
 export const editTask = (task) => (dispatch) => {
 	dispatch(actionStarted())
+	if (task.status === status.CONCLUIDO) {
+		const finishedIn = new Date()
+		task = {
+			...task,
+			finishedIn: finishedIn.toLocaleString(),
+		}
+	} else if (task.status === status.ARQUIVADO) {
+		task = { ...task }
+	} else {
+		task = {
+			...task,
+			finishedIn: '',
+		}
+	}
 
 	return Axios.put('/api/tasks/' + task._id, task, {
 		headers: {

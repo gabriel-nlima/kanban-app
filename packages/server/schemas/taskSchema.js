@@ -8,7 +8,7 @@ async function schemas(fastify) {
 			desc: { type: 'string' },
 			status: { type: 'string' },
 			addedIn: { type: 'string' },
-			fineshedIn: { type: 'string' },
+			finishedIn: { type: 'string' },
 			tag1: { type: 'string' },
 			tag2: { type: 'string' },
 		},

@@ -26,13 +26,16 @@ fastify.register(require('fastify-mongodb'), {
 
 fastify.register(require('fastify-compress'))
 
-fastify.register(require('fastify-static'), {
-	root: path.join(__dirname, 'build'),
-})
+if(process.env.NODE_ENV === "production"){
+	fastify.register(require('fastify-static'), {
+		root: path.join(__dirname, 'build'),
+	})
+	
+	fastify.get('/', function(req, reply) {
+		reply.sendFile('index.html')
+	})
+}
 
-fastify.get('/', function(req, reply) {
-	reply.sendFile('index.html')
-})
 
 fastify.register(require('./routes/routes'))
 

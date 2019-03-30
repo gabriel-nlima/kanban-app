@@ -29,7 +29,7 @@ export class Fileds extends React.Component {
 		}
 	}
 	filterFiled(task) {
-		if (task.status === status.ARQUIVADO) {
+		if (task.status === status.FILED) {
 			return true
 		} else {
 			return false
@@ -42,7 +42,7 @@ export class Fileds extends React.Component {
 			status: newStatus,
 			lastStatus: task.status,
 		}
-		if (newStatus === status.DELETADO) {
+		if (newStatus === status.DELETED) {
 			this.props.deleteTask(task)
 		} else {
 			this.props.editTask(task)
@@ -58,13 +58,13 @@ export class Fileds extends React.Component {
 			>
 				{status.actions.map((action) => {
 					let text = ''
-					if (action === status.FAZER) {
+					if (action === status.TODO) {
 						text = 'A Fazer'
-					} else if (action === status.FAZENDO) {
+					} else if (action === status.BEING_DONE) {
 						text = 'Fazer'
-					} else if (action === status.CONCLUIDO) {
+					} else if (action === status.FINISHED) {
 						text = 'Concluir'
-					} else if (action === status.ARQUIVADO) {
+					} else if (action === status.FILED) {
 						return ''
 					} else {
 						text = 'Deletar'

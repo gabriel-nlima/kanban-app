@@ -54,10 +54,10 @@ const FormTask = ({ handleSubmit, handleChange, task }) => {
 							onChange={handleChange}
 							value={task.status}
 						>
-							<option value={status.FAZER}>A FAZER</option>
-							<option value={status.FAZENDO}>FAZENDO</option>
-							<option value={status.CONCLUIDO}>CONCLUIDO</option>
-							<option value={status.ARQUIVADO}>ARQUIVADO</option>
+							<option value={status.TODO}>A FAZER</option>
+							<option value={status.BEING_DONE}>FAZENDO</option>
+							<option value={status.FINISHED}>CONCLUIDO</option>
+							<option value={status.FILED}>ARQUIVADO</option>
 						</Form.Control>
 					</Form.Group>
 				</Form.Row>

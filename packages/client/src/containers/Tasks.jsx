@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Task from '../components/Task'
 import Spinner from '../components/Spinner'
 import Row from 'react-bootstrap/Row'
@@ -7,6 +8,8 @@ import Alert from 'react-bootstrap/Alert'
 import Badge from 'react-bootstrap/Badge'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
+import Button from 'react-bootstrap/Button'
+
 import * as status from '../utils/status'
 
 import { Link } from 'react-router-dom'
@@ -15,7 +18,6 @@ import { getTasks, editTask, deleteTask } from '../redux/actions/actions'
 import { connect } from 'react-redux'
 
 import PropTypes from 'prop-types'
-import Button from 'react-bootstrap/Button'
 
 export class Tasks extends React.Component {
 	constructor(props) {
@@ -45,13 +47,13 @@ export class Tasks extends React.Component {
 			if (task.length === 0) {
 				return []
 			}
-			if (task.status === status.FAZER) {
+			if (task.status === status.TODO) {
 				tasksToDo.push(task)
-			} else if (task.status === status.FAZENDO) {
+			} else if (task.status === status.BEING_DONE) {
 				taskBeingDone.push(task)
-			} else if (task.status === status.CONCLUIDO) {
+			} else if (task.status === status.FINISHED) {
 				fineshedTasks.push(task)
-			} else if (task.status === status.ARQUIVADO) {
+			} else if (task.status === status.FILED) {
 				filedTasks.push(task)
 			}
 			return { tasksToDo, taskBeingDone, fineshedTasks }
@@ -71,7 +73,7 @@ export class Tasks extends React.Component {
 			status: newStatus,
 			lastStatus: task.status,
 		}
-		if (newStatus === status.DELETADO) {
+		if (newStatus === status.DELETED) {
 			this.props.deleteTask(task)
 		} else {
 			this.props.editTask(task)
@@ -82,13 +84,13 @@ export class Tasks extends React.Component {
 			<DropdownButton size='sm' id='actions' title='Ações'>
 				{status.actions.map((action) => {
 					let texto = ''
-					if (action === status.FAZER) {
+					if (action === status.TODO) {
 						texto = 'A Fazer'
-					} else if (action === status.FAZENDO) {
+					} else if (action === status.BEING_DONE) {
 						texto = 'Fazer'
-					} else if (action === status.CONCLUIDO) {
+					} else if (action === status.FINISHED) {
 						texto = 'Concluir'
-					} else if (action === status.ARQUIVADO) {
+					} else if (action === status.FILED) {
 						texto = 'Arquivar'
 					} else {
 						texto = 'Deletar'
@@ -184,7 +186,7 @@ export class Tasks extends React.Component {
 						lg={4}
 						xl={4}
 						onDragOver={(e) => this.onDragOver(e)}
-						onDrop={(e) => this.onDrop(e, status.FAZER)}
+						onDrop={(e) => this.onDrop(e, status.TODO)}
 					>
 						<h3 className='text-center text-info'>
 							A FAZER
@@ -222,7 +224,7 @@ export class Tasks extends React.Component {
 						lg={4}
 						xl={4}
 						onDragOver={(e) => this.onDragOver(e)}
-						onDrop={(e) => this.onDrop(e, status.FAZENDO)}
+						onDrop={(e) => this.onDrop(e, status.BEING_DONE)}
 					>
 						<h3 className='text-center text-warning'>
 							FAZENDO
@@ -260,7 +262,7 @@ export class Tasks extends React.Component {
 						lg={4}
 						xl={4}
 						onDragOver={(e) => this.onDragOver(e)}
-						onDrop={(e) => this.onDrop(e, status.CONCLUIDO)}
+						onDrop={(e) => this.onDrop(e, status.FINISHED)}
 					>
 						<h3 className='text-center text-success'>
 							FEITO

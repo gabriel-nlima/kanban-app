@@ -32,13 +32,13 @@ export class EditTask extends React.Component {
 
 	submitTask(e) {
 		let { task } = this.state
-		if (task.status === status.CONCLUIDO) {
+		if (task.status === status.FINISHED) {
 			const finishedIn = new Date()
 			task = {
 				...task,
 				finishedIn: finishedIn.toLocaleString(),
 			}
-		} else if (task.status === status.ARQUIVADO) {
+		} else if (task.status === status.FILED) {
 			task = { ...task }
 		} else {
 			task = {

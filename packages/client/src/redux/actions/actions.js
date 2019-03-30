@@ -31,7 +31,7 @@ export const addTask = (task) => (dispatch) => {
 	const addedIn = new Date()
 	task = {
 		...task,
-		status: status.FAZER,
+		status: status.TODO,
 		addedIn: addedIn.toLocaleString(),
 	}
 	return Axios.post('/api/tasks', task, {
@@ -55,13 +55,13 @@ export const addTask = (task) => (dispatch) => {
 
 export const editTask = (task) => (dispatch) => {
 	dispatch(actionStarted())
-	if (task.status === status.CONCLUIDO) {
+	if (task.status === status.FINISHED) {
 		const finishedIn = new Date()
 		task = {
 			...task,
 			finishedIn: finishedIn.toLocaleString(),
 		}
-	} else if (task.status === status.ARQUIVADO) {
+	} else if (task.status === status.FILED) {
 		task = { ...task }
 	} else {
 		task = {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import { ARQUIVADO } from '../utils/status'
+import { FILED } from '../utils/status'
 import Badge from 'react-bootstrap/Badge'
 
 const onDragStart = (e, task) => {
@@ -19,7 +19,7 @@ const Task = ({ task, background, OnClickAction }) => {
 		<Card
 			bg={background}
 			key={task._id}
-			draggable={task.status === ARQUIVADO ? false : true}
+			draggable={task.status === FILED ? false : true}
 			onDragStart={(e) => onDragStart(e, task)}
 			className={'card w-100 h-auto'}
 			style={{ marginBottom: 5 }}
@@ -27,7 +27,7 @@ const Task = ({ task, background, OnClickAction }) => {
 			<Card.Body className='text-center'>
 				<Card.Title>{task.title}</Card.Title>
 				<Card.Text className='text-justify'>{task.desc}</Card.Text>
-				<Card.Text style={{ fontSize: 11 }} className='text-left '>
+				<Card.Text style={{ fontSize: 11 }} className='text-left'>
 					Adicionado em: {task.addedIn}
 				</Card.Text>
 				<Card.Text style={{ fontSize: 11 }} className='text-left'>

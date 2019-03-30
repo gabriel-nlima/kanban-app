@@ -1,6 +1,6 @@
-export const FAZER = 'A_FAZER'
-export const FAZENDO = 'FAZENDO'
-export const CONCLUIDO = 'CONCLUIDO'
-export const ARQUIVADO = 'ARQUIVADO'
-export const DELETADO = 'DELETADO'
-export const actions = [FAZER, FAZENDO, CONCLUIDO, ARQUIVADO, DELETADO]
+export const TODO = 'TODO'
+export const BEING_DONE = 'BEING_DONE'
+export const FINISHED = 'FINISHED'
+export const FILED = 'FILED'
+export const DELETED = 'DELETED'
+export const actions = [TODO, BEING_DONE, FINISHED, FILED, DELETED]

@@ -6,7 +6,10 @@ async function schemas(fastify) {
 			_id: { type: 'string' },
 			title: { type: 'string' },
 			desc: { type: 'string' },
-			status: { type: 'string' },
+			status: {
+				type: 'string',
+				enum: ['TODO', 'BEING_DONE', 'FINISHED', 'FILED'],
+			},
 			addedIn: { type: 'string' },
 			finishedIn: { type: 'string' },
 			tag1: { type: 'string' },

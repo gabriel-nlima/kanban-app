@@ -1,19 +1,26 @@
-const sharedSchema = require('../schemas/taskSchema')
-const schemas = require('../schemas/responses')
+const {
+	sharedTask,
+	addTask,
+	getTasks,
+	updateTask,
+	deleteTask,
+} = require('../schemas/taskSchema')
 
 async function routes(fastify) {
-	sharedSchema(fastify)
+	await sharedTask(fastify)
 
-	fastify.get('/api/tasks', schemas.getTasks, function get(req, reply) {
+	fastify.get('/api/tasks', getTasks, function get(req, reply) {
 		async function getTasks(err, col) {
 			const tasks = []
-			await col.find({}).forEach(function(task) {
-				if (task) {
-					tasks.unshift(task)
-				} else {
-					return false
-				}
-			})
+			await col
+				.find(!req.query.status ? {} : { status: req.query.status })
+				.forEach(function(task) {
+					if (task) {
+						tasks.unshift(task)
+					} else {
+						return false
+					}
+				})
 
 			reply.send({ tasks })
 		}
@@ -21,7 +28,7 @@ async function routes(fastify) {
 		db.collection('tasks', getTasks)
 	})
 
-	fastify.post('/api/tasks', schemas.addTask, function insert(req, reply) {
+	fastify.post('/api/tasks', addTask, function insert(req, reply) {
 		function addTask(err, col) {
 			if (err) reply.send(err)
 			col.insertOne(req.body, (error, result) => {
@@ -34,10 +41,7 @@ async function routes(fastify) {
 		db.collection('tasks', addTask)
 	})
 
-	fastify.put('/api/tasks/:id', schemas.updateTask, function edit(
-		req,
-		reply
-	) {
+	fastify.put('/api/tasks/:id', updateTask, function edit(req, reply) {
 		function updateTask(err, col) {
 			const { id } = req.params
 			const { _id, ...task } = req.body
@@ -56,10 +60,7 @@ async function routes(fastify) {
 		db.collection('tasks', updateTask)
 	})
 
-	fastify.delete('/api/tasks/:id', schemas.deleteTask, function del(
-		req,
-		reply
-	) {
+	fastify.delete('/api/tasks/:id', deleteTask, function del(req, reply) {
 		function deleteTask(err, col) {
 			const { ObjectId } = fastify.mongo
 			col.findOneAndDelete({ _id: ObjectId(req.params.id) })

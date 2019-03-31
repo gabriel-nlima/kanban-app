@@ -1,4 +1,6 @@
-async function schemas(fastify) {
+const sharedId = require('./idSchema')
+async function sharedTask(fastify) {
+	await sharedId(fastify)
 	await fastify.addSchema({
 		$id: 'task',
 		type: 'object',
@@ -6,6 +8,7 @@ async function schemas(fastify) {
 			_id: { type: 'string' },
 			title: { type: 'string' },
 			desc: { type: 'string' },
+			project_id: { type: 'string' },
 			status: {
 				type: 'string',
 				enum: ['TODO', 'BEING_DONE', 'FINISHED', 'FILED'],
@@ -17,14 +20,53 @@ async function schemas(fastify) {
 		},
 		required: ['title', 'status'],
 	})
-	await fastify.addSchema({
-		$id: 'idParam',
-		type: 'object',
-		properties: {
-			id: { type: 'string' },
-		},
-		required: ['id'],
-	})
 }
 
-module.exports = schemas
+const getTasks = {
+	schema: {
+		querystring: {
+			status: {
+				type: 'string',
+				enum: ['TODO', 'BEING_DONE', 'FINISHED', 'FILED'],
+			},
+		},
+		tags: ['tasks'],
+		response: {
+			200: {
+				type: 'object',
+				properties: {
+					tasks: { type: 'array', items: 'task#' },
+				},
+			},
+		},
+	},
+}
+const addTask = {
+	schema: {
+		body: 'task#',
+		tags: ['tasks'],
+		response: {
+			200: { type: 'object', properties: { task: 'task#' } },
+		},
+	},
+}
+const updateTask = {
+	schema: {
+		params: 'idParam#',
+		tags: ['tasks'],
+		body: 'task#',
+		response: {
+			200: { type: 'object', properties: { task: 'task#' } },
+		},
+	},
+}
+
+const deleteTask = {
+	schema: { params: 'idParam#', tags: ['tasks'] },
+}
+
+exports.sharedTask = sharedTask
+exports.getTasks = getTasks
+exports.addTask = addTask
+exports.updateTask = updateTask
+exports.deleteTask = deleteTask

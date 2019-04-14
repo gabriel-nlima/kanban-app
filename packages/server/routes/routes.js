@@ -17,9 +17,7 @@ async function routes(fastify) {
 				.forEach(function(task) {
 					if (task) {
 						tasks.unshift(task)
-					} else {
-						return false
-					}
+					} else return false
 				})
 
 			reply.send({ tasks })
@@ -43,6 +41,7 @@ async function routes(fastify) {
 
 	fastify.put('/api/tasks/:id', updateTask, function edit(req, reply) {
 		function updateTask(err, col) {
+			if (err) reply.send(err)
 			const { id } = req.params
 			const { _id, ...task } = req.body
 			const { ObjectId } = fastify.mongo
@@ -51,7 +50,8 @@ async function routes(fastify) {
 				{ _id: ObjectId(id) },
 				{ $set: task },
 				{ returnOriginal: false },
-				(erro, result) => {
+				(error, result) => {
+					if (error) reply.send(error)
 					reply.send({ task: result.value })
 				}
 			)

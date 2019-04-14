@@ -14,7 +14,7 @@ const onDragStart = (e, task) => {
 	e.dataTransfer.effectAllowed = 'move'
 }
 
-const Task = ({ task, background, OnClickAction }) => {
+const Task = ({ task, background, OnClickAction, handleStatusChange }) => {
 	return (
 		<Card
 			bg={background}
@@ -62,7 +62,10 @@ const Task = ({ task, background, OnClickAction }) => {
 					>
 						Editar{' '}
 					</Button>
-					<OnClickAction task={task} />
+					<OnClickAction
+						task={task}
+						handleStatusChange={handleStatusChange}
+					/>
 				</ButtonGroup>
 			</Card.Body>
 		</Card>

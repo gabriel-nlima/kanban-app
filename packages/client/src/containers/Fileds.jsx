@@ -1,12 +1,13 @@
 import React from 'react'
 import Task from '../components/Task'
 import Spinner from '../components/Spinner'
+import { ActionsDropdown } from '../components/ActionsDropdown'
+import { CustomAlert } from '../components/CustomAlert'
+
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardColumns from 'react-bootstrap/CardColumns'
-import DropdownButton from 'react-bootstrap/DropdownButton'
-import Dropdown from 'react-bootstrap/Dropdown'
-import Alert from 'react-bootstrap/Alert'
+
 import * as status from '../utils/status'
 
 import { Link } from 'react-router-dom'
@@ -19,14 +20,11 @@ import PropTypes from 'prop-types'
 export class Fileds extends React.Component {
 	constructor(props) {
 		super(props)
-		this.actionsDropdown = this.actionsDropdown.bind(this)
 		this.handleStatusChange = this.handleStatusChange.bind(this)
 	}
 
 	componentDidMount() {
-		if (this.props.tasks.length === 0) {
-			this.props.getTasks()
-		}
+		this.props.getTasks()
 	}
 	filterFiled(task) {
 		if (task.status === status.FILED) {
@@ -47,41 +45,6 @@ export class Fileds extends React.Component {
 		} else {
 			this.props.editTask(task)
 		}
-	}
-	actionsDropdown({ task }) {
-		return (
-			<DropdownButton
-				variant='primary'
-				size='sm'
-				id='actions'
-				title='Ações'
-			>
-				{status.actions.map((action) => {
-					let text = ''
-					if (action === status.TODO) {
-						text = 'A Fazer'
-					} else if (action === status.BEING_DONE) {
-						text = 'Fazer'
-					} else if (action === status.FINISHED) {
-						text = 'Concluir'
-					} else if (action === status.FILED) {
-						return ''
-					} else {
-						text = 'Deletar'
-					}
-					return (
-						<Dropdown.Item
-							key={action}
-							onClick={() =>
-								this.handleStatusChange(task, action)
-							}
-						>
-							{text}
-						</Dropdown.Item>
-					)
-				})}
-			</DropdownButton>
-		)
 	}
 
 	render() {
@@ -109,24 +72,7 @@ export class Fileds extends React.Component {
 						</Link>
 					</Col>
 				</Row>
-				{this.props.error !== false ? (
-					<Row>
-						<Col xs={12}>
-							<Alert variant='danger'>
-								Algo deu errado,{' '}
-								<Link
-									className='alert-link'
-									to='/fileds'
-									onClick={() => window.location.reload()}
-								>
-									recarregue a página.
-								</Link>
-							</Alert>
-						</Col>
-					</Row>
-				) : (
-					''
-				)}
+				{this.props.error !== false ? <CustomAlert Link={Link} /> : ''}
 				{filedTask.length === 0 ? (
 					<Row style={{ marginTop: 10 }}>
 						<Col xs='12' className='text-center'>
@@ -151,7 +97,10 @@ export class Fileds extends React.Component {
 											{...task}
 											task={task}
 											background='secondary'
-											OnClickAction={this.actionsDropdown}
+											OnClickAction={ActionsDropdown}
+											handleStatusChange={
+												this.handleStatusChange
+											}
 										/>
 									)
 								})}

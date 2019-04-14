@@ -58,6 +58,7 @@ export class EditTask extends React.Component {
 					handleChange={this.handleInputChange}
 					handleSubmit={this.submitTask}
 					task={this.state.task}
+					isEditing={true}
 				/>
 			</React.Fragment>
 		)

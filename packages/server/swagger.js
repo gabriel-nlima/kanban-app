@@ -15,6 +15,9 @@ exports.options = {
 		schemes: ['http', 'json'],
 		consumes: ['application/json'],
 		produces: ['application/json'],
-		tags: [{ name: 'tasks', description: 'end-points de tarefas' }],
+		tags: [
+			{ name: 'tasks', description: 'end-points de tarefas' },
+			{ name: 'projects', description: 'end-points de projetos' },
+		],
 	},
 }

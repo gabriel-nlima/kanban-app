@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import { FILED } from '../utils/status'
+import { FILED } from '../../utils/status'
 import Badge from 'react-bootstrap/Badge'
 
 const onDragStart = (e, task) => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import EditTaskForm from '../components/FormTask'
+import EditTaskForm from '../components/task/FormTask'
 import { editTask } from '../redux/actions/actions'
 import * as status from '../utils/status'
 

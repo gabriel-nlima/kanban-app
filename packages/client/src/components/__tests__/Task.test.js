@@ -1,6 +1,6 @@
 import React from 'react'
 import { cleanup, fireEvent } from 'react-testing-library'
-import Task from '../task'
+import Task from '../task/Task'
 
 import { renderWithRouter } from '../../utils/utils'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import AddTaskForm from '../components/FormTask'
+import AddTaskForm from '../components/task/FormTask'
 import { addTask } from '../redux/actions/actions'
 
 import { withRouter } from 'react-router-dom'

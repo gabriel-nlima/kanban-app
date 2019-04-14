@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import * as status from '../utils/status'
+import * as status from '../../utils/status'
 
 const FormTask = ({ handleSubmit, handleChange, task, isEditing }) => {
 	return (

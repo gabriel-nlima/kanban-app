@@ -1,6 +1,6 @@
 import React from 'react'
 import { cleanup } from 'react-testing-library'
-import AddTask from '../Formtask'
+import AddTask from '../task/Formtask'
 import { renderWithRouter } from '../../utils/utils'
 
 afterEach(cleanup)

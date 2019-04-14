@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Task from '../components/Task'
+import Task from '../components/task/Task'
 import Spinner from '../components/Spinner'
 import { ActionsDropdown } from '../components/ActionsDropdown'
 import { CustomAlert } from '../components/CustomAlert'

@@ -4,11 +4,9 @@ const {
 	getTasks,
 	updateTask,
 	deleteTask,
-} = require('../schemas/taskSchema')
+} = require('../schemas/task')
 
 async function routes(fastify) {
-	await sharedTask(fastify)
-
 	fastify.get('/api/tasks', getTasks, function get(req, reply) {
 		async function getTasks(err, col) {
 			const tasks = []

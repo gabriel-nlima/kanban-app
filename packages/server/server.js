@@ -1,3 +1,7 @@
+const sharedId = require('./schemas/id')
+const { sharedTask } = require('./schemas/task')
+const { sharedProject } = require('./schemas/project')
+
 function server() {
 	const fastify = require('fastify')({
 		logger: {
@@ -36,7 +40,14 @@ function server() {
 		})
 	}
 
-	fastify.register(require('./routes/routes'))
+	fastify.register(async (fastify, opts, next) => {
+		await sharedId(fastify)
+		await sharedTask(fastify)
+		await sharedProject(fastify)
+		require('./routes/tasks')(fastify)
+		require('./routes/projects')(fastify)
+		next()
+	})
 
 	return fastify
 }

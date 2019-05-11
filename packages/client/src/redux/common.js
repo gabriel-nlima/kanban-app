@@ -7,7 +7,7 @@ export function actionStarted() {
 	return { type: ACTION_STARTED, isLoading: true, error: false }
 }
 export function actionFailed(error) {
-	return { type: ACTION_FAILED, error: error }
+	return { type: ACTION_FAILED, isLoading: false, error: error }
 }
 
 export function success(type, resName, data) {
@@ -46,7 +46,7 @@ function failed(state, action) {
 function get(state, action, list, actionList) {
 	return {
 		...state,
-		[list]: actionList,
+		[list]: action[list],
 		isLoading: action.isLoading,
 		error: action.error,
 	}

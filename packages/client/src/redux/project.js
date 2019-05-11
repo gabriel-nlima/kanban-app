@@ -30,7 +30,7 @@ export default function reducer(state = initialState, action) {
 		case ACTION_FAILED:
 			return updateState.failed(state, action)
 		case Types.GET_PROJECTS:
-			return updateState.get(state, action, 'projects', action.projects)
+			return updateState.get(state, action, 'projects')
 		case Types.ADD_PROJECT:
 			return updateState.add(state, action, 'projects', 'project')
 		case Types.UPDATE_PROJECT:

@@ -7,24 +7,36 @@ import './css/index.css'
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-import configureStore from './redux/store/configureStore'
+import configureStore from './redux/configureStore'
 import { Provider } from 'react-redux'
 
 import * as serviceWorker from './serviceWorker'
 import App from './App'
+
 import Fileds from './containers/Fileds'
 import AddTask from './containers/AddTask'
 import EditTask from './containers/EditTask'
 import Tasks from './containers/Tasks'
+
+import FormProject from './components/project/Form'
+
 import Header from './components/Header'
 import NoMatch from './components/NoMatch'
 
-const initalState = {
-	tasks: [],
-	error: false,
-	isLoading: false,
+const initialState = {
+	task: {
+		tasks: [],
+		error: false,
+		isLoading: false,
+	},
+	project: {
+		projects: [],
+		error: false,
+		isLoading: false,
+	},
 }
-const store = configureStore(initalState)
+
+const store = configureStore(initialState)
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -37,6 +49,7 @@ ReactDOM.render(
 					<Route path='/addTask' exact component={AddTask} />
 					<Route path='/fileds' exact component={Fileds} />
 					<Route path='/editTask' exact component={EditTask} />
+					<Route path='/addProject' exact component={FormProject} />
 					<Route component={NoMatch} />
 				</Switch>
 			</Container>

@@ -1,6 +1,6 @@
 import React from 'react'
 import EditTaskForm from '../components/task/FormTask'
-import { editTask } from '../redux/actions/actions'
+import { editTask } from '../redux/task'
 import * as status from '../utils/status'
 
 import { connect } from 'react-redux'
@@ -71,7 +71,7 @@ EditTask.propTypes = {
 
 function mapStateToProps(state) {
 	return {
-		tasks: state,
+		tasks: state.task.tasks,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

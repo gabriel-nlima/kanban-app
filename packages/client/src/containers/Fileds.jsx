@@ -12,7 +12,7 @@ import * as status from '../utils/status'
 
 import { Link } from 'react-router-dom'
 
-import { getTasks, deleteTask, editTask } from '../redux/actions/actions'
+import { getTasks, deleteTask, editTask } from '../redux/task'
 import { connect } from 'react-redux'
 
 import PropTypes from 'prop-types'
@@ -121,9 +121,9 @@ Fileds.propTypes = {
 
 function mapStateToProps(state) {
 	return {
-		tasks: state.tasks,
-		error: state.error,
-		isLoading: state.isLoading,
+		tasks: state.task.tasks,
+		error: state.task.error,
+		isLoading: state.task.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

@@ -1,25 +1,57 @@
-import * as actionsTypes from './actionTypes'
-import * as status from '../../utils/status'
+import {
+	ACTION_STARTED,
+	ACTION_FAILED,
+	actionStarted,
+	actionFailed,
+	success,
+	updateState,
+} from './common'
 import Axios from 'axios'
 
-export function actionStarted() {
-	return { type: actionsTypes.STARTED, isLoading: true, error: false }
+import * as status from '../utils/status'
+
+export const Types = {
+	GET_TASKS: 'GET_TASKS',
+	ADD_TASK: 'ADD_TASK',
+	UPDATE_TASK: 'UPDATE_TASK',
+	DELETE_TASK: 'DELETE_TASK',
 }
-export function actionFailed(error) {
-	return { type: actionsTypes.FAILED, isLoading: false, error: error.message }
+
+const initialState = {
+	task: {
+		tasks: [],
+		error: false,
+		isLoading: false,
+	},
 }
+
+export default function reducer(state = initialState, action) {
+	switch (action.type) {
+		case ACTION_STARTED:
+			return updateState.started(state, action)
+		case ACTION_FAILED:
+			return updateState.failed(state, action)
+		case Types.GET_TASKS:
+			return updateState.get(state, action, 'tasks', action.tasks)
+		case Types.ADD_TASK:
+			return updateState.add(state, action, 'tasks', 'task')
+		case Types.UPDATE_TASK:
+			return updateState.edit(state, action, 'tasks', 'task')
+		case Types.DELETE_TASK:
+			return updateState.del(state, action, 'tasks', 'task')
+		default:
+			return state
+	}
+}
+
+//Action Creators
 export const getTasks = () => (dispatch) => {
 	dispatch(actionStarted())
 
 	return Axios.get('/api/tasks')
 		.then((res) => {
 			const { tasks } = res.data
-			dispatch({
-				type: actionsTypes.GET_TASKS,
-				tasks,
-				isLoading: false,
-				error: false,
-			})
+			dispatch(success(Types.GET_TASKS, 'tasks', tasks))
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))
@@ -41,12 +73,7 @@ export const addTask = (task) => (dispatch) => {
 		},
 	})
 		.then((res) => {
-			dispatch({
-				type: actionsTypes.ADD_TASK,
-				task: res.data.task,
-				isLoading: false,
-				error: false,
-			})
+			dispatch(success(Types.ADD_TASK, 'task', res.data.task))
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))
@@ -77,12 +104,7 @@ export const editTask = (task) => (dispatch) => {
 		},
 	})
 		.then((res) => {
-			dispatch({
-				type: actionsTypes.UPDATE_TASK,
-				task: res.data.task,
-				isLoading: false,
-				error: false,
-			})
+			dispatch(success(Types.UPDATE_TASK, 'task', res.data.task))
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))
@@ -98,12 +120,7 @@ export const deleteTask = (task) => (dispatch) => {
 		},
 	})
 		.then((res) => {
-			dispatch({
-				type: actionsTypes.DELETE_TASK,
-				task,
-				isLoading: false,
-				error: false,
-			})
+			dispatch(success(Types.DELETE_TASK, 'task', task))
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))

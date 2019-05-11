@@ -1,7 +1,11 @@
-import { createStore, compose, applyMiddleware } from 'redux'
+import { createStore, compose, applyMiddleware, combineReducers } from 'redux'
+
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
-import reducer from '../reducers/reducers'
+
+//Reducers
+import task from './task'
+import project from './project'
 
 const middleWare = []
 
@@ -12,9 +16,14 @@ const loggerMiddleware = createLogger({
 })
 middleWare.push(loggerMiddleware)
 
+const reducers = combineReducers({
+	task,
+	project,
+})
+
 export default function configureStore(initialState) {
 	return createStore(
-		reducer,
+		reducers,
 		initialState,
 		compose(applyMiddleware(...middleWare))
 	)

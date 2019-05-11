@@ -1,6 +1,6 @@
 import React from 'react'
 import AddTaskForm from '../components/task/FormTask'
-import { addTask } from '../redux/actions/actions'
+import { addTask } from '../redux/task'
 
 import { withRouter } from 'react-router-dom'
 
@@ -49,7 +49,7 @@ AddTask.propTypes = {
 
 function mapStateToProps(state) {
 	return {
-		tasks: state,
+		tasks: state.task.tasks,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

@@ -4,7 +4,7 @@ const Spinner = ({ bg }) => {
 	return (
 		<div className='d-flex justify-content-center'>
 			<div
-				className={'spinner-border ' + bg}
+				className={`spinner-border ${bg}`}
 				style={{ width: 80, height: 80 }}
 				role='status'
 			>

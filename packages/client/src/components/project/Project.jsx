@@ -1,24 +1,20 @@
 import React from 'react'
 
 import Card from 'react-bootstrap/Card'
-
-import { Link } from 'react-router-dom'
+import Button from 'react-bootstrap/Button'
 
 const { Body, Title, Text } = Card
 
-export const Project = ({ project }) => {
+export const Project = ({ project, setProject }) => {
 	return (
 		<Card bg='primary'>
 			<Body className='text-center'>
 				<Title> {project.name}</Title>
 				<Text>{project.desc}</Text>
 				<Text>Adicionado em 11/05</Text>
-				<Link
-					to={{ pathname: '/projectInfos', state: { project } }}
-					style={{ color: 'black' }}
-				>
+				<Button variant='dark' onClick={() => setProject(project)}>
 					Detalhes
-				</Link>
+				</Button>
 			</Body>
 		</Card>
 	)

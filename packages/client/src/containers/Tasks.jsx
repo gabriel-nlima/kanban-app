@@ -12,7 +12,7 @@ import Button from 'react-bootstrap/Button'
 
 import * as status from '../utils/status'
 
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import { getTasks, editTask, deleteTask } from '../redux/task'
 import { connect } from 'react-redux'
@@ -29,10 +29,6 @@ export class Tasks extends React.Component {
 		this.handleStatusChange = this.handleStatusChange.bind(this)
 		this.onDragOver = this.onDragOver.bind(this)
 		this.onDrop = this.onDrop.bind(this)
-	}
-
-	componentDidMount() {
-		this.props.getTasks()
 	}
 
 	getTaskStatus(tasks) {
@@ -271,7 +267,7 @@ Tasks.propTypes = {
 }
 function mapStateToProps(state) {
 	return {
-		tasks: state.task.tasks,
+		tasks: state.project.activeProject.tasks,
 		error: state.task.error,
 		isLoading: state.task.isLoading,
 	}
@@ -284,7 +280,9 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Tasks)
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Tasks)
+)

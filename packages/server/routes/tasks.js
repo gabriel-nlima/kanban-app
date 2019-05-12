@@ -21,7 +21,12 @@ async function routes(fastify) {
 	fastify.post('/api/tasks', addTask, function insert(req, reply) {
 		function addTask(err, col) {
 			if (err) reply.send(err)
-			col.insertOne(req.body, (error, result) => {
+
+			let task = req.body
+			const { ObjectId } = fastify.mongo
+			task = { ...task, project_id: ObjectId(task.project_id) }
+
+			col.insertOne(task, (error, result) => {
 				if (error) reply.send(error)
 				const task = result.ops[0]
 				reply.send({ task })

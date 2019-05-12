@@ -19,6 +19,8 @@ import EditTask from './containers/EditTask'
 import Tasks from './containers/Tasks'
 
 import AddProject from './containers/AddProject'
+import EditProject from './containers/EditProject'
+import Projects from './containers/Projects'
 import ProjectInfos from './containers/ProjectInfos'
 
 import Header from './components/Header'
@@ -32,6 +34,7 @@ const initialState = {
 	},
 	project: {
 		projects: [],
+		activeProject: { tasks: [] },
 		error: false,
 		isLoading: false,
 	},
@@ -51,6 +54,8 @@ ReactDOM.render(
 					<Route path='/fileds' exact component={Fileds} />
 					<Route path='/editTask' exact component={EditTask} />
 					<Route path='/addProject' exact component={AddProject} />
+					<Route path='/editProject' exact component={EditProject} />
+					<Route path='/projects' exact component={Projects} />
 					<Route
 						path='/projectInfos'
 						exact

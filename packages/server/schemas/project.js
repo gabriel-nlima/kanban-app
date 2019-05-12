@@ -40,7 +40,7 @@ const getProjects = {
 		},
 	},
 }
-const getProjectTasks = {
+const setActiveProject = {
 	schema: {
 		params: 'idParam#',
 		tags: ['projects'],
@@ -48,7 +48,7 @@ const getProjectTasks = {
 			200: {
 				type: 'object',
 				properties: {
-					projects: { type: 'array', items: 'task#' },
+					activeProject: 'project#',
 				},
 			},
 		},
@@ -80,7 +80,7 @@ const deleteProject = {
 
 exports.sharedProject = sharedProject
 exports.getProjects = getProjects
-exports.getProjectTasks = getProjectTasks
+exports.setActiveProject = setActiveProject
 exports.addProject = addProject
 exports.updateProject = updateProject
 exports.deleteProject = deleteProject

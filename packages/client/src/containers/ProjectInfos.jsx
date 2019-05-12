@@ -3,13 +3,18 @@ import React from 'react'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Button from 'react-bootstrap/Button'
 
-/**
- * Receber o projeto via react-router state
- * Receber o id projeto via react-router state, e buscar no servidor
- * Ao clicar em "Detalhes", enviar action com id do projeto para buscar no servidor, e guardar o active project no redux store
- */
+import { FaAngleLeft, FaPen, FaTrash } from 'react-icons/fa'
+
+import Tasks from './Tasks'
+import Spinner from '../components/Spinner'
+
+import { connect } from 'react-redux'
+import { setActiveProject, getActiveProject } from '../redux/project'
+import { getTasks } from '../redux/task'
+
+import { withRouter } from 'react-router-dom'
+import Button from 'react-bootstrap/Button'
 
 const { Body, Text, Header } = Card
 
@@ -22,45 +27,83 @@ export class ProjectInfos extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.props.location.state) {
-			const { project } = this.props.location.state
-			this.setState({ project })
-		} else this.props.history.push('/')
+		if (this.props.history.action !== 'PUSH') {
+			this.props.history.push('/')
+		}
 	}
 
 	render() {
-		const { name, desc } = this.state.project
+		const project = this.props.activeProject
+		console.log(this.props)
 		return (
 			<>
 				<Row style={{ marginTop: 10 }}>
 					<Col xs={12} sm={12} md={12} lg={12} xl={12}>
-						<Card>
-							<Header>
-								<h2>Nome do projeto: {' ' + name || '-'}</h2>
-							</Header>
-							<Body>
-								<Text>
-									{desc
-										? 'Descrição: ' + desc
-										: 'Sem descrição'}
-								</Text>
-							</Body>
-						</Card>
+						{this.props.isLoading ? (
+							<Spinner />
+						) : (
+							<Card>
+								<Header className='d-flex justify-content-between'>
+									<h2>
+										<Button
+											variant='secondary'
+											onClick={() =>
+												this.props.history.push('/')
+											}
+										>
+											<FaAngleLeft size='1.5em' />
+										</Button>
+										{'  ' + project.name}
+									</h2>
+									<h2>
+										<Button
+											variant='secondary'
+											onClick={() =>
+												this.props.history.push({
+													pathname: '/editProject',
+												})
+											}
+											style={{ margin: 5 }}
+										>
+											<FaPen size='1.2em' />
+										</Button>
+										<Button
+											variant='danger'
+											onClick={() =>
+												this.props.history.push('/')
+											}
+										>
+											<FaTrash size='1.2em' />
+										</Button>
+									</h2>
+								</Header>
+								<Body>
+									<Text>
+										{project.desc
+											? project.desc
+											: 'Sem descrição'}
+									</Text>
+								</Body>
+							</Card>
+						)}
 					</Col>
 				</Row>
 				<Row style={{ marginTop: 10 }}>
 					<Col xs={12} sm={12} md={12} lg={12} xl={12}>
-						<Card>
-							<Header>
-								<h2 className='d-flex justify-content-between'>
-									<span>Tarefas</span>
-									<Button>Adiconar tarefa</Button>
-								</h2>
-							</Header>
-							<Body>
-								<Text>TODO</Text>
-							</Body>
-						</Card>
+						{this.props.isLoading ? (
+							<Spinner />
+						) : (
+							<Card>
+								<Header>
+									<h2 className='d-flex justify-content-between'>
+										<span>Tarefas</span>
+									</h2>
+								</Header>
+								<Body>
+									<Tasks />
+								</Body>
+							</Card>
+						)}
 					</Col>
 				</Row>
 			</>
@@ -68,4 +111,24 @@ export class ProjectInfos extends React.Component {
 	}
 }
 
-export default ProjectInfos
+function mapStateToProps(state) {
+	return {
+		activeProject: state.project.activeProject,
+		error: state.project.error,
+		isLoading: state.project.isLoading,
+	}
+}
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setActiveProject: (project) => dispatch(setActiveProject(project)),
+		getActiveProject: () => dispatch(getActiveProject()),
+		getTasks: () => dispatch(getTasks()),
+	}
+}
+
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(ProjectInfos)
+)

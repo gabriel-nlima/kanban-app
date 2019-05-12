@@ -8,19 +8,28 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardColumns from 'react-bootstrap/CardColumns'
 
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
-import { getProjects } from '../redux/project'
+import { getProjects, setActiveProject } from '../redux/project'
 import { connect } from 'react-redux'
 
 export class Projects extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = { projects: [] }
+		this.setProject = this.setProject.bind(this)
 	}
 
 	componentDidMount() {
 		this.props.getProjects()
+	}
+
+	async setProject(project) {
+		await this.props.setActiveProject(project)
+		this.props.history.push({
+			pathname: '/projectInfos',
+			state: { project },
+		})
 	}
 
 	render() {
@@ -38,25 +47,20 @@ export class Projects extends React.Component {
 					''
 				)}
 				<Row style={{ marginTop: 10 }}>
-					{this.props.isLoading ? (
-						<Col xs='12' className='text-center'>
-							<Spinner bg='text-secondary' />
-						</Col>
-					) : (
-						<Col xs={12} sm={12} md={12} lg={12} xl={12}>
-							<CardColumns>
-								{projects.map((project) => {
-									return (
-										<Project
-											key={project._id}
-											{...project}
-											project={project}
-										/>
-									)
-								})}
-							</CardColumns>
-						</Col>
-					)}
+					<Col xs={12} sm={12} md={12} lg={12} xl={12}>
+						<CardColumns>
+							{projects.map((project) => {
+								return (
+									<Project
+										key={project._id}
+										{...project}
+										project={project}
+										setProject={this.setProject}
+									/>
+								)
+							})}
+						</CardColumns>
+					</Col>
 				</Row>
 			</>
 		)
@@ -73,10 +77,13 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		getProjects: () => dispatch(getProjects()),
+		setActiveProject: (project) => dispatch(setActiveProject(project)),
 	}
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Projects)
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Projects)
+)

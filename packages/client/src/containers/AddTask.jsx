@@ -26,9 +26,14 @@ class AddTask extends React.Component {
 		this.setState({ task })
 	}
 	submitTask(e) {
-		this.props.addTask(this.state.task)
+		if (this.props.activeProject) {
+			const { _id } = this.props.activeProject
+			let { task } = this.state
+			task = { ...task, project_id: _id }
+			this.props.addTask(task)
+		}
 		this.setState({ task: [] })
-		this.props.history.push('/')
+		this.props.history.push('/projectInfos')
 		e.preventDefault()
 	}
 
@@ -49,7 +54,7 @@ AddTask.propTypes = {
 
 function mapStateToProps(state) {
 	return {
-		tasks: state.task.tasks,
+		activeProject: state.project.activeProject,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

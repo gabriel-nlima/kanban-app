@@ -45,10 +45,12 @@ export default function reducer(state = initialState, action) {
 }
 
 //Action Creators
+const url = '/api/tasks'
+
 export const getTasks = () => (dispatch) => {
 	dispatch(actionStarted())
 
-	return Axios.get('/api/tasks')
+	return Axios.get(url)
 		.then((res) => {
 			const { tasks } = res.data
 			dispatch(success(Types.GET_TASKS, 'tasks', tasks))
@@ -66,7 +68,7 @@ export const addTask = (task) => (dispatch) => {
 		status: status.TODO,
 		addedIn: addedIn.toLocaleString(),
 	}
-	return Axios.post('/api/tasks', task, {
+	return Axios.post(url, task, {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
@@ -97,7 +99,7 @@ export const editTask = (task) => (dispatch) => {
 		}
 	}
 
-	return Axios.put('/api/tasks/' + task._id, task, {
+	return Axios.put(`${url}/${task._id}`, task, {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
@@ -113,7 +115,7 @@ export const editTask = (task) => (dispatch) => {
 
 export const deleteTask = (task) => (dispatch) => {
 	dispatch(actionStarted())
-	return Axios.delete('/api/tasks/' + task._id, task, {
+	return Axios.delete(`${url}/${task._id}`, task, {
 		headers: {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',

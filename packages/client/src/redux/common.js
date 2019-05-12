@@ -61,7 +61,7 @@ function add(state, action, list, toAdd) {
 	}
 }
 
-function edit(state, action, list, toEdit) {
+function edit(state, action, list, toEdit, active) {
 	return {
 		...state,
 		[list]: state[list].map((el) => {
@@ -74,6 +74,7 @@ function edit(state, action, list, toEdit) {
 		}),
 		isLoading: action.isLoading,
 		error: action.error,
+		[active]: !active ? undefined : action[toEdit],
 	}
 }
 

@@ -1,7 +1,7 @@
 const {
 	addProject,
 	getProjects,
-	getProjectTasks,
+	setActiveProject,
 	updateProject,
 	deleteProject,
 } = require('../schemas/project')
@@ -11,11 +11,19 @@ async function routes(fastify) {
 		async function getProjects(err, col) {
 			const projects = []
 			await col
-				.find(!req.query.status ? {} : { status: req.query.status })
+				.aggregate([
+					{
+						$lookup: {
+							from: 'tasks',
+							localField: '_id',
+							foreignField: 'project_id',
+							as: 'tasks',
+						},
+					},
+				])
 				.forEach(function(project) {
-					if (project) {
-						projects.unshift(project)
-					} else return false
+					if (project) projects.push(project)
+					else return false
 				})
 
 			reply.send({ projects })
@@ -24,24 +32,39 @@ async function routes(fastify) {
 		db.collection('projects', getProjects)
 	})
 
-	fastify.get('/api/projects/:id', getProjectTasks, function get(req, reply) {
-		async function getProjectTasks(err, col) {
-			if (err) reply.send(err)
+	fastify.get('/api/projects/:id', setActiveProject, function get(
+		req,
+		reply
+	) {
+		async function getProjects(err, col) {
+			let activeProject = {}
 			const { id } = req.params
 			const { ObjectId } = fastify.mongo
-			const tasks = []
 			await col
-				.find({ project_id: ObjectId(id) })
-				.forEach(function(task) {
-					if (task) {
-						tasks.unshift(task)
-					} else return false
+				.aggregate([
+					{
+						$match: {
+							_id: new ObjectId(id),
+						},
+					},
+					{
+						$lookup: {
+							from: 'tasks',
+							localField: '_id',
+							foreignField: 'project_id',
+							as: 'tasks',
+						},
+					},
+				])
+				.forEach(function(project) {
+					if (project) activeProject = project
+					else return false
 				})
 
-			reply.send({ tasks })
+			reply.send({ activeProject })
 		}
 		const { db } = this.mongo
-		db.collection('tasks', getProjectTasks)
+		db.collection('projects', getProjects)
 	})
 
 	fastify.post('/api/projects', addProject, function insert(req, reply) {

@@ -6,15 +6,18 @@ import { Link } from 'react-router-dom'
 
 const { Body, Title, Text } = Card
 
-export const Project = () => {
+export const Project = ({ project }) => {
 	return (
 		<Card bg='primary'>
 			<Body className='text-center'>
-				<Title> Projeto 1</Title>
-				<Text>Descrição do projeto 1</Text>
+				<Title> {project.name}</Title>
+				<Text>{project.desc}</Text>
 				<Text>Adicionado em 11/05</Text>
-				<Link to='/tasks' style={{ color: 'black' }}>
-					Ver tarefas
+				<Link
+					to={{ pathname: '/projectInfos', state: { project } }}
+					style={{ color: 'black' }}
+				>
+					Detalhes
 				</Link>
 			</Body>
 		</Card>

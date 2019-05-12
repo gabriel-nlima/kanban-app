@@ -1,13 +1,14 @@
 import React from 'react'
 
 import Jumbotron from 'react-bootstrap/Jumbotron'
-import CardDeck from 'react-bootstrap/CardDeck'
 import Button from 'react-bootstrap/Button'
+import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
 
 import { Link } from 'react-router-dom'
 
-import Project from './components/project/Project'
+import Projects from './containers/Projects'
+
 import './css/index.css'
 
 const { Body, Title, Text, Header } = Card
@@ -18,10 +19,10 @@ const App = () => {
 			<Jumbotron>
 				<h3>Projetos</h3>
 				<p>
-					Gerencie seus projetos, listados abaixo. Ou acompanhe o
+					Gerencie seus projetos, listados abaixo e acompanhe o
 					andamento de suas ultimas atividades.
 				</p>
-				<h4>Resumo das atividades:</h4>
+				<h4>Resumo:</h4>
 				<CardDeck>
 					<Card border='dark'>
 						<Header>Projetos</Header>
@@ -57,12 +58,7 @@ const App = () => {
 					</Button>
 				</p>
 			</Jumbotron>
-			<CardDeck>
-				<Project />
-				<Project />
-				<Project />
-				<Project />
-			</CardDeck>
+			<Projects />
 		</>
 	)
 }

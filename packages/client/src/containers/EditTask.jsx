@@ -20,8 +20,10 @@ export class EditTask extends React.Component {
 	}
 
 	componentDidMount() {
-		const { task } = this.props.location.state
-		this.setState({ task })
+		if (this.props.location.state) {
+			const { task } = this.props.location.state
+			this.setState({ task })
+		} else this.props.history.push('/')
 	}
 
 	handleInputChange(e) {

@@ -18,7 +18,8 @@ import AddTask from './containers/AddTask'
 import EditTask from './containers/EditTask'
 import Tasks from './containers/Tasks'
 
-import FormProject from './components/project/Form'
+import AddProject from './containers/AddProject'
+import ProjectInfos from './containers/ProjectInfos'
 
 import Header from './components/Header'
 import NoMatch from './components/NoMatch'
@@ -49,7 +50,12 @@ ReactDOM.render(
 					<Route path='/addTask' exact component={AddTask} />
 					<Route path='/fileds' exact component={Fileds} />
 					<Route path='/editTask' exact component={EditTask} />
-					<Route path='/addProject' exact component={FormProject} />
+					<Route path='/addProject' exact component={AddProject} />
+					<Route
+						path='/projectInfos'
+						exact
+						component={ProjectInfos}
+					/>
 					<Route component={NoMatch} />
 				</Switch>
 			</Container>

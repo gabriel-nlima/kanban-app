@@ -4,6 +4,7 @@ import AddForm from '../components/project/Form'
 import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
+import { addProject } from '../redux/project'
 
 class AddProject extends React.Component {
 	constructor(props) {
@@ -23,8 +24,8 @@ class AddProject extends React.Component {
 		this.setState({ project })
 	}
 	submitproject(e) {
-		//this.props.addProject(this.state.project)
-		this.setState({ project: [] })
+		this.props.addProject(this.state.project)
+		this.setState({ project: {} })
 		this.props.history.push('/')
 		e.preventDefault()
 	}
@@ -42,11 +43,13 @@ class AddProject extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		projects: state,
+		projects: state.project.projects,
 	}
 }
 const mapDispatchToProps = (dispatch) => {
-	return {}
+	return {
+		addProject: (project) => dispatch(addProject(project)),
+	}
 }
 
 export default withRouter(

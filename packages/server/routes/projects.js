@@ -1,12 +1,10 @@
 const {
-	sharedProject,
 	addProject,
 	getProjects,
 	getProjectTasks,
 	updateProject,
 	deleteProject,
 } = require('../schemas/project')
-const { sharedTask } = require('../schemas/task')
 
 async function routes(fastify) {
 	fastify.get('/api/projects', getProjects, function get(req, reply) {

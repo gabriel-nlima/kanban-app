@@ -40,12 +40,12 @@ function server() {
 		})
 	}
 
-	fastify.register(async (fastify, opts, next) => {
-		await sharedId(fastify)
-		await sharedTask(fastify)
-		await sharedProject(fastify)
-		require('./routes/tasks')(fastify)
-		require('./routes/projects')(fastify)
+	fastify.register(async (instance, opts, next) => {
+		await sharedId(instance)
+		await sharedTask(instance)
+		await sharedProject(instance)
+		require('./routes/tasks')(instance)
+		require('./routes/projects')(instance)
 		next()
 	})
 

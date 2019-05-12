@@ -8,27 +8,27 @@ import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import * as status from '../../utils/status'
-
 const { Body, Header } = Card
 
-const ProjectForm = () => {
+const ProjectForm = ({ handleSubmit, handleChange, project }) => {
 	return (
 		<Row className='d-flex justify-content-center'>
 			<Col xs={12} sm={12} md={10} lg={8} xl={6}>
 				<Card border='dark'>
 					<Header>Projeto</Header>
 					<Body>
-						<Form>
+						<Form onSubmit={handleSubmit}>
 							<Form.Row>
 								<Form.Group className='col-12'>
 									<Form.Label htmlFor='title'>
 										Titulo
 									</Form.Label>
 									<Form.Control
-										name='title'
-										id='title'
+										name='name'
+										id='name'
 										type='text'
+										onChange={handleChange}
+										value={project.name || ''}
 										className='mb-2 mr-sm-2'
 										placeholder='Titulo'
 										data-testid='inputTitle'
@@ -48,6 +48,8 @@ const ProjectForm = () => {
 										name='desc'
 										id='desc'
 										type='text'
+										onChange={handleChange}
+										value={project.desc || ''}
 										className='mb-2 mr-sm-2'
 										placeholder='Descrição'
 										maxLength='100'
@@ -65,6 +67,8 @@ const ProjectForm = () => {
 										id='tag1'
 										name='tag1'
 										type='text'
+										onChange={handleChange}
+										value={project.tag1 || ''}
 										className='form-control mb-2 mr-sm-2'
 										placeholder='Tag 01'
 										maxLength='15'
@@ -80,6 +84,8 @@ const ProjectForm = () => {
 										id='tag2'
 										name='tag2'
 										type='text'
+										onChange={handleChange}
+										value={project.tag2 || ''}
 										className='form-control mb-2 mr-sm-2'
 										placeholder='Tag 02'
 										maxLength='15'

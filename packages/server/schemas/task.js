@@ -1,4 +1,3 @@
-const sharedId = require('./id')
 async function sharedTask(fastify) {
 	await fastify.addSchema({
 		$id: 'task',

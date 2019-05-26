@@ -1,11 +1,5 @@
-import {
-	ACTION_STARTED,
-	ACTION_FAILED,
-	actionStarted,
-	actionFailed,
-	success,
-	updateState,
-} from './common'
+import { set, get, add, edit, del } from './common'
+import { actionStarted, actionFailed, actionSuccess } from './currentState'
 import Axios from 'axios'
 
 export const Types = {
@@ -21,19 +15,13 @@ const initialState = {
 	project: {
 		projects: [],
 		activeProject: { tasks: [] },
-		error: false,
-		isLoading: false,
 	},
 }
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
-		case ACTION_STARTED:
-			return updateState.started(state, action)
-		case ACTION_FAILED:
-			return updateState.failed(state, action)
 		case Types.GET_ACTIVE_PROJECT:
-			return { ...state, isLoading: false, error: false }
+			return { ...state }
 		case Types.SET_ACTIVE_PROJECT:
 			return {
 				...state,
@@ -42,19 +30,13 @@ export default function reducer(state = initialState, action) {
 				error: false,
 			}
 		case Types.GET_PROJECTS:
-			return updateState.get(state, action, 'projects')
+			return get(state, action, 'projects')
 		case Types.ADD_PROJECT:
-			return updateState.add(state, action, 'projects', 'project')
+			return add(state, action, 'projects', 'project')
 		case Types.UPDATE_PROJECT:
-			return updateState.edit(
-				state,
-				action,
-				'projects',
-				'project',
-				'activeProject'
-			)
+			return edit(state, action, 'projects', 'project', 'activeProject')
 		case Types.DELETE_PROJECT:
-			return updateState.del(state, action, 'projects', 'project')
+			return del(state, action, 'projects', 'project')
 		default:
 			return state
 	}
@@ -64,11 +46,11 @@ export default function reducer(state = initialState, action) {
 const url = '/api/projects'
 
 export const setActiveProject = (project) => (dispatch) => {
-	dispatch(success(Types.SET_ACTIVE_PROJECT, 'activeProject', project))
+	dispatch(set(Types.SET_ACTIVE_PROJECT, 'activeProject', project))
 }
 
 export const getActiveProject = () => (dispatch) => {
-	dispatch({ type: Types.GET_ACTIVE_PROJECT, isLoading: false, error: false })
+	dispatch({ type: Types.GET_ACTIVE_PROJECT })
 }
 
 export const getProjects = () => (dispatch) => {
@@ -78,7 +60,8 @@ export const getProjects = () => (dispatch) => {
 		.then((res) => {
 			const { projects } = res.data
 
-			dispatch(success(Types.GET_PROJECTS, 'projects', projects))
+			dispatch(set(Types.GET_PROJECTS, 'projects', projects))
+			dispatch(actionSuccess())
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))
@@ -90,7 +73,8 @@ export const addProject = (project) => (dispatch) => {
 
 	return Axios.post(url, project)
 		.then((res) => {
-			dispatch(success(Types.ADD_PROJECT, 'project', res.data.project))
+			dispatch(set(Types.ADD_PROJECT, 'project', res.data.project))
+			dispatch(actionSuccess())
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))
@@ -102,7 +86,8 @@ export const editProject = (project) => (dispatch) => {
 
 	return Axios.put(`${url}/${project._id}`, project)
 		.then((res) => {
-			dispatch(success(Types.UPDATE_PROJECT, 'project', res.data.project))
+			dispatch(set(Types.UPDATE_PROJECT, 'project', res.data.project))
+			dispatch(actionSuccess())
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))
@@ -112,9 +97,10 @@ export const editProject = (project) => (dispatch) => {
 export const deleteProject = (project) => (dispatch) => {
 	dispatch(actionStarted())
 
-	return Axios.pelete(`${url}/${project._id}`, project)
+	return Axios.delete(`${url}/${project._id}`, project)
 		.then((res) => {
-			dispatch(success(Types.DELETE_PROJECT, 'project', project))
+			dispatch(set(Types.DELETE_PROJECT, 'project', project))
+			dispatch(actionSuccess())
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))

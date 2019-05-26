@@ -1,11 +1,5 @@
-import {
-	ACTION_STARTED,
-	ACTION_FAILED,
-	actionStarted,
-	actionFailed,
-	success,
-	updateState,
-} from './common'
+import { set, get, add, edit, del } from './common'
+import { actionStarted, actionFailed, actionSuccess } from './currentState'
 import Axios from 'axios'
 
 import * as status from '../utils/status'
@@ -20,25 +14,19 @@ export const Types = {
 const initialState = {
 	task: {
 		tasks: [],
-		error: false,
-		isLoading: false,
 	},
 }
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
-		case ACTION_STARTED:
-			return updateState.started(state, action)
-		case ACTION_FAILED:
-			return updateState.failed(state, action)
 		case Types.GET_TASKS:
-			return updateState.get(state, action, 'tasks')
+			return get(state, action, 'tasks')
 		case Types.ADD_TASK:
-			return updateState.add(state, action, 'tasks', 'task')
+			return add(state, action, 'tasks', 'task')
 		case Types.UPDATE_TASK:
-			return updateState.edit(state, action, 'tasks', 'task')
+			return edit(state, action, 'tasks', 'task')
 		case Types.DELETE_TASK:
-			return updateState.del(state, action, 'tasks', 'task')
+			return del(state, action, 'tasks', 'task')
 		default:
 			return state
 	}
@@ -53,7 +41,8 @@ export const getTasks = () => (dispatch) => {
 	return Axios.get(url)
 		.then((res) => {
 			const { tasks } = res.data
-			dispatch(success(Types.GET_TASKS, 'tasks', tasks))
+			dispatch(set(Types.GET_TASKS, 'tasks', tasks))
+			dispatch(actionSuccess())
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))
@@ -68,14 +57,10 @@ export const addTask = (task) => (dispatch) => {
 		status: status.TODO,
 		addedIn: addedIn.toLocaleString(),
 	}
-	return Axios.post(url, task, {
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-		},
-	})
+	return Axios.post(url, task)
 		.then((res) => {
-			dispatch(success(Types.ADD_TASK, 'task', res.data.task))
+			dispatch(set(Types.ADD_TASK, 'task', res.data.task))
+			dispatch(actionSuccess())
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))
@@ -99,14 +84,10 @@ export const editTask = (task) => (dispatch) => {
 		}
 	}
 
-	return Axios.put(`${url}/${task._id}`, task, {
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-		},
-	})
+	return Axios.put(`${url}/${task._id}`, task)
 		.then((res) => {
-			dispatch(success(Types.UPDATE_TASK, 'task', res.data.task))
+			dispatch(set(Types.UPDATE_TASK, 'task', res.data.task))
+			dispatch(actionSuccess())
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))
@@ -115,14 +96,10 @@ export const editTask = (task) => (dispatch) => {
 
 export const deleteTask = (task) => (dispatch) => {
 	dispatch(actionStarted())
-	return Axios.delete(`${url}/${task._id}`, task, {
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-		},
-	})
+	return Axios.delete(`${url}/${task._id}`, task)
 		.then((res) => {
-			dispatch(success(Types.DELETE_TASK, 'task', task))
+			dispatch(set(Types.DELETE_TASK, 'task', task))
+			dispatch(actionSuccess())
 		})
 		.catch((error) => {
 			dispatch(actionFailed(error))

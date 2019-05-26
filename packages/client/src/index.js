@@ -29,18 +29,20 @@ import NoMatch from './components/NoMatch'
 const initialState = {
 	task: {
 		tasks: [],
-		error: false,
-		isLoading: false,
 	},
 	project: {
 		projects: [],
 		activeProject: { tasks: [] },
-		error: false,
+	},
+	currentState: {
 		isLoading: false,
+		isError: false,
+		error: [],
 	},
 }
 
 const store = configureStore(initialState)
+console.log(store.getState())
 
 ReactDOM.render(
 	<Provider store={store}>

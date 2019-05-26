@@ -34,7 +34,6 @@ export class ProjectInfos extends React.Component {
 
 	render() {
 		const project = this.props.activeProject
-		console.log(this.props)
 		return (
 			<>
 				<Row style={{ marginTop: 10 }}>
@@ -114,8 +113,8 @@ export class ProjectInfos extends React.Component {
 function mapStateToProps(state) {
 	return {
 		activeProject: state.project.activeProject,
-		error: state.project.error,
-		isLoading: state.project.isLoading,
+		isError: state.currentState.isError,
+		isLoading: state.currentState.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

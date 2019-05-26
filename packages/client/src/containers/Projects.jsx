@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Project from '../components/project/Project'
-import Spinner from '../components/Spinner'
+//import Spinner from '../components/Spinner'
 import { CustomAlert } from '../components/CustomAlert'
 
 import Row from 'react-bootstrap/Row'
@@ -36,7 +36,7 @@ export class Projects extends React.Component {
 		const { projects } = this.props
 		return (
 			<>
-				{this.props.error !== false ? <CustomAlert Link={Link} /> : ''}
+				{this.props.isError ? <CustomAlert Link={Link} /> : <></>}
 				{projects.length === 0 ? (
 					<Row style={{ marginTop: 10 }}>
 						<Col xs='12' className='text-center'>
@@ -44,7 +44,7 @@ export class Projects extends React.Component {
 						</Col>
 					</Row>
 				) : (
-					''
+					<></>
 				)}
 				<Row style={{ marginTop: 10 }}>
 					<Col xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -70,8 +70,8 @@ export class Projects extends React.Component {
 function mapStateToProps(state) {
 	return {
 		projects: state.project.projects,
-		error: state.project.error,
-		isLoading: state.project.isLoading,
+		isError: state.currentState.isError,
+		isLoading: state.currentState.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

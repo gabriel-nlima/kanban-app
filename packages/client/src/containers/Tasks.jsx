@@ -118,13 +118,13 @@ export class Tasks extends React.Component {
 							href='/addTask'
 							as={Link}
 							to='/addTask'
-							disabled={this.props.error !== false ? true : false}
+							disabled={this.props.isError ? true : false}
 						>
 							Adicionar nova tarefa
 						</Button>
 					</Col>
 				</Row>
-				{this.props.error !== false ? <CustomAlert Link={Link} /> : ''}
+				{this.props.isError ? <CustomAlert Link={Link} /> : <></>}
 				<Row>
 					<Col
 						xs={6}
@@ -146,7 +146,7 @@ export class Tasks extends React.Component {
 								Sem tarefas a fazer.
 							</h4>
 						) : (
-							''
+							<></>
 						)}
 						{this.props.isLoading ? (
 							<Spinner bg='text-info' />
@@ -187,7 +187,7 @@ export class Tasks extends React.Component {
 								Sem tarefas em andamento.
 							</h4>
 						) : (
-							''
+							<></>
 						)}
 						{this.props.isLoading ? (
 							<Spinner bg='text-warning' />
@@ -233,7 +233,7 @@ export class Tasks extends React.Component {
 								Nenhuma tarefa concluida.
 							</h4>
 						) : (
-							''
+							<></>
 						)}
 						{this.props.isLoading ? (
 							<Spinner bg='text-success' />
@@ -268,8 +268,8 @@ Tasks.propTypes = {
 function mapStateToProps(state) {
 	return {
 		tasks: state.project.activeProject.tasks,
-		error: state.task.error,
-		isLoading: state.task.isLoading,
+		isError: state.currentState.isError,
+		isLoading: state.currentState.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

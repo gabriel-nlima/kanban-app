@@ -72,7 +72,7 @@ export class Fileds extends React.Component {
 						</Link>
 					</Col>
 				</Row>
-				{this.props.error !== false ? <CustomAlert Link={Link} /> : ''}
+				{this.props.isError ? <CustomAlert Link={Link} /> : <></>}
 				{filedTask.length === 0 ? (
 					<Row style={{ marginTop: 10 }}>
 						<Col xs='12' className='text-center'>
@@ -80,7 +80,7 @@ export class Fileds extends React.Component {
 						</Col>
 					</Row>
 				) : (
-					''
+					<></>
 				)}
 				<Row style={{ marginTop: 10 }}>
 					{this.props.isLoading ? (
@@ -122,8 +122,8 @@ Fileds.propTypes = {
 function mapStateToProps(state) {
 	return {
 		tasks: state.task.tasks,
-		error: state.task.error,
-		isLoading: state.task.isLoading,
+		isError: state.currentState.isError,
+		isLoading: state.currentState.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

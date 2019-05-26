@@ -10,7 +10,7 @@ export function set(type, resName, data) {
 	}
 }
 
-export function get(state, action, list, actionList) {
+export function get(state, action, list) {
 	return {
 		...state,
 		[list]: action[list],
@@ -34,10 +34,10 @@ export function edit(state, action, list, toEdit, active) {
 		[list]: state[list].map((el) => {
 			if (el._id !== action[toEdit]._id) {
 				return el
-			}
-			return {
-				...action[toEdit],
-			}
+			} else
+				return {
+					...action[toEdit],
+				}
 		}),
 		isLoading: action.isLoading,
 		isError: action.isError,

@@ -10,7 +10,11 @@ import Tasks from './Tasks'
 import Spinner from '../components/Spinner'
 
 import { connect } from 'react-redux'
-import { setActiveProject, getActiveProject } from '../redux/project'
+import {
+	setActiveProject,
+	unsetActiveProject,
+	getActiveProject,
+} from '../redux/project'
 import { getTasks } from '../redux/task'
 
 import { withRouter } from 'react-router-dom'
@@ -26,8 +30,14 @@ export class ProjectInfos extends React.Component {
 		}
 	}
 
-	componentDidMount() {
-		if (this.props.history.action !== 'PUSH') {
+	async componentDidMount() {
+		if (this.props.activeProject._id) {
+			await this.props.getActiveProject(this.props.activeProject)
+			this.props.getTasks()
+		} else if (localStorage.ap) {
+			await this.props.getActiveProject()
+			this.props.getTasks()
+		} else {
 			this.props.history.push('/')
 		}
 	}
@@ -46,9 +56,10 @@ export class ProjectInfos extends React.Component {
 									<h2>
 										<Button
 											variant='secondary'
-											onClick={() =>
+											onClick={() => {
+												this.props.unsetActiveProject()
 												this.props.history.push('/')
-											}
+											}}
 										>
 											<FaAngleLeft size='1.5em' />
 										</Button>
@@ -121,6 +132,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		setActiveProject: (project) => dispatch(setActiveProject(project)),
 		getActiveProject: () => dispatch(getActiveProject()),
+		unsetActiveProject: () => dispatch(unsetActiveProject()),
 		getTasks: () => dispatch(getTasks()),
 	}
 }

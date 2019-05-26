@@ -49,7 +49,7 @@ export class EditTask extends React.Component {
 			}
 		}
 		this.props.editTask(task)
-		this.props.history.push('/')
+		this.props.history.push('/projectInfos')
 		e.preventDefault()
 	}
 

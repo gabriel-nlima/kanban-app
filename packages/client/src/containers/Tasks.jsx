@@ -266,8 +266,11 @@ Tasks.propTypes = {
 	deleteTask: PropTypes.func.isRequired,
 }
 function mapStateToProps(state) {
+	const tasks = state.task.tasks.filter(
+		(el) => el.project_id === state.project.activeProject._id
+	)
 	return {
-		tasks: state.project.activeProject.tasks,
+		tasks,
 		isError: state.currentState.isError,
 		isLoading: state.currentState.isLoading,
 	}

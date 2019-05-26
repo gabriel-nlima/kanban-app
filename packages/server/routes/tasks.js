@@ -42,6 +42,7 @@ async function routes(fastify) {
 			const { id } = req.params
 			const { _id, ...task } = req.body
 			const { ObjectId } = fastify.mongo
+			task.project_id = ObjectId(task.project_id)
 
 			col.findOneAndUpdate(
 				{ _id: ObjectId(id) },

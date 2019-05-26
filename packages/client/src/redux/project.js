@@ -5,6 +5,7 @@ import Axios from 'axios'
 export const Types = {
 	GET_PROJECTS: 'GET_PROJECTS',
 	SET_ACTIVE_PROJECT: 'SET_ACTIVE_PROJECT',
+	UNSET_ACTIVE_PROJECT: 'UNSET_ACTIVE_PROJECT',
 	GET_ACTIVE_PROJECT: 'GET_ACTIVE_PROJECT',
 	ADD_PROJECT: 'ADD_PROJECT',
 	UPDATE_PROJECT: 'UPDATE_PROJECT',
@@ -18,14 +19,22 @@ const initialState = {
 	},
 }
 
+//TODO trazer o getTasks para projects
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case Types.GET_ACTIVE_PROJECT:
-			return { ...state }
+			return get(state, action, 'activeProject')
 		case Types.SET_ACTIVE_PROJECT:
 			return {
 				...state,
 				activeProject: action.activeProject,
+				isLoading: false,
+				error: false,
+			}
+		case Types.UNSET_ACTIVE_PROJECT:
+			return {
+				...state,
+				activeProject: { tasks: [] },
 				isLoading: false,
 				error: false,
 			}
@@ -46,11 +55,30 @@ export default function reducer(state = initialState, action) {
 const url = '/api/projects'
 
 export const setActiveProject = (project) => (dispatch) => {
+	localStorage.setItem('ap', project._id)
 	dispatch(set(Types.SET_ACTIVE_PROJECT, 'activeProject', project))
 }
 
-export const getActiveProject = () => (dispatch) => {
-	dispatch({ type: Types.GET_ACTIVE_PROJECT })
+export const unsetActiveProject = () => (dispatch) => {
+	localStorage.removeItem('ap')
+	dispatch({ type: Types.UNSET_ACTIVE_PROJECT })
+}
+
+export const getActiveProject = (project) => (dispatch) => {
+	dispatch(actionStarted())
+	const projectId = project ? project._id : localStorage.getItem('ap')
+
+	return Axios.get(`${url}/${projectId}`)
+		.then((res) => {
+			dispatch({
+				type: Types.GET_ACTIVE_PROJECT,
+				activeProject: res.data.activeProject,
+			})
+			dispatch(actionSuccess())
+		})
+		.catch((error) => {
+			dispatch(actionFailed(error))
+		})
 }
 
 export const getProjects = () => (dispatch) => {
@@ -98,7 +126,7 @@ export const deleteProject = (project) => (dispatch) => {
 	dispatch(actionStarted())
 
 	return Axios.delete(`${url}/${project._id}`, project)
-		.then((res) => {
+		.then(() => {
 			dispatch(set(Types.DELETE_PROJECT, 'project', project))
 			dispatch(actionSuccess())
 		})

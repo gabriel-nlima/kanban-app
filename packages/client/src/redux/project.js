@@ -19,7 +19,6 @@ const initialState = {
 	},
 }
 
-//TODO trazer o getTasks para projects
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case Types.GET_ACTIVE_PROJECT:

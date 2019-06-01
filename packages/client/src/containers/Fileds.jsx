@@ -26,13 +26,6 @@ export class Fileds extends React.Component {
 	componentDidMount() {
 		this.props.getTasks()
 	}
-	filterFiled(task) {
-		if (task.status === status.FILED) {
-			return true
-		} else {
-			return false
-		}
-	}
 
 	handleStatusChange(task, newStatus) {
 		task = {
@@ -48,7 +41,9 @@ export class Fileds extends React.Component {
 	}
 
 	render() {
-		const filedTask = this.props.tasks.filter(this.filterFiled)
+		const filedTask = this.props.tasks.filter(
+			(t) => t.status === status.FILED
+		)
 		const badgeMargin = { marginLeft: 6 }
 
 		return (

@@ -1,6 +1,8 @@
 import React from 'react'
 import AddForm from '../components/project/Form'
 
+import { handleChange } from '../utils/utils'
+
 import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
@@ -13,17 +15,16 @@ class AddProject extends React.Component {
 			project: {},
 		}
 		this.handleInputChange = this.handleInputChange.bind(this)
-		this.submitproject = this.submitproject.bind(this)
+		this.submitProject = this.submitProject.bind(this)
 	}
 
 	componentDidMount() {}
 
 	handleInputChange(e) {
-		const project = Object.assign({}, this.state.project)
-		project[e.target.name] = e.target.value
-		this.setState({ project })
+		this.setState({ project: handleChange(e, this.state.project) })
 	}
-	submitproject(e) {
+
+	submitProject(e) {
 		this.props.addProject(this.state.project)
 		this.setState({ project: {} })
 		this.props.history.push('/')
@@ -34,7 +35,7 @@ class AddProject extends React.Component {
 		return (
 			<AddForm
 				handleChange={this.handleInputChange}
-				handleSubmit={this.submitproject}
+				handleSubmit={this.submitProject}
 				project={this.state.project}
 			/>
 		)

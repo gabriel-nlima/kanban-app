@@ -32,25 +32,12 @@ export class Tasks extends React.Component {
 	}
 
 	getTaskStatus(tasks) {
-		const tasksToDo = []
-		const taskBeingDone = []
-		const fineshedTasks = []
-		const filedTasks = []
-		tasks.map((task) => {
-			if (task.length === 0) {
-				return []
-			}
-			if (task.status === status.TODO) {
-				tasksToDo.push(task)
-			} else if (task.status === status.BEING_DONE) {
-				taskBeingDone.push(task)
-			} else if (task.status === status.FINISHED) {
-				fineshedTasks.push(task)
-			} else if (task.status === status.FILED) {
-				filedTasks.push(task)
-			}
-			return { tasksToDo, taskBeingDone, fineshedTasks }
-		})
+		const tasksToDo = tasks.filter((t) => t.status === status.TODO)
+		const taskBeingDone = tasks.filter(
+			(t) => t.status === status.BEING_DONE
+		)
+		const fineshedTasks = tasks.filter((t) => t.status === status.FINISHED)
+		const filedTasks = tasks.filter((t) => t.status === status.FILED)
 
 		return {
 			tasksToDo,

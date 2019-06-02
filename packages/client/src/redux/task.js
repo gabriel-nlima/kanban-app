@@ -54,7 +54,6 @@ export const getProjectTasks = (projedId) => (dispatch) => {
 	)
 		.then((res) => {
 			const { tasks } = res.data.activeProject
-			console.log(res.data.activeProject)
 			dispatch(set(Types.GET_PROJECT_TASKS, 'tasks', tasks))
 			dispatch(actionSuccess())
 		})
@@ -70,7 +69,6 @@ export const addTask = (task) => (dispatch) => {
 		status: status.TODO,
 		addedIn: addedIn.toLocaleString(),
 	}
-	console.log(task)
 	return post(url, task, dispatch)
 		.then((res) => {
 			dispatch(set(Types.ADD_TASK, 'task', res.data.task))

@@ -46,7 +46,7 @@ class AddTask extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		activeProject: state.project.activeProject,
+		activeProject: state.current.activeProject,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

@@ -18,15 +18,11 @@ class EditProject extends React.Component {
 		this.submitProject = this.submitProject.bind(this)
 	}
 
-	componentDidMount() {
-		if (this.props.history.action !== 'PUSH') {
-			this.props.history.push('/')
-		} else if (this.props.location.state) {
-			const { project } = this.props.location.state
-			this.setState({ project })
-		} else if (this.props.activeProject) {
-			this.setState({ project: this.props.activeProject })
+	async componentDidMount() {
+		if (this.props.history.action !== 'PUSH' && localStorage.ap) {
+			await this.props.getActiveProject()
 		}
+		this.setState({ project: this.props.activeProject })
 	}
 
 	handleInputChange(e) {
@@ -36,9 +32,6 @@ class EditProject extends React.Component {
 		this.props.editProject(this.state.project)
 		this.props.history.push({
 			pathname: '/projectInfos',
-			state: {
-				project: this.state.project,
-			},
 		})
 		e.preventDefault()
 	}
@@ -56,7 +49,7 @@ class EditProject extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		activeProject: state.project.activeProject,
+		activeProject: state.current.activeProject,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

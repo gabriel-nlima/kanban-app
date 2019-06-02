@@ -36,7 +36,7 @@ async function routes(fastify) {
 		req,
 		reply
 	) {
-		async function getProjects(err, col) {
+		async function getProject(err, col) {
 			let activeProject = {}
 			const { id } = req.params
 			const { ObjectId } = fastify.mongo
@@ -64,7 +64,7 @@ async function routes(fastify) {
 			reply.send({ activeProject })
 		}
 		const { db } = this.mongo
-		db.collection('projects', getProjects)
+		db.collection('projects', getProject)
 	})
 
 	fastify.post('/api/projects', addProject, function insert(req, reply) {

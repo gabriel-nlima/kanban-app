@@ -5,6 +5,7 @@ import * as status from '../utils/status'
 
 export const Types = {
 	GET_TASKS: 'GET_TASKS',
+	GET_PROJECT_TASKS: 'GET_PROJECT_TASKS',
 	ADD_TASK: 'ADD_TASK',
 	UPDATE_TASK: 'UPDATE_TASK',
 	DELETE_TASK: 'DELETE_TASK',
@@ -18,7 +19,7 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
-		case Types.GET_TASKS:
+		case Types.GET_PROJECT_TASKS:
 			return fetch(state, action, 'tasks')
 		case Types.ADD_TASK:
 			return add(state, action, 'tasks', 'task')
@@ -46,6 +47,22 @@ export const getTasks = () => (dispatch) => {
 		})
 }
 
+export const getProjectTasks = (projedId) => (dispatch) => {
+	return get(
+		`/api/projects/${projedId ? projedId : localStorage.ap}`,
+		dispatch
+	)
+		.then((res) => {
+			const { tasks } = res.data.activeProject
+			console.log(res.data.activeProject)
+			dispatch(set(Types.GET_PROJECT_TASKS, 'tasks', tasks))
+			dispatch(actionSuccess())
+		})
+		.catch((error) => {
+			dispatch(actionFailed(error))
+		})
+}
+
 export const addTask = (task) => (dispatch) => {
 	const addedIn = new Date()
 	task = {
@@ -53,6 +70,7 @@ export const addTask = (task) => (dispatch) => {
 		status: status.TODO,
 		addedIn: addedIn.toLocaleString(),
 	}
+	console.log(task)
 	return post(url, task, dispatch)
 		.then((res) => {
 			dispatch(set(Types.ADD_TASK, 'task', res.data.task))

@@ -24,7 +24,7 @@ async function routes(fastify) {
 
 			let task = req.body
 			const { ObjectId } = fastify.mongo
-			task = { ...task, project_id: ObjectId(task.project_id) }
+			task = { ...task, project_id: new ObjectId(task.project_id) }
 
 			col.insertOne(task, (error, result) => {
 				if (error) reply.send(error)
@@ -42,7 +42,7 @@ async function routes(fastify) {
 			const { id } = req.params
 			const { _id, ...task } = req.body
 			const { ObjectId } = fastify.mongo
-			task.project_id = ObjectId(task.project_id)
+			task.project_id = new ObjectId(task.project_id)
 
 			col.findOneAndUpdate(
 				{ _id: ObjectId(id) },
@@ -61,7 +61,7 @@ async function routes(fastify) {
 	fastify.delete('/api/tasks/:id', deleteTask, function del(req, reply) {
 		function deleteTask(err, col) {
 			const { ObjectId } = fastify.mongo
-			col.findOneAndDelete({ _id: ObjectId(req.params.id) })
+			col.findOneAndDelete({ _id: new ObjectId(req.params.id) })
 			reply.send()
 		}
 		const { db } = this.mongo

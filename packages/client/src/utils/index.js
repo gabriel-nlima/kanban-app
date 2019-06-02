@@ -45,19 +45,3 @@ export const handleChange = (e, prevObj) => {
 	input[e.target.name] = e.target.value
 	return input
 }
-
-//Redux Initial State
-export const initialState = {
-	task: {
-		tasks: [],
-	},
-	project: {
-		projects: [],
-		activeProject: { tasks: [] },
-	},
-	currentState: {
-		isLoading: false,
-		isError: false,
-		error: [],
-	},
-}

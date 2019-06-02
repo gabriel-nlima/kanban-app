@@ -1,11 +1,8 @@
 import { set, fetch, add, edit, remove, get, post, put, del } from './common'
-import { actionFailed, actionSuccess } from './currentState'
+import { actionFailed, actionSuccess, setActiveProject } from './currentState'
 
 export const Types = {
 	GET_PROJECTS: 'GET_PROJECTS',
-	SET_ACTIVE_PROJECT: 'SET_ACTIVE_PROJECT',
-	UNSET_ACTIVE_PROJECT: 'UNSET_ACTIVE_PROJECT',
-	GET_ACTIVE_PROJECT: 'GET_ACTIVE_PROJECT',
 	ADD_PROJECT: 'ADD_PROJECT',
 	UPDATE_PROJECT: 'UPDATE_PROJECT',
 	DELETE_PROJECT: 'DELETE_PROJECT',
@@ -52,31 +49,6 @@ export default function reducer(state = initialState, action) {
 //Action creators
 const url = '/api/projects'
 
-export const setActiveProject = (project) => (dispatch) => {
-	localStorage.setItem('ap', project._id)
-	dispatch(set(Types.SET_ACTIVE_PROJECT, 'activeProject', project))
-}
-
-export const unsetActiveProject = () => (dispatch) => {
-	localStorage.removeItem('ap')
-	dispatch({ type: Types.UNSET_ACTIVE_PROJECT })
-}
-
-export const getActiveProject = (project) => (dispatch) => {
-	const projectId = project ? project._id : localStorage.getItem('ap')
-	return get(`${url}/${projectId}`, dispatch)
-		.then((res) => {
-			dispatch({
-				type: Types.GET_ACTIVE_PROJECT,
-				activeProject: res.data.activeProject,
-			})
-			dispatch(actionSuccess())
-		})
-		.catch((error) => {
-			dispatch(actionFailed(error))
-		})
-}
-
 export const getProjects = () => (dispatch) => {
 	return get(url, dispatch)
 		.then((res) => {
@@ -102,9 +74,11 @@ export const addProject = (project) => (dispatch) => {
 }
 
 export const editProject = (project) => (dispatch) => {
+	project = { ...project, tasks: undefined }
 	return put(`${url}/${project._id}`, project, dispatch)
 		.then((res) => {
 			dispatch(set(Types.UPDATE_PROJECT, 'project', res.data.project))
+			dispatch(setActiveProject(res.data.project))
 			dispatch(actionSuccess())
 		})
 		.catch((error) => {

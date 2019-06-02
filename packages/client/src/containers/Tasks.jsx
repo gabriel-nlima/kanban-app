@@ -14,7 +14,7 @@ import * as status from '../utils/status'
 
 import { Link, withRouter } from 'react-router-dom'
 
-import { getTasks, editTask, deleteTask } from '../redux/task'
+import { getProjectTasks, editTask, deleteTask } from '../redux/task'
 import { connect } from 'react-redux'
 
 export class Tasks extends React.Component {
@@ -232,16 +232,14 @@ export class Tasks extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		tasks: state.task.tasks.filter(
-			(el) => el.project_id === state.project.activeProject._id
-		),
-		isError: state.currentState.isError,
-		isLoading: state.currentState.isLoading,
+		tasks: state.task.tasks,
+		isError: state.current.isError,
+		isLoading: state.current.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		getTasks: () => dispatch(getTasks()),
+		getProjectTasks: () => dispatch(getProjectTasks()),
 		editTask: (task) => dispatch(editTask(task)),
 		deleteTask: (task) => dispatch(deleteTask(task)),
 	}

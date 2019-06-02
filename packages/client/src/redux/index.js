@@ -6,25 +6,40 @@ import thunk from 'redux-thunk'
 //Reducers
 import task from './task'
 import project from './project'
-import currentState from './currentState'
+import current from './currentState'
 
-const middleWare = [thunk]
+const middleWares = [thunk]
 
 const loggerMiddleware = createLogger({
 	predicate: () => process.env.NODE_ENV === 'development',
 })
-middleWare.push(loggerMiddleware)
+middleWares.push(loggerMiddleware)
 
 const reducers = combineReducers({
 	task,
 	project,
-	currentState,
+	current,
 })
 
-export default function configureStore(initialState) {
+const initialState = {
+	task: {
+		tasks: [],
+	},
+	project: {
+		projects: [],
+	},
+	current: {
+		activeProject: { tasks: [] },
+		isLoading: false,
+		isError: false,
+		error: [],
+	},
+}
+
+export default function configureStore() {
 	return createStore(
 		reducers,
 		initialState,
-		compose(applyMiddleware(...middleWare))
+		compose(applyMiddleware(...middleWares))
 	)
 }

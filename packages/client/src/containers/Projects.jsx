@@ -9,7 +9,8 @@ import CardColumns from 'react-bootstrap/CardColumns'
 
 import { Link, withRouter } from 'react-router-dom'
 
-import { getProjects, setActiveProject } from '../redux/project'
+import { getProjects } from '../redux/project'
+import { setActiveProject } from '../redux/currentState'
 import { connect } from 'react-redux'
 
 export class Projects extends React.Component {
@@ -27,7 +28,6 @@ export class Projects extends React.Component {
 		await this.props.setActiveProject(project)
 		this.props.history.push({
 			pathname: '/projectInfos',
-			state: { project },
 		})
 	}
 
@@ -69,8 +69,8 @@ export class Projects extends React.Component {
 function mapStateToProps(state) {
 	return {
 		projects: state.project.projects,
-		isError: state.currentState.isError,
-		isLoading: state.currentState.isLoading,
+		isError: state.current.isError,
+		isLoading: state.current.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

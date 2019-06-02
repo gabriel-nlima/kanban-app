@@ -26,9 +26,7 @@ import ProjectInfos from './containers/ProjectInfos'
 import Header from './components/Header'
 import NoMatch from './components/NoMatch'
 
-import { initialState } from './utils'
-
-const store = configureStore(initialState)
+const store = configureStore()
 
 ReactDOM.render(
 	<Provider store={store}>

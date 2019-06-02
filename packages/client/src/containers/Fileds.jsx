@@ -106,11 +106,9 @@ export class Fileds extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		tasks: state.task.tasks.filter(
-			(el) => el.project_id === state.project.activeProject._id
-		),
-		isError: state.currentState.isError,
-		isLoading: state.currentState.isLoading,
+		tasks: state.task.tasks,
+		isError: state.curren.isError,
+		isLoading: state.current.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

@@ -3,6 +3,8 @@ import React from 'react'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Popover from 'react-bootstrap/Popover'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 
 import { FaAngleLeft, FaPen, FaTrash } from 'react-icons/fa'
 
@@ -14,33 +16,37 @@ import {
 	setActiveProject,
 	unsetActiveProject,
 	getActiveProject,
-} from '../redux/project'
-import { getTasks } from '../redux/task'
+} from '../redux/currentState'
+import { getProjectTasks } from '../redux/task'
 
 import { withRouter } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
+import { deleteProject } from '../redux/project'
 
 const { Body, Text, Header } = Card
 
 export class ProjectInfos extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			project: {},
+	async componentDidMount() {
+		if (this.props.history.action !== 'PUSH' && localStorage.ap) {
+			await this.props.getActiveProject()
 		}
 	}
 
-	async componentDidMount() {
-		if (this.props.activeProject._id) {
-			await this.props.getActiveProject(this.props.activeProject)
-			this.props.getTasks()
-		} else if (localStorage.ap) {
-			await this.props.getActiveProject()
-			this.props.getTasks()
-		} else {
-			this.props.history.push('/')
-		}
-	}
+	popover = (
+		<Popover id='popover-basic' title='Deletar projeto?'>
+			Todas as tarefas também serão deletadas. <b>Deletar mesmo assim?</b>
+			<br />
+			<Button
+				variant='danger'
+				onClick={() => {
+					this.props.deleteProject(this.props.activeProject)
+					this.props.history.push('/')
+				}}
+			>
+				Sim
+			</Button>
+		</Popover>
+	)
 
 	render() {
 		const project = this.props.activeProject
@@ -77,14 +83,15 @@ export class ProjectInfos extends React.Component {
 										>
 											<FaPen size='1.2em' />
 										</Button>
-										<Button
-											variant='danger'
-											onClick={() =>
-												this.props.history.push('/')
-											}
+										<OverlayTrigger
+											trigger='click'
+											placement='bottom'
+											overlay={this.popover}
 										>
-											<FaTrash size='1.2em' />
-										</Button>
+											<Button variant='danger'>
+												<FaTrash size='1.2em' />
+											</Button>
+										</OverlayTrigger>
 									</h2>
 								</Header>
 								<Body>
@@ -123,9 +130,9 @@ export class ProjectInfos extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		activeProject: state.project.activeProject,
-		isError: state.currentState.isError,
-		isLoading: state.currentState.isLoading,
+		activeProject: state.current.activeProject,
+		isError: state.current.isError,
+		isLoading: state.current.isLoading,
 	}
 }
 const mapDispatchToProps = (dispatch) => {
@@ -133,7 +140,8 @@ const mapDispatchToProps = (dispatch) => {
 		setActiveProject: (project) => dispatch(setActiveProject(project)),
 		getActiveProject: () => dispatch(getActiveProject()),
 		unsetActiveProject: () => dispatch(unsetActiveProject()),
-		getTasks: () => dispatch(getTasks()),
+		getProjectTasks: () => dispatch(getProjectTasks()),
+		deleteProject: (project) => dispatch(deleteProject(project)),
 	}
 }
 

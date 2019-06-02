@@ -1,6 +1,5 @@
-import { set, get, add, edit, del } from './common'
-import { actionStarted, actionFailed, actionSuccess } from './currentState'
-import Axios from 'axios'
+import { set, fetch, add, edit, remove, get, post, put, del } from './common'
+import { actionFailed, actionSuccess } from './currentState'
 
 export const Types = {
 	GET_PROJECTS: 'GET_PROJECTS',
@@ -22,7 +21,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case Types.GET_ACTIVE_PROJECT:
-			return get(state, action, 'activeProject')
+			return fetch(state, action, 'activeProject')
 		case Types.SET_ACTIVE_PROJECT:
 			return {
 				...state,
@@ -38,13 +37,13 @@ export default function reducer(state = initialState, action) {
 				error: false,
 			}
 		case Types.GET_PROJECTS:
-			return get(state, action, 'projects')
+			return fetch(state, action, 'projects')
 		case Types.ADD_PROJECT:
 			return add(state, action, 'projects', 'project')
 		case Types.UPDATE_PROJECT:
 			return edit(state, action, 'projects', 'project', 'activeProject')
 		case Types.DELETE_PROJECT:
-			return del(state, action, 'projects', 'project')
+			return remove(state, action, 'projects', 'project')
 		default:
 			return state
 	}
@@ -64,10 +63,8 @@ export const unsetActiveProject = () => (dispatch) => {
 }
 
 export const getActiveProject = (project) => (dispatch) => {
-	dispatch(actionStarted())
 	const projectId = project ? project._id : localStorage.getItem('ap')
-
-	return Axios.get(`${url}/${projectId}`)
+	return get(`${url}/${projectId}`, dispatch)
 		.then((res) => {
 			dispatch({
 				type: Types.GET_ACTIVE_PROJECT,
@@ -81,9 +78,7 @@ export const getActiveProject = (project) => (dispatch) => {
 }
 
 export const getProjects = () => (dispatch) => {
-	dispatch(actionStarted())
-
-	return Axios.get(url)
+	return get(url, dispatch)
 		.then((res) => {
 			const { projects } = res.data
 
@@ -96,9 +91,7 @@ export const getProjects = () => (dispatch) => {
 }
 
 export const addProject = (project) => (dispatch) => {
-	dispatch(actionStarted())
-
-	return Axios.post(url, project)
+	return post(url, project, dispatch)
 		.then((res) => {
 			dispatch(set(Types.ADD_PROJECT, 'project', res.data.project))
 			dispatch(actionSuccess())
@@ -109,9 +102,7 @@ export const addProject = (project) => (dispatch) => {
 }
 
 export const editProject = (project) => (dispatch) => {
-	dispatch(actionStarted())
-
-	return Axios.put(`${url}/${project._id}`, project)
+	return put(`${url}/${project._id}`, project, dispatch)
 		.then((res) => {
 			dispatch(set(Types.UPDATE_PROJECT, 'project', res.data.project))
 			dispatch(actionSuccess())
@@ -122,9 +113,7 @@ export const editProject = (project) => (dispatch) => {
 }
 
 export const deleteProject = (project) => (dispatch) => {
-	dispatch(actionStarted())
-
-	return Axios.delete(`${url}/${project._id}`, project)
+	return del(`${url}/${project._id}`, project, dispatch)
 		.then(() => {
 			dispatch(set(Types.DELETE_PROJECT, 'project', project))
 			dispatch(actionSuccess())

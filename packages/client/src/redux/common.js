@@ -1,5 +1,6 @@
+import { actionStarted } from './currentState'
+import Axios from 'axios'
 //Reducers functions
-
 export function set(type, resName, data) {
 	return {
 		type,
@@ -10,7 +11,7 @@ export function set(type, resName, data) {
 	}
 }
 
-export function get(state, action, list) {
+export function fetch(state, action, list) {
 	return {
 		...state,
 		[list]: action[list],
@@ -45,11 +46,30 @@ export function edit(state, action, list, toEdit, active) {
 	}
 }
 
-export function del(state, action, list, toDelete) {
+export function remove(state, action, list, toDelete) {
 	return {
 		...state,
 		[list]: state[list].filter((el) => el._id !== action[toDelete]._id),
 		isLoading: action.isLoading,
 		isError: action.isError,
 	}
+}
+
+//Common actions
+export function get(url, dispatch) {
+	dispatch(actionStarted())
+	return Axios.get(url)
+}
+export function post(url, data, dispatch) {
+	dispatch(actionStarted())
+	return Axios.post(url, data)
+}
+export function put(url, data, dispatch) {
+	dispatch(actionStarted())
+	return Axios.get(url, data)
+}
+
+export function del(url, data, dispatch) {
+	dispatch(actionStarted())
+	return Axios.delete(url, data)
 }

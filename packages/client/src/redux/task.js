@@ -1,6 +1,5 @@
-import { set, get, add, edit, del } from './common'
-import { actionStarted, actionFailed, actionSuccess } from './currentState'
-import Axios from 'axios'
+import { set, fetch, add, edit, remove, get, post, put, del } from './common'
+import { actionFailed, actionSuccess } from './currentState'
 
 import * as status from '../utils/status'
 
@@ -20,13 +19,13 @@ const initialState = {
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case Types.GET_TASKS:
-			return get(state, action, 'tasks')
+			return fetch(state, action, 'tasks')
 		case Types.ADD_TASK:
 			return add(state, action, 'tasks', 'task')
 		case Types.UPDATE_TASK:
 			return edit(state, action, 'tasks', 'task')
 		case Types.DELETE_TASK:
-			return del(state, action, 'tasks', 'task')
+			return remove(state, action, 'tasks', 'task')
 		default:
 			return state
 	}
@@ -36,9 +35,7 @@ export default function reducer(state = initialState, action) {
 const url = '/api/tasks'
 
 export const getTasks = () => (dispatch) => {
-	dispatch(actionStarted())
-
-	return Axios.get(url)
+	return get(url, dispatch)
 		.then((res) => {
 			const { tasks } = res.data
 			dispatch(set(Types.GET_TASKS, 'tasks', tasks))
@@ -50,14 +47,13 @@ export const getTasks = () => (dispatch) => {
 }
 
 export const addTask = (task) => (dispatch) => {
-	dispatch(actionStarted())
 	const addedIn = new Date()
 	task = {
 		...task,
 		status: status.TODO,
 		addedIn: addedIn.toLocaleString(),
 	}
-	return Axios.post(url, task)
+	return post(url, task, dispatch)
 		.then((res) => {
 			dispatch(set(Types.ADD_TASK, 'task', res.data.task))
 			dispatch(actionSuccess())
@@ -68,7 +64,6 @@ export const addTask = (task) => (dispatch) => {
 }
 
 export const editTask = (task) => (dispatch) => {
-	dispatch(actionStarted())
 	if (task.status === status.FINISHED) {
 		const finishedIn = new Date()
 		task = {
@@ -84,7 +79,7 @@ export const editTask = (task) => (dispatch) => {
 		}
 	}
 
-	return Axios.put(`${url}/${task._id}`, task)
+	return put(`${url}/${task._id}`, task, dispatch)
 		.then((res) => {
 			dispatch(set(Types.UPDATE_TASK, 'task', res.data.task))
 			dispatch(actionSuccess())
@@ -95,8 +90,7 @@ export const editTask = (task) => (dispatch) => {
 }
 
 export const deleteTask = (task) => (dispatch) => {
-	dispatch(actionStarted())
-	return Axios.delete(`${url}/${task._id}`, task)
+	return del(`${url}/${task._id}`, task, dispatch)
 		.then((res) => {
 			dispatch(set(Types.DELETE_TASK, 'task', task))
 			dispatch(actionSuccess())

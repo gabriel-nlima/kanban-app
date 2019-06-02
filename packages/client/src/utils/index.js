@@ -3,7 +3,7 @@ import React from 'react'
 import { render } from 'react-testing-library'
 
 import { Provider } from 'react-redux'
-import configureStore from '../redux/configureStore'
+import configureStore from '../redux'
 
 import { MemoryRouter } from 'react-router-dom'
 

@@ -7,7 +7,7 @@ import './css/index.css'
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-import configureStore from './redux/configureStore'
+import configureStore from './redux'
 import { Provider } from 'react-redux'
 
 import * as serviceWorker from './serviceWorker'

@@ -17,8 +17,6 @@ import { Link, withRouter } from 'react-router-dom'
 import { getTasks, editTask, deleteTask } from '../redux/task'
 import { connect } from 'react-redux'
 
-import PropTypes from 'prop-types'
-
 export class Tasks extends React.Component {
 	constructor(props) {
 		super(props)
@@ -53,21 +51,21 @@ export class Tasks extends React.Component {
 			status: newStatus,
 			lastStatus: task.status,
 		}
-		if (newStatus === status.DELETED) {
-			this.props.deleteTask(task)
-		} else {
-			this.props.editTask(task)
-		}
+
+		if (newStatus === status.DELETED) this.props.deleteTask(task)
+		else this.props.editTask(task)
 	}
 
 	onDragOver = (e) => {
 		e.preventDefault()
 		e.dataTransfer.dropEffect = 'move'
 	}
+
 	onDrop = async (e, status) => {
 		let task = JSON.parse(e.dataTransfer.getData('task'))
 		await this.handleStatusChange(task, status)
 	}
+
 	render() {
 		const {
 			tasksToDo,
@@ -76,7 +74,7 @@ export class Tasks extends React.Component {
 			filedTasks,
 		} = this.getTaskStatus(this.props.tasks)
 
-		const badgeMargin = { marginLeft: 6 }
+		const badgeMargin = { marginLeft: 5 }
 
 		return (
 			<React.Fragment>
@@ -138,20 +136,15 @@ export class Tasks extends React.Component {
 						{this.props.isLoading ? (
 							<Spinner bg='text-info' />
 						) : (
-							tasksToDo.map((task) => {
-								return (
-									<Task
-										key={task._id}
-										background='info'
-										{...task}
-										task={task}
-										OnClickAction={ActionsDropdown}
-										handleStatusChange={
-											this.handleStatusChange
-										}
-									/>
-								)
-							})
+							tasksToDo.map((task) => (
+								<Task
+									key={task._id}
+									background='info'
+									task={task}
+									OnClickAction={ActionsDropdown}
+									handleStatusChange={this.handleStatusChange}
+								/>
+							))
 						)}
 					</Col>
 					<Col
@@ -179,20 +172,15 @@ export class Tasks extends React.Component {
 						{this.props.isLoading ? (
 							<Spinner bg='text-warning' />
 						) : (
-							taskBeingDone.map((task) => {
-								return (
-									<Task
-										key={task._id}
-										background='warning'
-										{...task}
-										task={task}
-										OnClickAction={ActionsDropdown}
-										handleStatusChange={
-											this.handleStatusChange
-										}
-									/>
-								)
-							})
+							taskBeingDone.map((task) => (
+								<Task
+									key={task._id}
+									background='warning'
+									task={task}
+									OnClickAction={ActionsDropdown}
+									handleStatusChange={this.handleStatusChange}
+								/>
+							))
 						)}
 					</Col>
 					<Col
@@ -225,20 +213,15 @@ export class Tasks extends React.Component {
 						{this.props.isLoading ? (
 							<Spinner bg='text-success' />
 						) : (
-							fineshedTasks.map((task) => {
-								return (
-									<Task
-										key={task._id}
-										background='success'
-										{...task}
-										task={task}
-										OnClickAction={ActionsDropdown}
-										handleStatusChange={
-											this.handleStatusChange
-										}
-									/>
-								)
-							})
+							fineshedTasks.map((task) => (
+								<Task
+									key={task._id}
+									background='success'
+									task={task}
+									OnClickAction={ActionsDropdown}
+									handleStatusChange={this.handleStatusChange}
+								/>
+							))
 						)}
 					</Col>
 				</Row>
@@ -247,17 +230,11 @@ export class Tasks extends React.Component {
 	}
 }
 
-Tasks.propTypes = {
-	getTasks: PropTypes.func.isRequired,
-	editTask: PropTypes.func.isRequired,
-	deleteTask: PropTypes.func.isRequired,
-}
-function mapStateToProps(state) {
-	const tasks = state.task.tasks.filter(
-		(el) => el.project_id === state.project.activeProject._id
-	)
+const mapStateToProps = (state) => {
 	return {
-		tasks,
+		tasks: state.task.tasks.filter(
+			(el) => el.project_id === state.project.activeProject._id
+		),
 		isError: state.currentState.isError,
 		isLoading: state.currentState.isLoading,
 	}

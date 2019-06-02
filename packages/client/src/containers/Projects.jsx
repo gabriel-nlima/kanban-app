@@ -1,7 +1,6 @@
 import React from 'react'
 
 import Project from '../components/project/Project'
-//import Spinner from '../components/Spinner'
 import { CustomAlert } from '../components/CustomAlert'
 
 import Row from 'react-bootstrap/Row'

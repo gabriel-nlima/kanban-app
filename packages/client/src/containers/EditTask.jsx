@@ -2,12 +2,11 @@ import React from 'react'
 import EditTaskForm from '../components/task/FormTask'
 import { editTask } from '../redux/task'
 import * as status from '../utils/status'
+import { handleChange } from '../utils'
 
 import { connect } from 'react-redux'
 
 import { withRouter } from 'react-router-dom'
-
-import PropTypes from 'prop-types'
 
 export class EditTask extends React.Component {
 	constructor(props) {
@@ -27,9 +26,7 @@ export class EditTask extends React.Component {
 	}
 
 	handleInputChange(e) {
-		const task = Object.assign({}, this.state.task)
-		task[e.target.name] = e.target.value
-		this.setState({ task })
+		this.setState({ task: handleChange(e, this.state.task) })
 	}
 
 	submitTask(e) {
@@ -67,11 +64,7 @@ export class EditTask extends React.Component {
 	}
 }
 
-EditTask.propTypes = {
-	editTask: PropTypes.func.isRequired,
-}
-
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
 	return {
 		tasks: state.task.tasks,
 	}

@@ -1,12 +1,12 @@
 import React from 'react'
 import AddTaskForm from '../components/task/FormTask'
-import { addTask } from '../redux/task'
+
+import { handleChange } from '../utils'
 
 import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-
-import PropTypes from 'prop-types'
+import { addTask } from '../redux/task'
 
 class AddTask extends React.Component {
 	constructor(props) {
@@ -18,12 +18,8 @@ class AddTask extends React.Component {
 		this.submitTask = this.submitTask.bind(this)
 	}
 
-	componentDidMount() {}
-
 	handleInputChange(e) {
-		const task = Object.assign({}, this.state.task)
-		task[e.target.name] = e.target.value
-		this.setState({ task })
+		this.setState({ task: handleChange(e, this.state.task) })
 	}
 	submitTask(e) {
 		if (this.props.activeProject) {
@@ -48,11 +44,7 @@ class AddTask extends React.Component {
 	}
 }
 
-AddTask.propTypes = {
-	addTask: PropTypes.func.isRequired,
-}
-
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
 	return {
 		activeProject: state.project.activeProject,
 	}

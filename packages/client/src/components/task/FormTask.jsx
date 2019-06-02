@@ -53,7 +53,7 @@ const FormTask = ({ handleSubmit, handleChange, task, isEditing }) => {
 										className='mb-2 mr-sm-2'
 										onChange={handleChange}
 										placeholder='Descrição'
-										maxLength='100'
+										maxLength='120'
 										data-testid='inputDesc'
 										value={task.desc || ''}
 									/>

@@ -1,7 +1,7 @@
 import React from 'react'
 import AddForm from '../components/project/Form'
 
-import { handleChange } from '../utils/utils'
+import { handleChange } from '../utils'
 
 import { withRouter } from 'react-router-dom'
 
@@ -17,8 +17,6 @@ class AddProject extends React.Component {
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.submitProject = this.submitProject.bind(this)
 	}
-
-	componentDidMount() {}
 
 	handleInputChange(e) {
 		this.setState({ project: handleChange(e, this.state.project) })
@@ -42,7 +40,7 @@ class AddProject extends React.Component {
 	}
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
 	return {
 		projects: state.project.projects,
 	}

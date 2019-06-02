@@ -3,6 +3,8 @@ import EditForm from '../components/project/Form'
 
 import { withRouter } from 'react-router-dom'
 
+import { handleChange } from '../utils'
+
 import { connect } from 'react-redux'
 import { editProject } from '../redux/project'
 
@@ -28,9 +30,7 @@ class EditProject extends React.Component {
 	}
 
 	handleInputChange(e) {
-		const project = Object.assign({}, this.state.project)
-		project[e.target.name] = e.target.value
-		this.setState({ project })
+		this.setState({ project: handleChange(e, this.state.project) })
 	}
 	submitProject(e) {
 		this.props.editProject(this.state.project)
@@ -54,7 +54,7 @@ class EditProject extends React.Component {
 	}
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
 	return {
 		activeProject: state.project.activeProject,
 	}

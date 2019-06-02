@@ -15,8 +15,6 @@ import { Link } from 'react-router-dom'
 import { getTasks, deleteTask, editTask } from '../redux/task'
 import { connect } from 'react-redux'
 
-import PropTypes from 'prop-types'
-
 export class Fileds extends React.Component {
 	constructor(props) {
 		super(props)
@@ -44,7 +42,7 @@ export class Fileds extends React.Component {
 		const filedTask = this.props.tasks.filter(
 			(t) => t.status === status.FILED
 		)
-		const badgeMargin = { marginLeft: 6 }
+		const badgeMargin = { marginLeft: 5 }
 
 		return (
 			<React.Fragment>
@@ -85,20 +83,18 @@ export class Fileds extends React.Component {
 					) : (
 						<Col xs={12} sm={12} md={12} lg={12} xl={12}>
 							<CardColumns>
-								{filedTask.map((task) => {
-									return (
-										<Task
-											key={task._id}
-											{...task}
-											task={task}
-											background='secondary'
-											OnClickAction={ActionsDropdown}
-											handleStatusChange={
-												this.handleStatusChange
-											}
-										/>
-									)
-								})}
+								{filedTask.map((task) => (
+									<Task
+										key={task._id}
+										{...task}
+										task={task}
+										background='secondary'
+										OnClickAction={ActionsDropdown}
+										handleStatusChange={
+											this.handleStatusChange
+										}
+									/>
+								))}
 							</CardColumns>
 						</Col>
 					)}
@@ -108,15 +104,11 @@ export class Fileds extends React.Component {
 	}
 }
 
-Fileds.propTypes = {
-	getTasks: PropTypes.func.isRequired,
-	deleteTask: PropTypes.func.isRequired,
-	editTask: PropTypes.func.isRequired,
-}
-
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
 	return {
-		tasks: state.task.tasks,
+		tasks: state.task.tasks.filter(
+			(el) => el.project_id === state.project.activeProject._id
+		),
 		isError: state.currentState.isError,
 		isLoading: state.currentState.isLoading,
 	}

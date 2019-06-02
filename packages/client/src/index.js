@@ -26,23 +26,9 @@ import ProjectInfos from './containers/ProjectInfos'
 import Header from './components/Header'
 import NoMatch from './components/NoMatch'
 
-const initialState = {
-	task: {
-		tasks: [],
-	},
-	project: {
-		projects: [],
-		activeProject: { tasks: [] },
-	},
-	currentState: {
-		isLoading: false,
-		isError: false,
-		error: [],
-	},
-}
+import { initialState } from './utils'
 
 const store = configureStore(initialState)
-console.log(store.getState())
 
 ReactDOM.render(
 	<Provider store={store}>

@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Popover from 'react-bootstrap/Popover'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 
 import { FaAngleLeft, FaPen, FaTrash } from 'react-icons/fa'
 
@@ -28,25 +29,68 @@ import { deleteProject } from '../redux/project'
 const { Body, Text, Header } = Card
 
 export class ProjectInfos extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			projectName: '',
+		}
+		this.handleInputChange = this.handleInputChange.bind(this)
+		this.confirmProjectDel = this.confirmProjectDel.bind(this)
+	}
 	async componentDidMount() {
 		if (this.props.history.action !== 'PUSH' && localStorage.ap) {
 			await this.props.getActiveProject()
 		}
 	}
 
-	popover = (
+	handleInputChange = (e) => {
+		this.setState({ projectName: e.target.value })
+	}
+
+	confirmProjectDel = () => (
 		<Popover id='popover-basic' title='Deletar projeto?'>
-			Todas as tarefas também serão deletadas. <b>Deletar mesmo assim?</b>
-			<br />
-			<Button
-				variant='danger'
-				onClick={() => {
-					this.props.deleteProject(this.props.activeProject)
-					this.props.history.push('/')
-				}}
-			>
-				Sim
-			</Button>
+			<Row>
+				<Col xs={12}>
+					Todas as tarefas também serão deletadas. Esta ação não pode
+					ser desfeita.{' '}
+					<b>Digite o nome do projeto para confirmar.</b>
+				</Col>
+			</Row>
+			<Form>
+				<Form.Row>
+					<Form.Group className='col-12'>
+						<Form.Control
+							name='projectName'
+							id='projectName'
+							type='text'
+							className='mb-2 mr-sm-2'
+							onChange={this.handleInputChange}
+							placeholder='Nome do projeto'
+							data-testid='inputProjectName'
+							maxLength='40'
+							required
+						/>
+					</Form.Group>
+				</Form.Row>
+			</Form>
+			<Row className='text-right'>
+				<Col>
+					<Button
+						className='text-right'
+						variant='danger'
+						onClick={() => {
+							this.props.deleteProject(this.props.activeProject)
+							this.props.history.push('/')
+						}}
+						disabled={
+							this.state.projectName !==
+							this.props.activeProject.name
+						}
+					>
+						Sim
+					</Button>
+				</Col>
+			</Row>
 		</Popover>
 	)
 
@@ -88,7 +132,12 @@ export class ProjectInfos extends React.Component {
 										<OverlayTrigger
 											trigger='click'
 											placement='bottom'
-											overlay={this.popover}
+											overlay={this.confirmProjectDel()}
+											onExit={() =>
+												this.setState({
+													projectName: '',
+												})
+											}
 										>
 											<Button variant='danger'>
 												<FaTrash size='1.2em' />

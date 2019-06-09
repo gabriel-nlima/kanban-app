@@ -6,25 +6,17 @@ const {
 	deleteProject,
 } = require('../schemas/project')
 
+const { queryProjects, queryProjectsTasks } = require('../utils')
+
 async function routes(fastify) {
+	const { ObjectId } = fastify.mongo
 	fastify.get('/api/projects', getProjects, function get(req, reply) {
 		async function getProjects(err, col) {
 			const projects = []
-			await col
-				.aggregate([
-					{
-						$lookup: {
-							from: 'tasks',
-							localField: '_id',
-							foreignField: 'project_id',
-							as: 'tasks',
-						},
-					},
-				])
-				.forEach(function(project) {
-					if (project) projects.push(project)
-					else return false
-				})
+			await col.aggregate(queryProjects).forEach(function(project) {
+				if (project) projects.push(project)
+				else return false
+			})
 
 			reply.send({ projects })
 		}
@@ -39,23 +31,8 @@ async function routes(fastify) {
 		async function getProject(err, col) {
 			let activeProject = {}
 			const { id } = req.params
-			const { ObjectId } = fastify.mongo
 			await col
-				.aggregate([
-					{
-						$match: {
-							_id: new ObjectId(id),
-						},
-					},
-					{
-						$lookup: {
-							from: 'tasks',
-							localField: '_id',
-							foreignField: 'project_id',
-							as: 'tasks',
-						},
-					},
-				])
+				.aggregate(queryProjectsTasks(new ObjectId(id)))
 				.forEach(function(project) {
 					if (project) activeProject = project
 					else return false
@@ -85,10 +62,9 @@ async function routes(fastify) {
 			if (err) reply.send(err)
 			const { id } = req.params
 			const { _id, ...project } = req.body
-			const { ObjectId } = fastify.mongo
 
 			col.findOneAndUpdate(
-				{ _id: ObjectId(id) },
+				{ _id: new ObjectId(id) },
 				{ $set: project },
 				{ returnOriginal: false },
 				(error, result) => {
@@ -106,11 +82,14 @@ async function routes(fastify) {
 		reply
 	) {
 		function deleteProject(err, col) {
-			const { ObjectId } = fastify.mongo
-			col.findOneAndDelete({ _id: ObjectId(req.params.id) })
+			col.findOneAndDelete({ _id: new ObjectId(req.params.id) })
 			reply.send()
 		}
+		function deleteProjectsTasks(err, col) {
+			col.deleteMany({ project_id: new ObjectId(req.params.id) })
+		}
 		const { db } = this.mongo
+		db.collection('tasks', deleteProjectsTasks)
 		db.collection('projects', deleteProject)
 	})
 }

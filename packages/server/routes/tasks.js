@@ -1,6 +1,7 @@
 const { addTask, getTasks, updateTask, deleteTask } = require('../schemas/task')
 
 async function routes(fastify) {
+	const { ObjectId } = fastify.mongo
 	fastify.get('/api/tasks', getTasks, function get(req, reply) {
 		async function getTasks(err, col) {
 			const tasks = []
@@ -23,7 +24,6 @@ async function routes(fastify) {
 			if (err) reply.send(err)
 
 			let task = req.body
-			const { ObjectId } = fastify.mongo
 			task = { ...task, project_id: new ObjectId(task.project_id) }
 
 			col.insertOne(task, (error, result) => {
@@ -41,7 +41,6 @@ async function routes(fastify) {
 			if (err) reply.send(err)
 			const { id } = req.params
 			const { _id, ...task } = req.body
-			const { ObjectId } = fastify.mongo
 			task.project_id = new ObjectId(task.project_id)
 
 			col.findOneAndUpdate(
@@ -60,7 +59,6 @@ async function routes(fastify) {
 
 	fastify.delete('/api/tasks/:id', deleteTask, function del(req, reply) {
 		function deleteTask(err, col) {
-			const { ObjectId } = fastify.mongo
 			col.findOneAndDelete({ _id: new ObjectId(req.params.id) })
 			reply.send()
 		}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
@@ -8,7 +8,13 @@ import Col from 'react-bootstrap/Col'
 
 import * as status from '../../utils/status'
 
-const FormTask = ({ handleSubmit, handleChange, task, isEditing }) => {
+const FormTask = ({
+	handleSubmit,
+	handleChange,
+	task,
+	isEditing,
+	handleModal,
+}) => {
 	return (
 		<Row className='d-flex justify-content-center'>
 			<Col xs={12} sm={12} md={10} lg={8} xl={6}>
@@ -127,13 +133,12 @@ const FormTask = ({ handleSubmit, handleChange, task, isEditing }) => {
 							</Form.Row>
 							<Form.Row className='text-right'>
 								<Form.Group className='col-12'>
-									<Link
-										to='/projectInfos'
+									<Button
 										className='btn btn-secondary'
-										data-testid='btnBack'
+										onClick={handleModal}
 									>
-										Voltar
-									</Link>
+										Fechar
+									</Button>
 									<Button
 										type='submit'
 										style={{ marginLeft: 5 }}

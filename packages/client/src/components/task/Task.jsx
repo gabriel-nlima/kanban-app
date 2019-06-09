@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
@@ -14,7 +13,13 @@ const onDragStart = (e, task) => {
 	e.dataTransfer.effectAllowed = 'move'
 }
 
-const Task = ({ task, background, OnClickAction, handleStatusChange }) => {
+const Task = ({
+	task,
+	background,
+	OnClickAction,
+	handleStatusChange,
+	handleModal,
+}) => {
 	return (
 		<Card
 			bg={background}
@@ -53,12 +58,10 @@ const Task = ({ task, background, OnClickAction, handleStatusChange }) => {
 				</Card.Text>
 				<ButtonGroup size='sm'>
 					<Button
-						href='/editar'
 						variant='light'
 						size='sm'
-						as={Link}
 						type='button'
-						to={{ pathname: '/editTask', state: { task } }}
+						onClick={() => handleModal(task)}
 					>
 						Editar{' '}
 					</Button>

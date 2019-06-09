@@ -2,6 +2,7 @@ import React from 'react'
 
 import Task from '../components/task/Task'
 import Spinner from '../components/Spinner'
+import FormModal from '../components/FormModal'
 import { ActionsDropdown } from '../components/ActionsDropdown'
 import { CustomAlert } from '../components/CustomAlert'
 
@@ -16,15 +17,21 @@ import { Link, withRouter } from 'react-router-dom'
 
 import { getProjectTasks, editTask, deleteTask } from '../redux/task'
 import { connect } from 'react-redux'
+import EditTask from './EditTask'
+import AddTask from './AddTask'
 
 export class Tasks extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
 			tasks: [],
+			task: {},
+			showModal: false,
+			isEditing: false,
 		}
 		this.getTaskStatus = this.getTaskStatus.bind(this)
 		this.handleStatusChange = this.handleStatusChange.bind(this)
+		this.handleModal = this.handleModal.bind(this)
 		this.onDragOver = this.onDragOver.bind(this)
 		this.onDrop = this.onDrop.bind(this)
 	}
@@ -56,6 +63,22 @@ export class Tasks extends React.Component {
 		else this.props.editTask(task)
 	}
 
+	handleModal = (task) => {
+		if (task) {
+			this.setState({
+				isEditing: true,
+				showModal: !this.state.showModal,
+				task,
+			})
+		} else {
+			this.setState({
+				isEditing: false,
+				showModal: !this.state.showModal,
+				task: {},
+			})
+		}
+	}
+
 	onDragOver = (e) => {
 		e.preventDefault()
 		e.dataTransfer.dropEffect = 'move'
@@ -81,7 +104,11 @@ export class Tasks extends React.Component {
 				<Row className='text-left'>
 					<Col xs={6} sm={6} md={6} lg={6} xl={6}>
 						<h5 className='text-muted'>
-							<Link to='/fileds' className='btn btn-secondary'>
+							<Link
+								to='/fileds'
+								replace={true}
+								className='btn btn-secondary'
+							>
 								ARQUIVADAS{' '}
 								<Badge pill variant='info' style={badgeMargin}>
 									{filedTasks.length}
@@ -100,9 +127,9 @@ export class Tasks extends React.Component {
 						<Button
 							variant='primary'
 							type='button'
-							href='/addTask'
-							as={Link}
-							to='/addTask'
+							onClick={() => {
+								this.handleModal()
+							}}
 							disabled={this.props.isError ? true : false}
 						>
 							Adicionar nova tarefa
@@ -137,13 +164,18 @@ export class Tasks extends React.Component {
 							<Spinner bg='text-info' />
 						) : (
 							tasksToDo.map((task) => (
-								<Task
-									key={task._id}
-									background='info'
-									task={task}
-									OnClickAction={ActionsDropdown}
-									handleStatusChange={this.handleStatusChange}
-								/>
+								<React.Fragment key={task._id}>
+									<Task
+										key={task._id}
+										background='info'
+										task={task}
+										OnClickAction={ActionsDropdown}
+										handleStatusChange={
+											this.handleStatusChange
+										}
+										handleModal={this.handleModal}
+									/>
+								</React.Fragment>
 							))
 						)}
 					</Col>
@@ -179,6 +211,7 @@ export class Tasks extends React.Component {
 									task={task}
 									OnClickAction={ActionsDropdown}
 									handleStatusChange={this.handleStatusChange}
+									handleModal={this.handleModal}
 								/>
 							))
 						)}
@@ -220,11 +253,18 @@ export class Tasks extends React.Component {
 									task={task}
 									OnClickAction={ActionsDropdown}
 									handleStatusChange={this.handleStatusChange}
+									handleModal={this.handleModal}
 								/>
 							))
 						)}
 					</Col>
 				</Row>
+				<FormModal
+					data={this.state.task}
+					showModal={this.state.showModal}
+					Form={this.state.isEditing ? EditTask : AddTask}
+					hide={this.handleModal}
+				/>
 			</React.Fragment>
 		)
 	}

@@ -12,7 +12,7 @@ class AddTask extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			task: [],
+			task: {},
 		}
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.submitTask = this.submitTask.bind(this)
@@ -28,8 +28,9 @@ class AddTask extends React.Component {
 			task = { ...task, project_id: _id }
 			this.props.addTask(task)
 		}
-		this.setState({ task: [] })
-		this.props.history.push('/projectInfos')
+		this.setState({ task: {} })
+
+		this.props.handleModal()
 		e.preventDefault()
 	}
 
@@ -39,6 +40,7 @@ class AddTask extends React.Component {
 				handleChange={this.handleInputChange}
 				handleSubmit={this.submitTask}
 				task={this.state.task}
+				handleModal={this.props.handleModal}
 			/>
 		)
 	}

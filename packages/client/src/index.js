@@ -13,11 +13,6 @@ import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 import App from './App'
 
-import Fileds from './containers/Fileds'
-import AddTask from './containers/AddTask'
-import EditTask from './containers/EditTask'
-import Tasks from './containers/Tasks'
-
 import AddProject from './containers/AddProject'
 import EditProject from './containers/EditProject'
 import Projects from './containers/Projects'
@@ -35,15 +30,21 @@ ReactDOM.render(
 				<Header />
 				<Switch>
 					<Route path='/' exact component={App} />
-					<Route path='/tasks' exact component={Tasks} />
-					<Route path='/addTask' exact component={AddTask} />
-					<Route path='/fileds' exact component={Fileds} />
-					<Route path='/editTask' exact component={EditTask} />
 					<Route path='/addProject' exact component={AddProject} />
 					<Route path='/editProject' exact component={EditProject} />
 					<Route path='/projects' exact component={Projects} />
 					<Route
 						path='/projectInfos'
+						exact
+						component={ProjectInfos}
+					/>
+					<Route
+						path='/projectInfos/'
+						exact
+						component={ProjectInfos}
+					/>
+					<Route
+						path='/projectInfos/fileds'
 						exact
 						component={ProjectInfos}
 					/>

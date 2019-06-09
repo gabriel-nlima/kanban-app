@@ -95,7 +95,7 @@ const ProjectForm = ({ handleSubmit, handleChange, project }) => {
 							<Form.Row className='text-right'>
 								<Form.Group className='col-12'>
 									<Link
-										to='/'
+										to='/projectInfos'
 										className='btn btn-secondary'
 										data-testid='btnBack'
 									>

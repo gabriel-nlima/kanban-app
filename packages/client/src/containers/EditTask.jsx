@@ -12,17 +12,16 @@ export class EditTask extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			task: [],
+			task: {},
 		}
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.submitTask = this.submitTask.bind(this)
 	}
 
 	componentDidMount() {
-		if (this.props.location.state) {
-			const { task } = this.props.location.state
-			this.setState({ task })
-		} else this.props.history.push('/')
+		if (this.props.data) {
+			this.setState({ task: this.props.data })
+		}
 	}
 
 	handleInputChange(e) {
@@ -46,7 +45,7 @@ export class EditTask extends React.Component {
 			}
 		}
 		this.props.editTask(task)
-		this.props.history.push('/projectInfos')
+		this.props.handleModal()
 		e.preventDefault()
 	}
 
@@ -58,6 +57,7 @@ export class EditTask extends React.Component {
 					handleSubmit={this.submitTask}
 					task={this.state.task}
 					isEditing={true}
+					handleModal={this.props.handleModal}
 				/>
 			</React.Fragment>
 		)

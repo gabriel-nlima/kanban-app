@@ -5,10 +5,13 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Popover from 'react-bootstrap/Popover'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Button from 'react-bootstrap/Button'
 
 import { FaAngleLeft, FaPen, FaTrash } from 'react-icons/fa'
 
 import Tasks from './Tasks'
+import Fileds from './Fileds'
+
 import Spinner from '../components/Spinner'
 
 import { connect } from 'react-redux'
@@ -19,8 +22,7 @@ import {
 } from '../redux/currentState'
 import { getProjectTasks } from '../redux/task'
 
-import { withRouter } from 'react-router-dom'
-import Button from 'react-bootstrap/Button'
+import { withRouter, BrowserRouter, Route, Switch } from 'react-router-dom'
 import { deleteProject } from '../redux/project'
 
 const { Body, Text, Header } = Card
@@ -117,7 +119,20 @@ export class ProjectInfos extends React.Component {
 									</h2>
 								</Header>
 								<Body>
-									<Tasks />
+									<BrowserRouter basename='/projectInfos'>
+										<Switch>
+											<Route
+												path='/'
+												exact
+												component={Tasks}
+											/>
+											<Route
+												path='/fileds'
+												exact
+												component={Fileds}
+											/>
+										</Switch>
+									</BrowserRouter>
 								</Body>
 							</Card>
 						)}

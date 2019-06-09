@@ -7,6 +7,7 @@ import { handleChange } from '../utils'
 
 import { connect } from 'react-redux'
 import { editProject } from '../redux/project'
+import { getActiveProject } from '../redux/currentState'
 
 class EditProject extends React.Component {
 	constructor(props) {
@@ -55,6 +56,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		editProject: (project) => dispatch(editProject(project)),
+		getActiveProject: () => dispatch(getActiveProject()),
 	}
 }
 

@@ -18,11 +18,16 @@ import { connect } from 'react-redux'
 export class Fileds extends React.Component {
 	constructor(props) {
 		super(props)
+		this.state = {
+			showModal: false,
+			task: {},
+		}
 		this.handleStatusChange = this.handleStatusChange.bind(this)
+		this.handleModal = this.handleModal.bind(this)
 	}
 
 	componentDidMount() {
-		this.props.getTasks()
+		//this.props.getTasks()
 	}
 
 	handleStatusChange(task, newStatus) {
@@ -37,9 +42,12 @@ export class Fileds extends React.Component {
 			this.props.editTask(task)
 		}
 	}
+	handleModal = (task) => {
+		this.setState({ showModal: !this.state.showModal, task })
+	}
 
 	render() {
-		const filedTask = this.props.tasks.filter(
+		const filedTasks = this.props.tasks.filter(
 			(t) => t.status === status.FILED
 		)
 		const badgeMargin = { marginLeft: 5 }
@@ -55,18 +63,18 @@ export class Fileds extends React.Component {
 								style={badgeMargin}
 								className='badge badge-pill badge-secondary'
 							>
-								{filedTask.length}
+								{filedTasks.length}
 							</span>
 						</h4>
 					</Col>
 					<Col xs={6} className='text-right'>
 						<Link className='btn btn-primary' to='/'>
-							Voltar para o Quadro Kanban
+							Todas as tarefas
 						</Link>
 					</Col>
 				</Row>
 				{this.props.isError ? <CustomAlert Link={Link} /> : <></>}
-				{filedTask.length === 0 ? (
+				{filedTasks.length === 0 ? (
 					<Row style={{ marginTop: 10 }}>
 						<Col xs='12' className='text-center'>
 							<h3>Você não tem tarefas arquivadas.</h3>
@@ -83,7 +91,7 @@ export class Fileds extends React.Component {
 					) : (
 						<Col xs={12} sm={12} md={12} lg={12} xl={12}>
 							<CardColumns>
-								{filedTask.map((task) => (
+								{filedTasks.map((task) => (
 									<Task
 										key={task._id}
 										{...task}
@@ -93,6 +101,7 @@ export class Fileds extends React.Component {
 										handleStatusChange={
 											this.handleStatusChange
 										}
+										handleModal={this.handleModal}
 									/>
 								))}
 							</CardColumns>
@@ -107,7 +116,7 @@ export class Fileds extends React.Component {
 const mapStateToProps = (state) => {
 	return {
 		tasks: state.task.tasks,
-		isError: state.curren.isError,
+		isError: state.current.isError,
 		isLoading: state.current.isLoading,
 	}
 }

@@ -8,22 +8,12 @@ import Col from 'react-bootstrap/Col'
 
 import * as status from '../../utils/status'
 
-const FormTask = ({
-	handleSubmit,
-	handleChange,
-	task,
-	isEditing,
-	handleModal,
-}) => {
+const FormTask = ({ handleSubmit, handleChange, task, handleModal }) => {
 	return (
 		<Row className='d-flex justify-content-center'>
-			<Col xs={12} sm={12} md={10} lg={8} xl={6}>
-				<Card border='dark'>
-					<Card.Header>
-						{!isEditing
-							? 'Adicionar tarefa'
-							: 'Editando tarefa: ' + task.title}
-					</Card.Header>
+			<Col xs={12} sm={12} md={12} lg={12} xl={12}>
+				<Card>
+					<Card.Header>Tarefa</Card.Header>
 					<Card.Body>
 						<Form onSubmit={handleSubmit}>
 							<Form.Row>
@@ -94,7 +84,7 @@ const FormTask = ({
 									</Form.Group>
 								</Form.Row>
 							) : (
-								''
+								<></>
 							)}
 
 							<Form.Row>

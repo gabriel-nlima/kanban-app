@@ -18,7 +18,7 @@ import EditProject from './containers/Project/EditProject'
 import Projects from './containers/Project/Projects'
 import ProjectInfos from './containers/Project'
 
-import Header from './components/Header'
+import Header from './components/Layout/Header'
 import NoMatch from './components/common/NoMatch'
 
 const store = configureStore()

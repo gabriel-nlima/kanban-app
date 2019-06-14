@@ -1,15 +1,9 @@
 import React from 'react'
 
-import Task from '../../components/Task'
-import Spinner from '../../components/common/Spinner'
 import FormModal from '../../components/Forms/FormModal'
-import { ActionsDropdown } from '../../components/ActionsDropdown'
 import { CustomAlert } from '../../components/common/CustomAlert'
 
 import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Badge from 'react-bootstrap/Badge'
-import Button from 'react-bootstrap/Button'
 
 import * as status from '../../utils/status'
 
@@ -19,6 +13,8 @@ import { getProjectTasks, editTask, deleteTask } from '../../redux/task'
 import { connect } from 'react-redux'
 import EditTask from './EditTask'
 import AddTask from './AddTask'
+import TaskHeader from '../../components/Layout/TaskHeader'
+import TaskList from '../../components/Layout/TaskList'
 
 export class Tasks extends React.Component {
 	constructor(props) {
@@ -97,167 +93,42 @@ export class Tasks extends React.Component {
 			filedTasks,
 		} = this.getTaskStatus(this.props.tasks)
 
-		const badgeMargin = { marginLeft: 5 }
-
 		return (
 			<React.Fragment>
-				<Row className='text-left'>
-					<Col xs={6} sm={6} md={6} lg={6} xl={6}>
-						<h5 className='text-muted'>
-							<Link
-								to='/fileds'
-								replace={true}
-								className='btn btn-secondary'
-							>
-								ARQUIVADAS{' '}
-								<Badge pill variant='info' style={badgeMargin}>
-									{filedTasks.length}
-								</Badge>
-							</Link>
-						</h5>
-					</Col>
-					<Col
-						xs={6}
-						sm={6}
-						md={6}
-						lg={6}
-						xl={6}
-						className='text-right'
-					>
-						<Button
-							variant='primary'
-							type='button'
-							onClick={() => {
-								this.handleModal()
-							}}
-							disabled={this.props.isError ? true : false}
-						>
-							Adicionar nova tarefa
-						</Button>
-					</Col>
-				</Row>
+				<TaskHeader
+					filedTasks={filedTasks}
+					handleModal={this.handleModal}
+					isError={this.props.isError}
+				/>
 				{this.props.isError ? <CustomAlert Link={Link} /> : <></>}
 				<Row>
-					<Col
-						xs={6}
-						sm={6}
-						md={4}
-						lg={4}
-						xl={4}
-						onDragOver={(e) => this.onDragOver(e)}
-						onDrop={(e) => this.onDrop(e, status.TODO)}
-					>
-						<h3 className='text-center text-info'>
-							A FAZER
-							<Badge pill variant='info' style={badgeMargin}>
-								{tasksToDo.length}
-							</Badge>
-						</h3>
-						{tasksToDo.length === 0 ? (
-							<h4 className='text-center'>
-								Sem tarefas a fazer.
-							</h4>
-						) : (
-							<></>
-						)}
-						{this.props.isLoading ? (
-							<Spinner bg='text-info' />
-						) : (
-							tasksToDo.map((task) => (
-								<React.Fragment key={task._id}>
-									<Task
-										key={task._id}
-										background='info'
-										task={task}
-										OnClickAction={ActionsDropdown}
-										handleStatusChange={
-											this.handleStatusChange
-										}
-										handleModal={this.handleModal}
-									/>
-								</React.Fragment>
-							))
-						)}
-					</Col>
-					<Col
-						xs={6}
-						sm={6}
-						md={4}
-						lg={4}
-						xl={4}
-						onDragOver={(e) => this.onDragOver(e)}
-						onDrop={(e) => this.onDrop(e, status.BEING_DONE)}
-					>
-						<h3 className='text-center text-warning'>
-							FAZENDO
-							<Badge pill variant='warning' style={badgeMargin}>
-								{taskBeingDone.length}
-							</Badge>
-						</h3>
-						{taskBeingDone.length === 0 ? (
-							<h4 className='text-center'>
-								Sem tarefas em andamento.
-							</h4>
-						) : (
-							<></>
-						)}
-						{this.props.isLoading ? (
-							<Spinner bg='text-warning' />
-						) : (
-							taskBeingDone.map((task) => (
-								<Task
-									key={task._id}
-									background='warning'
-									task={task}
-									OnClickAction={ActionsDropdown}
-									handleStatusChange={this.handleStatusChange}
-									handleModal={this.handleModal}
-								/>
-							))
-						)}
-					</Col>
-					<Col
-						xs={12}
-						sm={12}
-						md={4}
-						lg={4}
-						xl={4}
-						onDragOver={(e) => this.onDragOver(e)}
-						onDrop={(e) => this.onDrop(e, status.FINISHED)}
-					>
-						<h3 className='text-center text-success'>
-							FEITO
-							<Badge
-								pill
-								variant='success'
-								style={badgeMargin}
-								className='badge badge-pill badge-success'
-							>
-								{fineshedTasks.length}
-							</Badge>
-						</h3>
-						{fineshedTasks.length === 0 ? (
-							<h4 className='text-center'>
-								Nenhuma tarefa concluida.
-							</h4>
-						) : (
-							<></>
-						)}
-						{this.props.isLoading ? (
-							<Spinner bg='text-success' />
-						) : (
-							fineshedTasks.map((task) => (
-								<Task
-									key={task._id}
-									background='success'
-									task={task}
-									OnClickAction={ActionsDropdown}
-									handleStatusChange={this.handleStatusChange}
-									handleModal={this.handleModal}
-								/>
-							))
-						)}
-					</Col>
+					<TaskList
+						handleModal={this.handleModal}
+						handleStatusChange={this.handleStatusChange}
+						isLoading={this.props.isLoading}
+						onDragOver={this.onDragOver}
+						onDrop={this.onDrop}
+						taskStatus={status.TODO}
+						tasks={tasksToDo}
+					/>
+					<TaskList
+						handleModal={this.handleModal}
+						handleStatusChange={this.handleStatusChange}
+						isLoading={this.props.isLoading}
+						onDragOver={this.onDragOver}
+						onDrop={this.onDrop}
+						taskStatus={status.BEING_DONE}
+						tasks={taskBeingDone}
+					/>
+					<TaskList
+						handleModal={this.handleModal}
+						handleStatusChange={this.handleStatusChange}
+						isLoading={this.props.isLoading}
+						onDragOver={this.onDragOver}
+						onDrop={this.onDrop}
+						taskStatus={status.FINISHED}
+						tasks={fineshedTasks}
+					/>
 				</Row>
 				<FormModal
 					data={this.state.task}

@@ -37,7 +37,7 @@ export class Projects extends React.Component {
 			<>
 				{this.props.isError ? <CustomAlert Link={Link} /> : <></>}
 				{projects.length === 0 ? (
-					<Row style={{ marginTop: 10 }}>
+					<Row className='margin-top-minor'>
 						<Col xs='12' className='text-center'>
 							<h3>Você não tem projetos</h3>
 						</Col>
@@ -45,7 +45,7 @@ export class Projects extends React.Component {
 				) : (
 					<></>
 				)}
-				<Row style={{ marginTop: 10 }}>
+				<Row className='margin-top-minor'>
 					<Col xs={12} sm={12} md={12} lg={12} xl={12}>
 						<CardColumns>
 							{projects.map((project) => {

@@ -98,7 +98,7 @@ const ProjectForm = ({ handleSubmit, handleChange, project, BackBtn }) => {
 									<Button
 										type='submit'
 										style={{ marginLeft: 5 }}
-										className='btn btn-primary'
+										variant='primary'
 									>
 										Salvar projeto
 									</Button>

@@ -1,3 +1,27 @@
 body {
 	background-color: white;
 }
+.spinner-size {
+	width: 80px;
+	height: 80px;
+}
+
+.margin-left-minor {
+	margin-left: 5px;
+}
+
+.margin-right-minor {
+	margin-right: 5px;
+}
+
+.margin-top-minor {
+	margin-top: 1px;
+}
+
+.margin-bottom-minor {
+	margin-bottom: 5px;
+}
+
+.muted-label {
+	font-size: 11px;
+}

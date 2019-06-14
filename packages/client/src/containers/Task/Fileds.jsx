@@ -26,10 +26,6 @@ export class Fileds extends React.Component {
 		this.handleModal = this.handleModal.bind(this)
 	}
 
-	componentDidMount() {
-		//this.props.getTasks()
-	}
-
 	handleStatusChange(task, newStatus) {
 		task = {
 			...task,
@@ -50,7 +46,6 @@ export class Fileds extends React.Component {
 		const filedTasks = this.props.tasks.filter(
 			(t) => t.status === status.FILED
 		)
-		const badgeMargin = { marginLeft: 5 }
 
 		return (
 			<React.Fragment>
@@ -60,8 +55,7 @@ export class Fileds extends React.Component {
 							Tarefas arquivadas:
 							<span
 								data-testid='badge'
-								style={badgeMargin}
-								className='badge badge-pill badge-secondary'
+								className='badge badge-pill badge-secondary margin-left-minor'
 							>
 								{filedTasks.length}
 							</span>
@@ -75,7 +69,7 @@ export class Fileds extends React.Component {
 				</Row>
 				{this.props.isError ? <CustomAlert Link={Link} /> : <></>}
 				{filedTasks.length === 0 ? (
-					<Row style={{ marginTop: 10 }}>
+					<Row className='margin-top-minor'>
 						<Col xs='12' className='text-center'>
 							<h3>Você não tem tarefas arquivadas.</h3>
 						</Col>
@@ -83,7 +77,7 @@ export class Fileds extends React.Component {
 				) : (
 					<></>
 				)}
-				<Row style={{ marginTop: 10 }}>
+				<Row className='margin-top-minor'>
 					{this.props.isLoading ? (
 						<Col xs='12' className='text-center'>
 							<Spinner bg='text-secondary' />

@@ -26,16 +26,15 @@ const Task = ({
 			key={task._id}
 			draggable={task.status === FILED ? false : true}
 			onDragStart={(e) => onDragStart(e, task)}
-			className={'card w-100 h-auto'}
-			style={{ marginBottom: 5 }}
+			className={'card w-100 h-auto margin-bottom-minor'}
 		>
 			<Card.Body className='text-center'>
 				<Card.Title>{task.title}</Card.Title>
 				<Card.Text className='text-justify'>{task.desc}</Card.Text>
-				<Card.Text style={{ fontSize: 11 }} className='text-left'>
+				<Card.Text className='text-left muted-label'>
 					Adicionado em: {task.addedIn}
 				</Card.Text>
-				<Card.Text style={{ fontSize: 11 }} className='text-left'>
+				<Card.Text className='text-left muted-label'>
 					{task.finishedIn === undefined || task.finishedIn === ''
 						? ''
 						: 'Concluido em: ' + task.finishedIn}
@@ -44,7 +43,11 @@ const Task = ({
 					{task.tag1 === undefined ? (
 						''
 					) : (
-						<Badge pill variant='light' style={{ marginRight: 5 }}>
+						<Badge
+							pill
+							variant='light'
+							className='margin-right-minor'
+						>
 							{task.tag1}
 						</Badge>
 					)}

@@ -58,7 +58,7 @@ const TaskList = ({
 			>
 				<h3 className={`text-center text-${variant}`}>
 					{statusText}
-					<Badge pill variant={variant} style={badgeMargin}>
+					<Badge pill variant={variant} className='margin-left-minor'>
 						{tasks.length}
 					</Badge>
 				</h3>

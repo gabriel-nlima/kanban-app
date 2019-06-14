@@ -1,7 +1,7 @@
 import React from 'react'
-import EditTaskForm from '../components/task/FormTask'
-import { editTask } from '../redux/task'
-import * as status from '../utils/status'
+import EditTaskForm from '../../components/Forms/FormTask'
+import { editTask } from '../../redux/task'
+import * as status from '../../utils/status'
 import { handleChange } from '../utils'
 
 import { connect } from 'react-redux'

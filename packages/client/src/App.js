@@ -7,7 +7,7 @@ import Card from 'react-bootstrap/Card'
 
 import { Link } from 'react-router-dom'
 
-import Projects from './containers/Projects'
+import Projects from './containers/Project/Projects'
 
 import './css/index.css'
 

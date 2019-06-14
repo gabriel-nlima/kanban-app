@@ -13,13 +13,13 @@ import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 import App from './App'
 
-import AddProject from './containers/AddProject'
-import EditProject from './containers/EditProject'
-import Projects from './containers/Projects'
-import ProjectInfos from './containers/ProjectInfos'
+import AddProject from './containers/Project/AddProject'
+import EditProject from './containers/Project/EditProject'
+import Projects from './containers/Project/Projects'
+import ProjectInfos from './containers/Project'
 
 import Header from './components/Header'
-import NoMatch from './components/NoMatch'
+import NoMatch from './components/common/NoMatch'
 
 const store = configureStore()
 

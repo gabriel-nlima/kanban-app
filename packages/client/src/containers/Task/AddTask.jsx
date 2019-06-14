@@ -1,12 +1,12 @@
 import React from 'react'
-import AddTaskForm from '../components/task/FormTask'
+import AddTaskForm from '../../components/Forms/FormTask'
 
 import { handleChange } from '../utils'
 
 import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import { addTask } from '../redux/task'
+import { addTask } from '../../redux/task'
 
 class AddTask extends React.Component {
 	constructor(props) {

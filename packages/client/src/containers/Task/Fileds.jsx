@@ -1,18 +1,18 @@
 import React from 'react'
-import Task from '../components/task/Task'
-import Spinner from '../components/Spinner'
-import { ActionsDropdown } from '../components/ActionsDropdown'
-import { CustomAlert } from '../components/CustomAlert'
+import Task from '../../components/Task'
+import Spinner from '../../components/common/Spinner'
+import { ActionsDropdown } from '../../components/ActionsDropdown'
+import { CustomAlert } from '../../components/common/CustomAlert'
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardColumns from 'react-bootstrap/CardColumns'
 
-import * as status from '../utils/status'
+import * as status from '../../utils/status'
 
 import { Link } from 'react-router-dom'
 
-import { getTasks, deleteTask, editTask } from '../redux/task'
+import { getTasks, deleteTask, editTask } from '../../redux/task'
 import { connect } from 'react-redux'
 
 export class Fileds extends React.Component {

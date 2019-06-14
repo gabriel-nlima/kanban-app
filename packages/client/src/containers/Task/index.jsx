@@ -1,21 +1,21 @@
 import React from 'react'
 
-import Task from '../components/task/Task'
-import Spinner from '../components/Spinner'
-import FormModal from '../components/FormModal'
-import { ActionsDropdown } from '../components/ActionsDropdown'
-import { CustomAlert } from '../components/CustomAlert'
+import Task from '../../components/Task'
+import Spinner from '../../components/common/Spinner'
+import FormModal from '../../components/Forms/FormModal'
+import { ActionsDropdown } from '../../components/ActionsDropdown'
+import { CustomAlert } from '../../components/common/CustomAlert'
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 
-import * as status from '../utils/status'
+import * as status from '../../utils/status'
 
 import { Link, withRouter } from 'react-router-dom'
 
-import { getProjectTasks, editTask, deleteTask } from '../redux/task'
+import { getProjectTasks, editTask, deleteTask } from '../../redux/task'
 import { connect } from 'react-redux'
 import EditTask from './EditTask'
 import AddTask from './AddTask'

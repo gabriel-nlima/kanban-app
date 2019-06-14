@@ -10,21 +10,21 @@ import Form from 'react-bootstrap/Form'
 
 import { FaAngleLeft, FaPen, FaTrash } from 'react-icons/fa'
 
-import Tasks from './Tasks'
-import Fileds from './Fileds'
+import Tasks from '../Task'
+import Fileds from '../Task/Fileds'
 
-import Spinner from '../components/Spinner'
+import Spinner from '../../components/common/Spinner'
 
 import { connect } from 'react-redux'
 import {
 	setActiveProject,
 	unsetActiveProject,
 	getActiveProject,
-} from '../redux/currentState'
-import { getProjectTasks } from '../redux/task'
+} from '../../redux/currentState'
+import { getProjectTasks } from '../../redux/task'
 
 import { withRouter, BrowserRouter, Route, Switch } from 'react-router-dom'
-import { deleteProject } from '../redux/project'
+import { deleteProject } from '../../redux/project'
 
 const { Body, Text, Header } = Card
 

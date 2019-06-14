@@ -10,7 +10,7 @@ import Col from 'react-bootstrap/Col'
 
 const { Body, Header } = Card
 
-const ProjectForm = ({ handleSubmit, handleChange, project }) => {
+const ProjectForm = ({ handleSubmit, handleChange, project, BackBtn }) => {
 	return (
 		<Row className='d-flex justify-content-center'>
 			<Col xs={12} sm={12} md={10} lg={8} xl={6}>
@@ -94,13 +94,7 @@ const ProjectForm = ({ handleSubmit, handleChange, project }) => {
 							</Form.Row>
 							<Form.Row className='text-right'>
 								<Form.Group className='col-12'>
-									<Link
-										to='/projectInfos'
-										className='btn btn-secondary'
-										data-testid='btnBack'
-									>
-										Voltar
-									</Link>
+									<BackBtn />
 									<Button
 										type='submit'
 										style={{ marginLeft: 5 }}

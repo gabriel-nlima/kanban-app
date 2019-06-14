@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Project from '../components/project/Project'
-import { CustomAlert } from '../components/CustomAlert'
+import Project from '../../components/Project'
+import { CustomAlert } from '../../components/common/CustomAlert'
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -9,8 +9,8 @@ import CardColumns from 'react-bootstrap/CardColumns'
 
 import { Link, withRouter } from 'react-router-dom'
 
-import { getProjects } from '../redux/project'
-import { setActiveProject } from '../redux/currentState'
+import { getProjects } from '../../redux/project'
+import { setActiveProject } from '../../redux/currentState'
 import { connect } from 'react-redux'
 
 export class Projects extends React.Component {

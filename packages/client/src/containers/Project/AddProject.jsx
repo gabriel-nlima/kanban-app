@@ -1,15 +1,14 @@
 import React from 'react'
-import EditForm from '../components/project/Form'
-
-import { withRouter } from 'react-router-dom'
+import AddForm from '../../components/Forms/FormProject'
 
 import { handleChange } from '../utils'
 
-import { connect } from 'react-redux'
-import { editProject } from '../redux/project'
-import { getActiveProject } from '../redux/currentState'
+import { withRouter, Link } from 'react-router-dom'
 
-class EditProject extends React.Component {
+import { connect } from 'react-redux'
+import { addProject } from '../../redux/project'
+
+class AddProject extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -17,32 +16,33 @@ class EditProject extends React.Component {
 		}
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.submitProject = this.submitProject.bind(this)
-	}
-
-	async componentDidMount() {
-		if (this.props.history.action !== 'PUSH' && localStorage.ap) {
-			await this.props.getActiveProject()
-		}
-		this.setState({ project: this.props.activeProject })
+		this.BackBtn = this.BackBtn.bind(this)
 	}
 
 	handleInputChange(e) {
 		this.setState({ project: handleChange(e, this.state.project) })
 	}
+
 	submitProject(e) {
-		this.props.editProject(this.state.project)
-		this.props.history.push({
-			pathname: '/projectInfos',
-		})
+		this.props.addProject(this.state.project)
+		this.setState({ project: {} })
+		this.props.history.push('/')
 		e.preventDefault()
 	}
 
+	BackBtn = () => (
+		<Link to='/' className='btn btn-secondary'>
+			Voltar
+		</Link>
+	)
+
 	render() {
 		return (
-			<EditForm
+			<AddForm
 				handleChange={this.handleInputChange}
 				handleSubmit={this.submitProject}
 				project={this.state.project}
+				BackBtn={this.BackBtn}
 			/>
 		)
 	}
@@ -50,13 +50,12 @@ class EditProject extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		activeProject: state.current.activeProject,
+		projects: state.project.projects,
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
-		editProject: (project) => dispatch(editProject(project)),
-		getActiveProject: () => dispatch(getActiveProject()),
+		addProject: (project) => dispatch(addProject(project)),
 	}
 }
 
@@ -64,5 +63,5 @@ export default withRouter(
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
-	)(EditProject)
+	)(AddProject)
 )

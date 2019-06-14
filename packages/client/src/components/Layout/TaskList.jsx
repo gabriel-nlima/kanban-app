@@ -54,7 +54,7 @@ const TaskList = ({
 				lg={4}
 				xl={4}
 				onDragOver={(e) => onDragOver(e)}
-				onDrop={(e) => onDrop(e, status.BEING_DONE)}
+				onDrop={(e) => onDrop(e, taskStatus)}
 			>
 				<h3 className={`text-center text-${variant}`}>
 					{statusText}

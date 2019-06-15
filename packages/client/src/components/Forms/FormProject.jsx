@@ -3,10 +3,11 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+
+import { Save } from '../common/Buttons'
 
 const { Body, Header } = Card
 
@@ -95,13 +96,7 @@ const ProjectForm = ({ handleSubmit, handleChange, project, BackBtn }) => {
 							<Form.Row className='text-right'>
 								<Form.Group className='col-12'>
 									<BackBtn />
-									<Button
-										type='submit'
-										style={{ marginLeft: 5 }}
-										variant='primary'
-									>
-										Salvar projeto
-									</Button>
+									<Save text='Salvar projeto' />
 								</Form.Group>
 							</Form.Row>
 						</Form>

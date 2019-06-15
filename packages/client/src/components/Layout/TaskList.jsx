@@ -9,8 +9,6 @@ import Badge from 'react-bootstrap/Badge'
 
 import * as status from '../../utils/status'
 
-const badgeMargin = { marginLeft: 5 }
-
 const TaskList = ({
 	tasks,
 	taskStatus,

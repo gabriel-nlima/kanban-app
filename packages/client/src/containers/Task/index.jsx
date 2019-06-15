@@ -6,6 +6,7 @@ import { CustomAlert } from '../../components/common/CustomAlert'
 import Row from 'react-bootstrap/Row'
 
 import * as status from '../../utils/status'
+import { handleStatusChange } from '../utils'
 
 import { Link, withRouter } from 'react-router-dom'
 
@@ -26,7 +27,7 @@ export class Tasks extends React.Component {
 			isEditing: false,
 		}
 		this.getTaskStatus = this.getTaskStatus.bind(this)
-		this.handleStatusChange = this.handleStatusChange.bind(this)
+		this.handleStatus = this.handleStatus.bind(this)
 		this.handleModal = this.handleModal.bind(this)
 		this.onDragOver = this.onDragOver.bind(this)
 		this.onDrop = this.onDrop.bind(this)
@@ -48,15 +49,13 @@ export class Tasks extends React.Component {
 		}
 	}
 
-	handleStatusChange(task, newStatus) {
-		task = {
-			...task,
-			status: newStatus,
-			lastStatus: task.status,
-		}
-
-		if (newStatus === status.DELETED) this.props.deleteTask(task)
-		else this.props.editTask(task)
+	handleStatus(task, newStatus) {
+		handleStatusChange(
+			task,
+			newStatus,
+			this.props.editTask,
+			this.props.deleteTask
+		)
 	}
 
 	handleModal = (task) => {
@@ -81,8 +80,10 @@ export class Tasks extends React.Component {
 	}
 
 	onDrop = async (e, status) => {
-		let task = JSON.parse(e.dataTransfer.getData('task'))
-		await this.handleStatusChange(task, status)
+		await this.handleStatus(
+			JSON.parse(e.dataTransfer.getData('task')),
+			status
+		)
 	}
 
 	render() {
@@ -104,7 +105,7 @@ export class Tasks extends React.Component {
 				<Row>
 					<TaskList
 						handleModal={this.handleModal}
-						handleStatusChange={this.handleStatusChange}
+						handleStatusChange={this.handleStatus}
 						isLoading={this.props.isLoading}
 						onDragOver={this.onDragOver}
 						onDrop={this.onDrop}
@@ -113,7 +114,7 @@ export class Tasks extends React.Component {
 					/>
 					<TaskList
 						handleModal={this.handleModal}
-						handleStatusChange={this.handleStatusChange}
+						handleStatusChange={this.handleStatus}
 						isLoading={this.props.isLoading}
 						onDragOver={this.onDragOver}
 						onDrop={this.onDrop}
@@ -122,7 +123,7 @@ export class Tasks extends React.Component {
 					/>
 					<TaskList
 						handleModal={this.handleModal}
-						handleStatusChange={this.handleStatusChange}
+						handleStatusChange={this.handleStatus}
 						isLoading={this.props.isLoading}
 						onDragOver={this.onDragOver}
 						onDrop={this.onDrop}

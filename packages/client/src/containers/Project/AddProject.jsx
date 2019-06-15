@@ -1,9 +1,10 @@
 import React from 'react'
 import AddForm from '../../components/Forms/FormProject'
+import { Back } from '../../components/common/Buttons'
 
 import { handleChange } from '../utils'
 
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { addProject } from '../../redux/project'
@@ -30,11 +31,7 @@ class AddProject extends React.Component {
 		e.preventDefault()
 	}
 
-	BackBtn = () => (
-		<Link to='/' className='btn btn-secondary'>
-			Voltar
-		</Link>
-	)
+	BackBtn = () => <Back onClick={() => this.props.history.push('/')} />
 
 	render() {
 		return (

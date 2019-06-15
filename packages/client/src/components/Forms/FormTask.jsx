@@ -1,12 +1,12 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import * as status from '../../utils/status'
+import { Back, Save } from '../common/Buttons'
 
 const FormTask = ({ handleSubmit, handleChange, task, handleModal }) => {
 	return (
@@ -123,19 +123,8 @@ const FormTask = ({ handleSubmit, handleChange, task, handleModal }) => {
 							</Form.Row>
 							<Form.Row className='text-right'>
 								<Form.Group className='col-12'>
-									<Button
-										className='btn btn-secondary'
-										onClick={handleModal}
-									>
-										Fechar
-									</Button>
-									<Button
-										type='submit'
-										style={{ marginLeft: 5 }}
-										className='btn btn-primary'
-									>
-										Salvar tarefa
-									</Button>
+									<Back onClick={handleModal} />
+									<Save text='Salvar tarefa' />
 								</Form.Group>
 							</Form.Row>
 						</Form>

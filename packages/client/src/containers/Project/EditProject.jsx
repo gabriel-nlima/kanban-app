@@ -1,7 +1,8 @@
 import React from 'react'
 import EditForm from '../../components/Forms/FormProject'
+import { Back } from '../../components/common/Buttons'
 
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import { handleChange } from '../utils'
 
@@ -39,13 +40,7 @@ class EditProject extends React.Component {
 	}
 
 	BackBtn = () => (
-		<Link
-			to='/projectInfos'
-			className='btn btn-secondary'
-			data-testid='btnBack'
-		>
-			Voltar
-		</Link>
+		<Back onClick={() => this.props.history.push('/projectInfos')} />
 	)
 
 	render() {

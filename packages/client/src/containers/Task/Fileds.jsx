@@ -9,11 +9,14 @@ import Col from 'react-bootstrap/Col'
 import CardColumns from 'react-bootstrap/CardColumns'
 
 import * as status from '../../utils/status'
+import { handleStatusChange } from '../utils'
 
 import { Link } from 'react-router-dom'
 
-import { getTasks, deleteTask, editTask } from '../../redux/task'
+import { deleteTask, editTask } from '../../redux/task'
 import { connect } from 'react-redux'
+import FormModal from '../../components/Forms/FormModal'
+import EditTask from './EditTask'
 
 export class Fileds extends React.Component {
 	constructor(props) {
@@ -22,22 +25,19 @@ export class Fileds extends React.Component {
 			showModal: false,
 			task: {},
 		}
-		this.handleStatusChange = this.handleStatusChange.bind(this)
+		this.handleStatus = this.handleStatus.bind(this)
 		this.handleModal = this.handleModal.bind(this)
 	}
 
-	handleStatusChange(task, newStatus) {
-		task = {
-			...task,
-			status: newStatus,
-			lastStatus: task.status,
-		}
-		if (newStatus === status.DELETED) {
-			this.props.deleteTask(task)
-		} else {
-			this.props.editTask(task)
-		}
+	handleStatus(task, newStatus) {
+		handleStatusChange(
+			task,
+			newStatus,
+			this.props.editTask,
+			this.props.deleteTask
+		)
 	}
+
 	handleModal = (task) => {
 		this.setState({ showModal: !this.state.showModal, task })
 	}
@@ -92,9 +92,7 @@ export class Fileds extends React.Component {
 										task={task}
 										background='secondary'
 										OnClickAction={ActionsDropdown}
-										handleStatusChange={
-											this.handleStatusChange
-										}
+										handleStatusChange={this.handleStatus}
 										handleModal={this.handleModal}
 									/>
 								))}
@@ -102,6 +100,12 @@ export class Fileds extends React.Component {
 						</Col>
 					)}
 				</Row>
+				<FormModal
+					data={this.state.task}
+					showModal={this.state.showModal}
+					Form={EditTask}
+					hide={this.handleModal}
+				/>
 			</React.Fragment>
 		)
 	}
@@ -118,7 +122,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		deleteTask: (task) => dispatch(deleteTask(task)),
 		editTask: (task) => dispatch(editTask(task)),
-		getTasks: () => dispatch(getTasks()),
 	}
 }
 

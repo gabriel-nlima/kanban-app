@@ -34,7 +34,7 @@ export class ProjectInfos extends React.Component {
 		this.state = {
 			projectName: '',
 		}
-		this.handleInputChange = this.handleInputChange.bind(this)
+		this.handleName = this.handleName.bind(this)
 		this.confirmProjectDel = this.confirmProjectDel.bind(this)
 	}
 	async componentDidMount() {
@@ -43,8 +43,8 @@ export class ProjectInfos extends React.Component {
 		}
 	}
 
-	handleInputChange = (e) => {
-		this.setState({ projectName: e.target.value })
+	handleName = ({ value }) => {
+		this.setState({ projectName: value })
 	}
 
 	confirmProjectDel = () => (
@@ -64,7 +64,7 @@ export class ProjectInfos extends React.Component {
 							id='projectName'
 							type='text'
 							className='mb-2 mr-sm-2'
-							onChange={this.handleInputChange}
+							onChange={(e) => this.handleName(e.target)}
 							placeholder='Nome do projeto'
 							data-testid='inputProjectName'
 							maxLength='40'

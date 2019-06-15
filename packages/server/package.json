@@ -4,6 +4,8 @@
 	"description": "Fastify API Server",
 	"main": "index.js",
 	"scripts": {
+		"addDbUser": "node scripts/addDbUser.js",
+		"config-col": "node scripts/configCollections.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "node index",
 		"start-prod": "set NODE_ENV=production&& nodemon index"
@@ -15,15 +17,17 @@
 	"author": "Gabriel N lima",
 	"license": "ISC",
 	"dependencies": {
-		"fastify": "^2.4.1",
+		"dotenv": "^8.0.0",
+		"fastify": "^2.5.0",
 		"fastify-compress": "^0.10.0",
 		"fastify-helmet": "^3.0.0",
 		"fastify-mongodb": "^1.0.1",
 		"fastify-static": "^2.4.0",
-		"fastify-swagger": "^2.4.0"
+		"fastify-swagger": "^2.4.0",
+		"mongodb": "^3.2.7"
 	},
 	"devDependencies": {
 		"pino-pretty": "^3.1.0",
-		"prettier": "^1.17.1"
+		"prettier": "^1.18.2"
 	}
 }

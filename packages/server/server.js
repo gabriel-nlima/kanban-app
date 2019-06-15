@@ -1,6 +1,7 @@
 const sharedId = require('./schemas/id')
 const { sharedTask } = require('./schemas/task')
 const { sharedProject } = require('./schemas/project')
+require('dotenv').config()
 
 function server() {
 	const fastify = require('fastify')({
@@ -20,12 +21,19 @@ function server() {
 	})
 
 	fastify.register(require('fastify-swagger'), swagger.options)
+	const { MONGO_HOST, MONGO_USER, MONGO_PWD } = process.env
+	const mongoUrl = `mongodb://${
+		MONGO_USER && MONGO_PWD
+			? MONGO_HOST
+				? `${MONGO_USER}:${MONGO_PWD}@${MONGO_HOST}`
+				: `${MONGO_USER}:${MONGO_PWD}@localhost:27017`
+			: ''
+	}/kanban-app?authSource=kanban-app`
 
 	fastify.register(require('fastify-mongodb'), {
 		forceClose: true,
 		useNewUrlParser: true,
-		url:
-			'mongodb://kanban:kanban-app@localhost:27017/kanban-app?authSource=kanban-app',
+		url: mongoUrl,
 	})
 
 	fastify.register(require('fastify-compress'))

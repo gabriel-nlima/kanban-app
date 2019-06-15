@@ -16,9 +16,18 @@ packages/**/coverage
 /build
 packages/**/build
 
+#env
+.env
+packages/**/.env
+
+#backups
+backups
+packages/**/backups
+
 # misc
 .DS_Store
 packages/**/.DS_Store
+
 .env.local
 packages/**/.env.local
 .env.development.local

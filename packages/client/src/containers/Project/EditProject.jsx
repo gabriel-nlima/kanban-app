@@ -4,7 +4,7 @@ import { Back } from '../../components/common/Buttons'
 
 import { withRouter } from 'react-router-dom'
 
-import { handleChange } from '../utils'
+import { handleChange, isInvalid } from '../utils'
 
 import { connect } from 'react-redux'
 import { editProject } from '../../redux/project'
@@ -26,6 +26,10 @@ class EditProject extends React.Component {
 			await this.props.getActiveProject()
 		}
 		this.setState({ project: this.props.activeProject })
+	}
+
+	validate = () => {
+		return isInvalid(this.state.project, 'name')
 	}
 
 	handleInputChange(e) {
@@ -50,6 +54,7 @@ class EditProject extends React.Component {
 				handleSubmit={this.submitProject}
 				project={this.state.project}
 				BackBtn={this.BackBtn}
+				validate={this.validate}
 			/>
 		)
 	}

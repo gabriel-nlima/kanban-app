@@ -20,7 +20,7 @@ export function fetch(state, action, list) {
 export function add(state, action, list, toAdd) {
 	return {
 		...state,
-		[list]: [action[toAdd], ...state[list]],
+		[list]: [...state[list], action[toAdd]],
 	}
 }
 

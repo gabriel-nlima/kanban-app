@@ -1,7 +1,7 @@
 import React from 'react'
 import AddTaskForm from '../../components/Forms/FormTask'
 
-import { handleChange } from '../utils'
+import { handleChange, isInvalid } from '../utils'
 
 import { withRouter } from 'react-router-dom'
 
@@ -34,6 +34,10 @@ class AddTask extends React.Component {
 		e.preventDefault()
 	}
 
+	validate = () => {
+		return isInvalid(this.state.task, 'title')
+	}
+
 	render() {
 		return (
 			<AddTaskForm
@@ -41,6 +45,7 @@ class AddTask extends React.Component {
 				handleSubmit={this.submitTask}
 				task={this.state.task}
 				handleModal={this.props.handleModal}
+				validate={this.validate}
 			/>
 		)
 	}

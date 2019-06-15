@@ -11,7 +11,13 @@ import { Save } from '../common/Buttons'
 
 const { Body, Header } = Card
 
-const ProjectForm = ({ handleSubmit, handleChange, project, BackBtn }) => {
+const ProjectForm = ({
+	handleSubmit,
+	handleChange,
+	project,
+	BackBtn,
+	validate,
+}) => {
 	return (
 		<Row className='d-flex justify-content-center'>
 			<Col xs={12} sm={12} md={10} lg={8} xl={6}>
@@ -22,7 +28,7 @@ const ProjectForm = ({ handleSubmit, handleChange, project, BackBtn }) => {
 							<Form.Row>
 								<Form.Group className='col-12'>
 									<Form.Label htmlFor='title'>
-										Titulo
+										Nome
 									</Form.Label>
 									<Form.Control
 										name='name'
@@ -31,8 +37,7 @@ const ProjectForm = ({ handleSubmit, handleChange, project, BackBtn }) => {
 										onChange={handleChange}
 										value={project.name || ''}
 										className='mb-2 mr-sm-2'
-										placeholder='Titulo'
-										data-testid='inputTitle'
+										placeholder='Nome'
 										maxLength='40'
 										required
 									/>
@@ -96,7 +101,10 @@ const ProjectForm = ({ handleSubmit, handleChange, project, BackBtn }) => {
 							<Form.Row className='text-right'>
 								<Form.Group className='col-12'>
 									<BackBtn />
-									<Save text='Salvar projeto' />
+									<Save
+										text='Salvar projeto'
+										disabled={validate()}
+									/>
 								</Form.Group>
 							</Form.Row>
 						</Form>

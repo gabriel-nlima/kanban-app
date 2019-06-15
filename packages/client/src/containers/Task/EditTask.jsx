@@ -2,7 +2,7 @@ import React from 'react'
 import EditTaskForm from '../../components/Forms/FormTask'
 import { editTask } from '../../redux/task'
 import * as status from '../../utils/status'
-import { handleChange } from '../utils'
+import { handleChange, isInvalid } from '../utils'
 
 import { connect } from 'react-redux'
 
@@ -22,6 +22,13 @@ export class EditTask extends React.Component {
 		if (this.props.data) {
 			this.setState({ task: this.props.data })
 		}
+	}
+
+	validate = () => {
+		return (
+			isInvalid(this.state.task, 'title') ||
+			isInvalid(this.state.task, 'status')
+		)
 	}
 
 	handleInputChange(e) {
@@ -57,6 +64,7 @@ export class EditTask extends React.Component {
 					handleSubmit={this.submitTask}
 					task={this.state.task}
 					handleModal={this.props.handleModal}
+					validate={this.validate}
 				/>
 			</React.Fragment>
 		)

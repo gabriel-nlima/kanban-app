@@ -7,8 +7,13 @@ export const Back = ({ onClick }) => (
 		Voltar
 	</Button>
 )
-export const Save = ({ text }) => (
-	<Button type='submit' className='margin-left-minor' variant='primary'>
+export const Save = ({ text, disabled }) => (
+	<Button
+		type='submit'
+		disabled={disabled}
+		className='margin-left-minor'
+		variant='primary'
+	>
 		{text}
 	</Button>
 )

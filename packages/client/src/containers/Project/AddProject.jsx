@@ -2,7 +2,7 @@ import React from 'react'
 import AddForm from '../../components/Forms/FormProject'
 import { Back } from '../../components/common/Buttons'
 
-import { handleChange } from '../utils'
+import { handleChange, isInvalid } from '../utils'
 
 import { withRouter } from 'react-router-dom'
 
@@ -18,6 +18,10 @@ class AddProject extends React.Component {
 		this.handleInputChange = this.handleInputChange.bind(this)
 		this.submitProject = this.submitProject.bind(this)
 		this.BackBtn = this.BackBtn.bind(this)
+	}
+
+	validate = () => {
+		return isInvalid(this.state.project, 'name')
 	}
 
 	handleInputChange(e) {
@@ -40,6 +44,7 @@ class AddProject extends React.Component {
 				handleSubmit={this.submitProject}
 				project={this.state.project}
 				BackBtn={this.BackBtn}
+				validate={this.validate}
 			/>
 		)
 	}

@@ -8,7 +8,13 @@ import Col from 'react-bootstrap/Col'
 import * as status from '../../utils/status'
 import { Back, Save } from '../common/Buttons'
 
-const FormTask = ({ handleSubmit, handleChange, task, handleModal }) => {
+const FormTask = ({
+	handleSubmit,
+	handleChange,
+	task,
+	handleModal,
+	validate,
+}) => {
 	return (
 		<Row className='d-flex justify-content-center'>
 			<Col xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -124,7 +130,10 @@ const FormTask = ({ handleSubmit, handleChange, task, handleModal }) => {
 							<Form.Row className='text-right'>
 								<Form.Group className='col-12'>
 									<Back onClick={handleModal} />
-									<Save text='Salvar tarefa' />
+									<Save
+										text='Salvar tarefa'
+										disabled={validate()}
+									/>
 								</Form.Group>
 							</Form.Row>
 						</Form>

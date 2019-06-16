@@ -18,6 +18,7 @@ exports.options = {
 		tags: [
 			{ name: 'tasks', description: 'end-points de tarefas' },
 			{ name: 'projects', description: 'end-points de projetos' },
+			{ name: 'users', description: 'end-points de usuários do sistema' },
 		],
 	},
 }

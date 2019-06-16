@@ -1,6 +1,7 @@
 const sharedId = require('./schemas/id')
 const { sharedTask } = require('./schemas/task')
 const { sharedProject } = require('./schemas/project')
+const { sharedUser } = require('./schemas/user')
 require('dotenv').config()
 
 function server() {
@@ -49,11 +50,16 @@ function server() {
 	}
 
 	fastify.register(async (instance, opts, next) => {
+		// shared schemas
 		await sharedId(instance)
 		await sharedTask(instance)
 		await sharedProject(instance)
+		await sharedUser(instance)
+
+		//routes
 		require('./routes/tasks')(instance)
 		require('./routes/projects')(instance)
+		require('./routes/users')(instance)
 		next()
 	})
 

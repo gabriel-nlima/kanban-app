@@ -12,7 +12,7 @@ async function sharedUser(fastify) {
 			salt: { type: 'string' },
 			iteration: { type: 'number' },
 		},
-		required: ['name', 'email'],
+		required: ['email'],
 	})
 }
 
@@ -52,6 +52,16 @@ const addUser = {
 		},
 	},
 }
+
+const login = {
+	schema: {
+		body: 'user#',
+		tags: ['users'],
+		response: {
+			200: { type: 'object', properties: { user: 'user#' } },
+		},
+	},
+}
 const updateUser = {
 	schema: {
 		params: 'idParam#',
@@ -71,5 +81,6 @@ exports.sharedUser = sharedUser
 exports.getUsers = getUsers
 exports.setActiveUser = setActiveUser
 exports.addUser = addUser
+exports.login = login
 exports.updateUser = updateUser
 exports.deleteUser = deleteUser

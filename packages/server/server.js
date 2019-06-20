@@ -60,6 +60,7 @@ function server() {
 		require('./routes/tasks')(instance)
 		require('./routes/projects')(instance)
 		require('./routes/users')(instance)
+		require('./routes/login')(instance)
 		next()
 	})
 

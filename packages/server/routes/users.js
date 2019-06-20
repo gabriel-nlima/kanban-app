@@ -1,10 +1,4 @@
-const {
-	addUser,
-	getUsers,
-	setActiveUser,
-	updateUser,
-	deleteUser,
-} = require('../schemas/user')
+const { addUser, getUsers, updateUser, deleteUser } = require('../schemas/user')
 
 const { hashPassword, validatePassword } = require('../utils')
 
@@ -37,7 +31,8 @@ async function routes(fastify) {
 
 			let user = req.body
 
-			if (!user.pwd) return reply.code(400).send(pwdRequiredError)
+			if (!user.pwd || !user.pwd2)
+				return reply.code(400).send(pwdRequiredError)
 
 			if (user.pwd !== user.pwd2) {
 				reply.code(400).send(confirmPwdError)
@@ -78,6 +73,9 @@ async function routes(fastify) {
 
 			//user trying to change password
 			if (userInputs.pwd) {
+				if (!userInputs.pwd2)
+					return reply.code(400).send(pwdRequiredError)
+
 				if (!userInputs.oldPwd) {
 					return reply
 						.code(400)
@@ -88,6 +86,7 @@ async function routes(fastify) {
 					col.findOne({ _id: new ObjectId(id) }, function(err, user) {
 						if (err) return reply.send(err)
 						if (
+							user &&
 							validatePassword(
 								userInputs.oldPwd,
 								user.pwd,
@@ -150,15 +149,16 @@ async function routes(fastify) {
 							} else {
 								return reply.send(error)
 							}
+						} else if (result) {
+							reply.send({
+								user: {
+									...result.value,
+									pwd: undefined,
+									salt: undefined,
+									iteration: undefined,
+								},
+							})
 						}
-						reply.send({
-							user: {
-								...result.value,
-								pwd: undefined,
-								salt: undefined,
-								iteration: undefined,
-							},
-						})
 					}
 				)
 			}

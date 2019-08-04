@@ -33,6 +33,7 @@ export class ProjectInfos extends React.Component {
 		super(props)
 		this.state = {
 			projectName: '',
+			delPopoverVisible: false,
 		}
 		this.handleName = this.handleName.bind(this)
 		this.confirmProjectDel = this.confirmProjectDel.bind(this)
@@ -43,54 +44,66 @@ export class ProjectInfos extends React.Component {
 		}
 	}
 
-	handleName = ({ value }) => {
-		this.setState({ projectName: value })
+	componentWillUnmount() {
+		this.setState({ projectName: '', delPopoverVisible: false })
+	}
+
+	handleName = (projectName) => {
+		this.setState({ projectName })
 	}
 
 	confirmProjectDel = () => (
-		<Popover id='popover-basic' title='Deletar projeto?'>
-			<Row>
-				<Col xs={12}>
-					Todas as tarefas também serão deletadas. Esta ação não pode
-					ser desfeita.{' '}
-					<b>Digite o nome do projeto para confirmar.</b>
-				</Col>
-			</Row>
-			<Form>
-				<Form.Row>
-					<Form.Group className='col-12'>
-						<Form.Control
-							name='projectName'
-							id='projectName'
-							type='text'
-							className='mb-2 mr-sm-2'
-							onChange={(e) => this.handleName(e.target)}
-							placeholder='Nome do projeto'
-							data-testid='inputProjectName'
-							maxLength='40'
-							required
-						/>
-					</Form.Group>
-				</Form.Row>
-			</Form>
-			<Row className='text-right'>
-				<Col>
-					<Button
-						className='text-right'
-						variant='danger'
-						onClick={() => {
-							this.props.deleteProject(this.props.activeProject)
-							this.props.history.push('/')
-						}}
-						disabled={
-							this.state.projectName !==
-							this.props.activeProject.name
-						}
-					>
-						Sim
-					</Button>
-				</Col>
-			</Row>
+		<Popover id='popover-basic'>
+			<Popover.Title>Deletar projeto?</Popover.Title>
+			<Popover.Content>
+				<Row>
+					<Col xs={12}>
+						Todas as tarefas também serão deletadas. Esta ação não
+						pode ser desfeita.{' '}
+						<b>Digite o nome do projeto para confirmar.</b>
+					</Col>
+				</Row>
+				<Form>
+					<Form.Row>
+						<Form.Group className='col-12'>
+							<Form.Control
+								name='projectName'
+								id='projectName'
+								type='text'
+								className='mb-2 mr-sm-2'
+								onChange={(e) =>
+									this.handleName(e.target.value)
+								}
+								placeholder='Nome do projeto'
+								data-testid='inputProjectName'
+								maxLength='40'
+								required
+							/>
+						</Form.Group>
+					</Form.Row>
+					<Form.Row className='text-right'>
+						<Col>
+							<Button
+								className='text-right'
+								variant='danger'
+								onClick={() => {
+									this.props.deleteProject(
+										this.props.activeProject
+									)
+									this.props.history.push('/')
+								}}
+								disabled={
+									this.state.projectName !==
+									this.props.activeProject.name
+								}
+								type='submit'
+							>
+								Sim
+							</Button>
+						</Col>
+					</Form.Row>
+				</Form>
+			</Popover.Content>
 		</Popover>
 	)
 
@@ -138,6 +151,13 @@ export class ProjectInfos extends React.Component {
 													projectName: '',
 												})
 											}
+											rootClose
+											onHide={() =>
+												this.setState({
+													delPopoverVisible: false,
+												})
+											}
+											show={this.state.delPopoverVisible}
 										>
 											<Button variant='danger'>
 												<FaTrash size='1.2em' />

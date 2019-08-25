@@ -31,11 +31,11 @@ class AddProject extends React.Component {
 	submitProject(e) {
 		this.props.addProject(this.state.project)
 		this.setState({ project: {} })
-		this.props.history.push('/')
+		this.props.history.push('/home')
 		e.preventDefault()
 	}
 
-	BackBtn = () => <Back onClick={() => this.props.history.push('/')} />
+	BackBtn = () => <Back onClick={() => this.props.history.push('/home')} />
 
 	render() {
 		return (

@@ -22,7 +22,7 @@ class EditProject extends React.Component {
 	}
 
 	async componentDidMount() {
-		if (this.props.history.action !== 'PUSH' && localStorage.ap) {
+		if (this.props.history.action !== 'PUSH' && localStorage.projectId) {
 			await this.props.getActiveProject()
 		}
 		this.setState({ project: this.props.activeProject })

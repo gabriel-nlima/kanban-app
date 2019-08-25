@@ -94,18 +94,18 @@ export function actionSuccess() {
 }
 
 export const setActiveProject = (project) => (dispatch) => {
-	localStorage.setItem('ap', project._id)
+	localStorage.setItem('projectId', project._id)
 	dispatch(set(Types.SET_ACTIVE_PROJECT, 'activeProject', project))
 	dispatch(getProjectTasks(project._id))
 }
 
 export const unsetActiveProject = () => (dispatch) => {
-	localStorage.removeItem('ap')
+	localStorage.removeItem('projectId')
 	dispatch({ type: Types.UNSET_ACTIVE_PROJECT })
 }
 
 export const getActiveProject = (project) => (dispatch) => {
-	const projectId = project ? project._id : localStorage.getItem('ap')
+	const projectId = project ? project._id : localStorage.getItem('projectId')
 	return get(`${url}/${projectId}`, dispatch)
 		.then((res) => {
 			dispatch({

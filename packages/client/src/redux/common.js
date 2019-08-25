@@ -1,5 +1,5 @@
 import { actionStarted } from './currentState'
-import Axios from 'axios'
+import Axios from '../api'
 
 //Reducers functions
 export function set(type, resName, data) {

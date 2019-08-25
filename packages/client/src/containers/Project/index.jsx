@@ -39,7 +39,7 @@ export class ProjectInfos extends React.Component {
 		this.confirmProjectDel = this.confirmProjectDel.bind(this)
 	}
 	async componentDidMount() {
-		if (this.props.history.action !== 'PUSH' && localStorage.ap) {
+		if (this.props.history.action !== 'PUSH' && localStorage.projectId) {
 			await this.props.getActiveProject()
 		}
 	}
@@ -90,7 +90,7 @@ export class ProjectInfos extends React.Component {
 									this.props.deleteProject(
 										this.props.activeProject
 									)
-									this.props.history.push('/')
+									this.props.history.push('/home')
 								}}
 								disabled={
 									this.state.projectName !==
@@ -123,7 +123,7 @@ export class ProjectInfos extends React.Component {
 											variant='secondary'
 											onClick={() => {
 												this.props.unsetActiveProject()
-												this.props.history.push('/')
+												this.props.history.push('/home')
 											}}
 										>
 											<FaAngleLeft size='1.5em' />

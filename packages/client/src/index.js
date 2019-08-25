@@ -15,8 +15,10 @@ import App from './App'
 
 import AddProject from './containers/Project/AddProject'
 import EditProject from './containers/Project/EditProject'
-import Projects from './containers/Project/Projects'
 import ProjectInfos from './containers/Project'
+import PrivateRoute from './containers/PrivateRoute'
+
+import Login from './containers/Login'
 
 import Header from './components/Layout/Header'
 import NoMatch from './components/common/NoMatch'
@@ -29,21 +31,29 @@ ReactDOM.render(
 			<Container>
 				<Header />
 				<Switch>
-					<Route path='/' exact component={App} />
-					<Route path='/addProject' exact component={AddProject} />
-					<Route path='/editProject' exact component={EditProject} />
-					<Route path='/projects' exact component={Projects} />
-					<Route
+					<Route path='/' exact component={Login} />
+					<PrivateRoute path='/home' exact component={App} />
+					<PrivateRoute
+						path='/addProject'
+						exact
+						component={AddProject}
+					/>
+					<PrivateRoute
+						path='/editProject'
+						exact
+						component={EditProject}
+					/>
+					<PrivateRoute
 						path='/projectInfos'
 						exact
 						component={ProjectInfos}
 					/>
-					<Route
+					<PrivateRoute
 						path='/projectInfos/'
 						exact
 						component={ProjectInfos}
 					/>
-					<Route
+					<PrivateRoute
 						path='/projectInfos/fileds'
 						exact
 						component={ProjectInfos}

@@ -49,7 +49,7 @@ export const getTasks = () => (dispatch) => {
 
 export const getProjectTasks = (projedId) => (dispatch) => {
 	return get(
-		`/api/projects/${projedId ? projedId : localStorage.ap}`,
+		`/api/projects/${projedId ? projedId : localStorage.projedId}`,
 		dispatch
 	)
 		.then((res) => {

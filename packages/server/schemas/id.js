@@ -1,12 +1,9 @@
-async function sharedId(fastify) {
-	await fastify.addSchema({
-		$id: 'idParam',
-		type: 'object',
-		properties: {
-			id: { type: 'string' },
-		},
-		required: ['id'],
-	})
+const idSchema = {
+	$id: 'idParam',
+	type: 'object',
+	properties: {
+		id: { type: 'string' },
+	},
+	required: ['id'],
 }
-
-module.exports = sharedId
+module.exports = idSchema

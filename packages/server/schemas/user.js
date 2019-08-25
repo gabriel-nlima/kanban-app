@@ -16,6 +16,22 @@ async function sharedUser(fastify) {
 	})
 }
 
+const userSchema = {
+	$id: 'user',
+	type: 'object',
+	properties: {
+		_id: { type: 'string' },
+		name: { type: 'string' },
+		email: { type: 'string' },
+		pwd: { type: 'string' },
+		pwd2: { type: 'string' },
+		oldPwd: { type: 'string' },
+		salt: { type: 'string' },
+		iteration: { type: 'number' },
+	},
+	required: ['email'],
+}
+
 const getUsers = {
 	schema: {
 		tags: ['users'],
@@ -58,7 +74,10 @@ const login = {
 		body: 'user#',
 		tags: ['users'],
 		response: {
-			200: { type: 'object', properties: { user: 'user#' } },
+			200: {
+				type: 'object',
+				properties: { user: 'user#', token: { type: 'string' } },
+			},
 		},
 	},
 }
@@ -78,6 +97,7 @@ const deleteUser = {
 }
 
 exports.sharedUser = sharedUser
+exports.userSchema = userSchema
 exports.getUsers = getUsers
 exports.setActiveUser = setActiveUser
 exports.addUser = addUser

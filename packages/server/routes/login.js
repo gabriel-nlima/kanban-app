@@ -4,8 +4,9 @@ const { hashPassword, validatePassword } = require('../utils')
 const pwdRequiredError = new Error('Senha é obrigatório')
 
 async function routes(fastify) {
-	fastify.post('/api/login', login, function insert(req, reply) {
-		function addUser(err, col) {
+	fastify.post('/api/login', login, function doLogin(req, reply) {
+		const { db } = fastify.mongo
+		function loginUser(err, col) {
 			if (err) reply.send(err)
 
 			if (!req.body.pwd) return reply.code(400).send(pwdRequiredError)
@@ -15,20 +16,25 @@ async function routes(fastify) {
 
 				if (
 					user &&
-					validatePassword(
+					fastify.validatePassword(
 						req.body.pwd,
 						user.pwd,
 						user.salt,
 						user.iteration
 					)
 				) {
+					const token = fastify.jwt.sign({
+						email: user.email,
+						name: user.name,
+						_id: user._id,
+					})
+					req.log.info(
+						{ name: user.email },
+						`User ${user.email} logged in.`
+					)
+
 					return reply.send({
-						user: {
-							...user,
-							pwd: undefined,
-							salt: undefined,
-							iteration: undefined,
-						},
+						token,
 					})
 				} else
 					return reply
@@ -36,8 +42,7 @@ async function routes(fastify) {
 						.send(new Error('E-mail ou senha inválido.'))
 			})
 		}
-		const { db } = this.mongo
-		db.collection('users', addUser)
+		db.collection('users', loginUser)
 	})
 }
 

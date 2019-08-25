@@ -1,13 +1,13 @@
 const { addUser, getUsers, updateUser, deleteUser } = require('../schemas/user')
 
-const { hashPassword, validatePassword } = require('../utils')
-
-const pwdRequiredError = new Error('Senha é obrigatório')
-const confirmPwdError = new Error('Senhas diferentes')
-const duplicateEmailError = new Error('E-mail já cadastrado.')
+const {
+	confirmPwdError,
+	duplicateEmailError,
+	pwdRequiredError,
+} = require('../userUtils')
 
 async function routes(fastify) {
-	const { ObjectId } = fastify.mongo
+	const { ObjectId, db } = fastify.mongo
 	fastify.get('/api/users', getUsers, function get(req, reply) {
 		async function getUsers(err, col) {
 			const users = []
@@ -21,48 +21,13 @@ async function routes(fastify) {
 
 			reply.send({ users })
 		}
-		const { db } = this.mongo
 		db.collection('users', getUsers)
 	})
 
 	fastify.post('/api/users', addUser, function insert(req, reply) {
-		function addUser(err, col) {
-			if (err) reply.send(err)
-
-			let user = req.body
-
-			if (!user.pwd || !user.pwd2)
-				return reply.code(400).send(pwdRequiredError)
-
-			if (user.pwd !== user.pwd2) {
-				reply.code(400).send(confirmPwdError)
-			} else if (user.pwd === user.pwd2) {
-				const { salt, iteration, hash } = hashPassword(user.pwd)
-				user = { ...user, salt, iteration, pwd: hash }
-				delete user.pwd2
-
-				col.insertOne(user, (error, result) => {
-					if (error) {
-						if (error.code && error.code === 11000) {
-							return reply.code(400).send(duplicateEmailError)
-						} else {
-							return reply.send(error)
-						}
-					}
-
-					reply.send({
-						user: {
-							...result.ops[0],
-							pwd: undefined,
-							salt: undefined,
-							iteration: undefined,
-						},
-					})
-				})
-			}
-		}
-		const { db } = this.mongo
-		db.collection('users', addUser)
+		db.collection('users', (err, col) =>
+			fastify.addUser(err, col, fastify, req, reply)
+		)
 	})
 
 	fastify.put('/api/users/:id', updateUser, function edit(req, reply) {
@@ -71,7 +36,7 @@ async function routes(fastify) {
 			const { id } = req.params
 			const { _id, ...userInputs } = req.body
 
-			//user trying to change password
+			// user trying to change password
 			if (userInputs.pwd) {
 				if (!userInputs.pwd2)
 					return reply.code(400).send(pwdRequiredError)
@@ -87,16 +52,18 @@ async function routes(fastify) {
 						if (err) return reply.send(err)
 						if (
 							user &&
-							validatePassword(
+							fastify.validatePassword(
 								userInputs.oldPwd,
 								user.pwd,
 								user.salt,
 								user.iteration
 							)
 						) {
-							const { salt, iteration, hash } = hashPassword(
-								userInputs.pwd
-							)
+							const {
+								salt,
+								iteration,
+								hash,
+							} = fastify.hashPassword(userInputs.pwd)
 							user = {
 								...user,
 								name: userInputs.name,
@@ -163,7 +130,6 @@ async function routes(fastify) {
 				)
 			}
 		}
-		const { db } = this.mongo
 		db.collection('users', updateUser)
 	})
 
@@ -172,7 +138,6 @@ async function routes(fastify) {
 			col.findOneAndDelete({ _id: new ObjectId(req.params.id) })
 			reply.send()
 		}
-		const { db } = this.mongo
 		db.collection('users', deleteUser)
 	})
 }

@@ -83,7 +83,9 @@ function server() {
 		await sharedTask(instance)
 		await sharedProject(instance)
 
-		instance.addHook('onRequest', verifyToken)
+		instance.addHook('onRequest', (req, reply, done) => {
+			verifyToken(req, reply, done, instance)
+		})
 
 		//routes
 		require('./routes/tasks')(instance)

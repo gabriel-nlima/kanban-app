@@ -39,19 +39,38 @@ function addUser(err, col, fastify, req, reply) {
 	}
 }
 
-const verifyToken = async (request, reply) => {
-	try {
-		await request.jwtVerify()
-		request.log.info(
-			{ name: request.user.email },
-			`Token verified. User e-mail: ${request.user.email} was validated.`
+const verifyToken = (req, reply, done, fastify) => {
+	const { db } = fastify.mongo
+	const onError = (error) => {
+		req.log.warn(
+			`Attempt to req route ${req.req.method}${req.req.url} failed.`
 		)
-	} catch (err) {
-		request.log.warn(
-			`Attempt to request route ${request.req.method}${request.req.url} failed.`
-		)
-		reply.send(err)
+		done(error)
 	}
+	req.jwtVerify((err, user) => {
+		if (err) {
+			onError(err)
+		} else if (user) {
+			db.collection('users', async (error, col) => {
+				if (error) {
+					onError(error)
+				}
+				col.findOne({ email: user.email }, (e, result) => {
+					if (e) {
+						onError(e)
+					}
+					if (!result) {
+						reply.code(404)
+						done(new Error('Not found'))
+					}
+					req.log.info(
+						`Token verified. User e-mail: ${user.email} was validated.`
+					)
+					done()
+				})
+			})
+		}
+	})
 }
 
 /**

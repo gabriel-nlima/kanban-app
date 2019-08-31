@@ -1,7 +1,5 @@
 const { login } = require('../schemas/user')
-const { hashPassword, validatePassword } = require('../utils')
-
-const pwdRequiredError = new Error('Senha é obrigatório')
+const { pwdRequiredError } = require('../userUtils')
 
 async function routes(fastify) {
 	fastify.post('/api/login', login, function doLogin(req, reply) {
@@ -23,15 +21,13 @@ async function routes(fastify) {
 						user.iteration
 					)
 				) {
-					const token = fastify.jwt.sign({
-						email: user.email,
-						name: user.name,
-						_id: user._id,
-					})
-					req.log.info(
-						{ name: user.email },
-						`User ${user.email} logged in.`
+					const token = fastify.jwt.sign(
+						{
+							email: user.email,
+						},
+						{ expiresIn: '1h' }
 					)
+					req.log.info(`User ${user.email} logged in.`)
 
 					return reply.send({
 						token,

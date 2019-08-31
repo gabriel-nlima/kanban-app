@@ -13,12 +13,12 @@ import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 import App from './App'
 
+import Entry from './containers/Entry'
 import AddProject from './containers/Project/AddProject'
 import EditProject from './containers/Project/EditProject'
 import ProjectInfos from './containers/Project'
 import PrivateRoute from './containers/PrivateRoute'
-
-import Login from './containers/Login'
+import PublicRouteOnly from './containers/PublicRouteOnly'
 
 import Header from './components/Layout/Header'
 import NoMatch from './components/common/NoMatch'
@@ -31,7 +31,7 @@ ReactDOM.render(
 			<Container>
 				<Header />
 				<Switch>
-					<Route path='/' exact component={Login} />
+					<PublicRouteOnly path='/' exact component={Entry} />
 					<PrivateRoute path='/home' exact component={App} />
 					<PrivateRoute
 						path='/addProject'

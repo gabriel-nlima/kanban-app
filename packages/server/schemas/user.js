@@ -69,14 +69,14 @@ const addUser = {
 	},
 }
 
-const login = {
+const loginRegister = {
 	schema: {
 		body: 'user#',
 		tags: ['users'],
 		response: {
 			200: {
 				type: 'object',
-				properties: { user: 'user#', token: { type: 'string' } },
+				properties: { token: { type: 'string' } },
 			},
 		},
 	},
@@ -101,6 +101,6 @@ exports.userSchema = userSchema
 exports.getUsers = getUsers
 exports.setActiveUser = setActiveUser
 exports.addUser = addUser
-exports.login = login
+exports.loginRegister = loginRegister
 exports.updateUser = updateUser
 exports.deleteUser = deleteUser

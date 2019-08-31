@@ -48,8 +48,6 @@ function server() {
 		url: mongoUrl,
 	})
 
-	fastify.register(require('fastify-compress'))
-
 	if (process.env.NODE_ENV === 'production') {
 		fastify.register(require('fastify-static'), {
 			root: path.join(__dirname, 'build'),

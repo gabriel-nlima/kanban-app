@@ -8,6 +8,20 @@ const FormLogin = ({ handleChange, handleSubmit, user, validate }) => {
 		<Form onSubmit={handleSubmit}>
 			<Form.Row>
 				<Form.Group className='col-12'>
+					<Form.Label htmlFor='name'>Nome</Form.Label>
+					<Form.Control
+						name='name'
+						type='text'
+						onChange={handleChange}
+						value={user.name || ''}
+						className='mb-2 mr-sm-2'
+						placeholder='Digite seu nome'
+						required
+					/>
+				</Form.Group>
+			</Form.Row>
+			<Form.Row>
+				<Form.Group className='col-12'>
 					<Form.Label htmlFor='email'>E-mail</Form.Label>
 					<Form.Control
 						name='email'
@@ -36,10 +50,25 @@ const FormLogin = ({ handleChange, handleSubmit, user, validate }) => {
 					/>
 				</Form.Group>
 			</Form.Row>
+			<Form.Row>
+				<Form.Group className='col-12'>
+					<Form.Label htmlFor='pwd2'>Confirmar senha</Form.Label>
+					<Form.Control
+						name='pwd2'
+						type='password'
+						onChange={handleChange}
+						value={user.pwd2 || ''}
+						className='mb-2 mr-sm-2'
+						placeholder='Confirme sua senha'
+						data-testid='inputPwd'
+						required
+					/>
+				</Form.Group>
+			</Form.Row>
 
 			<Form.Row className='text-right'>
 				<Form.Group className='col-12'>
-					<Save text='Entrar' disabled={validate()} />
+					<Save text='Registrar' disabled={validate()} />
 				</Form.Group>
 			</Form.Row>
 		</Form>

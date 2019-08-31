@@ -1,8 +1,8 @@
-const { login } = require('../schemas/user')
+const { loginRegister } = require('../schemas/user')
 const { pwdRequiredError } = require('../userUtils')
 
 async function routes(fastify) {
-	fastify.post('/api/login', login, function doLogin(req, reply) {
+	fastify.post('/api/login', loginRegister, function doLogin(req, reply) {
 		const { db } = fastify.mongo
 		function loginUser(err, col) {
 			if (err) reply.send(err)

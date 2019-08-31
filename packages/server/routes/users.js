@@ -25,9 +25,41 @@ async function routes(fastify) {
 	})
 
 	fastify.post('/api/users', addUser, function insert(req, reply) {
-		db.collection('users', (err, col) =>
-			fastify.addUser(err, col, fastify, req, reply)
-		)
+		db.collection('users', function addUser(err, col) {
+			if (err) reply.send(err)
+
+			let user = req.body
+
+			if (!user.pwd || !user.pwd2)
+				return reply.code(400).send(pwdRequiredError)
+
+			if (user.pwd !== user.pwd2) {
+				reply.code(400).send(confirmPwdError)
+			} else if (user.pwd === user.pwd2) {
+				const { salt, iteration, hash } = fastify.hashPassword(user.pwd)
+				user = { ...user, salt, iteration, pwd: hash }
+				delete user.pwd2
+
+				col.insertOne(user, (error, result) => {
+					if (error) {
+						if (error.code && error.code === 11000) {
+							return reply.code(400).send(duplicateEmailError)
+						} else {
+							return reply.send(error)
+						}
+					}
+
+					reply.send({
+						user: {
+							...result.ops[0],
+							pwd: undefined,
+							salt: undefined,
+							iteration: undefined,
+						},
+					})
+				})
+			}
+		})
 	})
 
 	fastify.put('/api/users/:id', updateUser, function edit(req, reply) {

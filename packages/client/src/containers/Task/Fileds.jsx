@@ -67,7 +67,11 @@ export class Fileds extends React.Component {
 						</Link>
 					</Col>
 				</Row>
-				{this.props.isError ? <CustomAlert Link={Link} /> : <></>}
+				{this.props.isError ? (
+					<CustomAlert Link={Link} message={this.props.message} />
+				) : (
+					<></>
+				)}
 				{filedTasks.length === 0 ? (
 					<Row className='margin-top-minor'>
 						<Col xs='12' className='text-center'>
@@ -115,6 +119,7 @@ const mapStateToProps = (state) => {
 	return {
 		tasks: state.task.tasks,
 		isError: state.current.isError,
+		message: state.current.message,
 		isLoading: state.current.isLoading,
 	}
 }

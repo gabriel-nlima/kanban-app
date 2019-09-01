@@ -35,7 +35,11 @@ export class Projects extends React.Component {
 		const { projects } = this.props
 		return (
 			<>
-				{this.props.isError ? <CustomAlert Link={Link} /> : <></>}
+				{this.props.isError ? (
+					<CustomAlert Link={Link} message={this.props.message} />
+				) : (
+					<></>
+				)}
 				{projects.length === 0 ? (
 					<Row className='margin-top-minor'>
 						<Col xs='12' className='text-center'>
@@ -70,6 +74,7 @@ function mapStateToProps(state) {
 	return {
 		projects: state.project.projects,
 		isError: state.current.isError,
+		message: state.current.message,
 		isLoading: state.current.isLoading,
 	}
 }

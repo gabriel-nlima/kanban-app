@@ -77,8 +77,13 @@ class Login extends React.Component {
 				this.props.history.push('/home')
 			})
 			.catch((err) => {
-				if (err.response) {
-					const { message } = err.response.data
+				let message = 'Algo deu errado, aguarde.'
+				if (err.response.data.message) {
+					message = err.response.data.message
+					this.setState({ error: { isError: true, message } })
+				} else if (typeof err.response.data === 'string') {
+					message =
+						'Problema com o servidor, aguarde ou recarregue a página.'
 					this.setState({ error: { isError: true, message } })
 				}
 			})
@@ -93,7 +98,7 @@ class Login extends React.Component {
 				this.props.history.push('/home')
 			})
 			.catch((err) => {
-				if (err.response) {
+				if (err.response.data.message) {
 					const { message } = err.response.data
 					this.setState({ error: { isError: true, message } })
 				}

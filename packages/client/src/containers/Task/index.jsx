@@ -1,14 +1,13 @@
 import React from 'react'
 
 import FormModal from '../../components/Forms/FormModal'
-import { CustomAlert } from '../../components/common/CustomAlert'
 
 import Row from 'react-bootstrap/Row'
 
 import * as status from '../../utils/status'
 import { handleStatusChange } from '../utils'
 
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import { getProjectTasks, editTask, deleteTask } from '../../redux/task'
 import { connect } from 'react-redux'
@@ -101,7 +100,6 @@ export class Tasks extends React.Component {
 					handleModal={this.handleModal}
 					isError={this.props.isError}
 				/>
-				{this.props.isError ? <CustomAlert Link={Link} /> : <></>}
 				<Row>
 					<TaskList
 						handleModal={this.handleModal}

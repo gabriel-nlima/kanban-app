@@ -13,7 +13,7 @@ export const Types = {
 const initialState = {
 	currentState: {
 		isError: false,
-		error: [],
+		message: '',
 		isLoading: false,
 	},
 }
@@ -28,7 +28,7 @@ export function started(state, action) {
 export function failed(state, action) {
 	return {
 		...state,
-		error: action.error,
+		message: action.message,
 		isError: action.isError,
 		isLoading: action.isLoading,
 	}
@@ -36,7 +36,7 @@ export function failed(state, action) {
 export function success(state) {
 	return {
 		...state,
-		error: [],
+		message: undefined,
 		isError: false,
 		isLoading: false,
 	}
@@ -76,14 +76,31 @@ export default function reducer(state = initialState, action) {
 const url = '/api/projects'
 
 export function actionStarted() {
-	return { type: Types.ACTION_STARTED, isLoading: true, isError: false }
+	return {
+		type: Types.ACTION_STARTED,
+		isLoading: true,
+		isError: false,
+		message: undefined,
+	}
 }
 export function actionFailed(error) {
+	const { status } = error.response
+	let message = undefined
+	if (typeof error.response.data === 'object') {
+		if (status === 401) {
+			message = 'Seção expirada, clique aqui para fazer login novamente.'
+			localStorage.removeItem('kanbanauthtoken')
+		} else {
+			message = error.response.data.message
+		}
+	} else if (status === 500) {
+		message = 'Problema com o servidor, aguarde ou recarregue a página.'
+	}
 	return {
 		type: Types.ACTION_FAILED,
 		isLoading: false,
-		error,
-		isError: false,
+		message,
+		isError: true,
 	}
 }
 

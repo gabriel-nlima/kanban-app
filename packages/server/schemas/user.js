@@ -6,6 +6,7 @@ const userSchema = {
 		name: { type: 'string' },
 		email: { type: 'string' },
 		username: { type: 'string' },
+		role: { type: 'string', enum: ['admin', 'user', 'readonly'] },
 		pwd: { type: 'string' },
 		pwd2: { type: 'string' },
 		oldPwd: { type: 'string' },
@@ -22,6 +23,14 @@ const loginUserSchema = {
 		pwd: { type: 'string' },
 	},
 	required: ['authId', 'pwd'],
+}
+const getUser = {
+	schema: {
+		tags: ['users'],
+		response: {
+			200: { type: 'object', properties: { user: 'user#' } },
+		},
+	},
 }
 const getUsers = {
 	schema: {
@@ -100,6 +109,7 @@ const register = {
 exports.userSchema = userSchema
 exports.loginUserSchema = loginUserSchema
 exports.getUsers = getUsers
+exports.getUser = getUser
 exports.setActiveUser = setActiveUser
 exports.addUser = addUser
 exports.updateUser = updateUser

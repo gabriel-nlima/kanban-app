@@ -1,4 +1,10 @@
-const { addUser, getUsers, updateUser, deleteUser } = require('../schemas/user')
+const {
+	addUser,
+	getUsers,
+	getUser,
+	updateUser,
+	deleteUser,
+} = require('../schemas/user')
 
 const {
 	confirmPwdError,
@@ -13,7 +19,7 @@ async function routes(fastify) {
 			const users = []
 			await col
 				.find()
-				.project({ _id: 1, name: 1, username: 1 })
+				.project({ _id: 0, name: 1, username: 1, role: 1 })
 				.forEach(function(user) {
 					if (user) users.push(user)
 					else return false
@@ -22,6 +28,25 @@ async function routes(fastify) {
 			reply.send({ users })
 		}
 		db.collection('users', getUsers)
+	})
+	fastify.get('/api/users/me', getUser, function get(req, reply) {
+		async function getUser(err, col) {
+			if (err) reply.send(err)
+			if (req.user.authId) {
+				const username = req.user.authId
+				col.findOne(
+					{ username },
+					{ projection: { _id: 0, name: 1, role: 1, username: 1 } },
+					(error, user) => {
+						if (error) reply.send(error)
+						if (user) {
+							reply.send({ user })
+						}
+					}
+				)
+			}
+		}
+		db.collection('users', getUser)
 	})
 
 	fastify.post('/api/users', addUser, function insert(req, reply) {

@@ -9,7 +9,7 @@ const {
 const { queryProjects, queryProjectsTasks } = require('../utils')
 
 async function routes(fastify) {
-	const { ObjectId } = fastify.mongo
+	const { ObjectId, db } = fastify.mongo
 	fastify.get('/api/projects', getProjects, function get(req, reply) {
 		async function getProjects(err, col) {
 			const projects = []
@@ -20,7 +20,6 @@ async function routes(fastify) {
 
 			reply.send({ projects })
 		}
-		const { db } = this.mongo
 		db.collection('projects', getProjects)
 	})
 
@@ -40,7 +39,6 @@ async function routes(fastify) {
 
 			reply.send({ activeProject })
 		}
-		const { db } = this.mongo
 		db.collection('projects', getProject)
 	})
 
@@ -53,7 +51,6 @@ async function routes(fastify) {
 				reply.send({ project })
 			})
 		}
-		const { db } = this.mongo
 		db.collection('projects', addProject)
 	})
 
@@ -73,7 +70,6 @@ async function routes(fastify) {
 				}
 			)
 		}
-		const { db } = this.mongo
 		db.collection('projects', updateProject)
 	})
 
@@ -81,15 +77,15 @@ async function routes(fastify) {
 		req,
 		reply
 	) {
+		const { id } = req.params
 		function deleteProject(err, col) {
-			col.findOneAndDelete({ _id: new ObjectId(req.params.id) })
+			col.findOneAndDelete({ _id: new ObjectId(id) })
 			reply.send()
 		}
-		function deleteProjectsTasks(err, col) {
-			col.deleteMany({ project_id: new ObjectId(req.params.id) })
+		function deleteProjectTasks(err, col) {
+			col.deleteMany({ project_id: new ObjectId(id) })
 		}
-		const { db } = this.mongo
-		db.collection('tasks', deleteProjectsTasks)
+		db.collection('tasks', deleteProjectTasks)
 		db.collection('projects', deleteProject)
 	})
 }

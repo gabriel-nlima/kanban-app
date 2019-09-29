@@ -19,8 +19,9 @@ import EditProject from './containers/Project/EditProject'
 import ProjectInfos from './containers/Project'
 import PrivateRoute from './containers/PrivateRoute'
 import PublicRouteOnly from './containers/PublicRouteOnly'
+import Profile from './containers/Profile'
 
-import Header from './components/Layout/Header'
+import Header from './containers/Header'
 import NoMatch from './components/common/NoMatch'
 
 const store = configureStore()
@@ -58,6 +59,7 @@ ReactDOM.render(
 						exact
 						component={ProjectInfos}
 					/>
+					<PrivateRoute path='/profile' exact component={Profile} />
 					<Route component={NoMatch} />
 				</Switch>
 			</Container>

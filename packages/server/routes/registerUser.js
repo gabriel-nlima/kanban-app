@@ -41,7 +41,6 @@ async function routes(fastify) {
 					delete result.ops[0].salt
 					delete result.ops[0].iteration
 					delete result.ops[0]._id
-					console.log(result.ops[0])
 					req.log.info(
 						`New user ${result.ops[0].username} registed and logged in.`
 					)

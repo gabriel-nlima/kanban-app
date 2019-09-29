@@ -1,11 +1,10 @@
 import React from 'react'
+import Spinner from 'react-bootstrap/Spinner'
 
-const Spinner = ({ bg }) => (
-	<div className='d-flex justify-content-center'>
-		<div className={`spinner-border ${bg} spinner-size`} role='status'>
-			<span className='sr-only'>Carregando...</span>
-		</div>
-	</div>
+const CustomSpinner = ({ bg, size }) => (
+	<Spinner animation='border' size={size} variant={bg} role='status'>
+		<span className='sr-only'>Loading...</span>
+	</Spinner>
 )
 
-export default Spinner
+export default CustomSpinner

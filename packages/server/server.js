@@ -12,7 +12,7 @@ const helmet = require('fastify-helmet')
 const idSchema = require('./schemas/id')
 const { sharedTask } = require('./schemas/task')
 const { sharedProject } = require('./schemas/project')
-const { userSchema } = require('./schemas/user')
+const { userSchema, loginUserSchema } = require('./schemas/user')
 
 // utils
 const {
@@ -79,6 +79,7 @@ function server() {
 
 	// global schemas
 	fastify.addSchema(idSchema)
+	fastify.addSchema(loginUserSchema)
 	fastify.addSchema(userSchema)
 
 	// user decorators

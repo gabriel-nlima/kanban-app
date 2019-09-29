@@ -5,10 +5,10 @@ const { MONGO_HOST, MONGO_USER, MONGO_PWD } = process.env
 const mongoUrl = `mongodb://${
 	MONGO_USER && MONGO_PWD
 		? MONGO_HOST
-			? `${MONGO_USER}:${MONGO_PWD}@${MONGO_HOST}`
-			: `${MONGO_USER}:${MONGO_PWD}@localhost:27017`
-		: ''
-}/kanban-app?authSource=kanban-app`
+			? `${MONGO_USER}:${MONGO_PWD}@${MONGO_HOST}/`
+			: `${MONGO_USER}:${MONGO_PWD}@localhost:27017/`
+		: 'localhost:27017/'
+}kanban-app?authSource=kanban-app`
 
 /**
  * Creates indexes in the dabatase collections. TODO: create schemas validations
@@ -25,6 +25,10 @@ const configCollections = async () => {
 
 		await users.createIndex(
 			{ email: 1 },
+			{ background: true, unique: true }
+		)
+		await users.createIndex(
+			{ username: 1 },
 			{ background: true, unique: true }
 		)
 		await projects.createIndex(

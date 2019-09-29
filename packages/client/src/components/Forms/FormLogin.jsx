@@ -8,12 +8,14 @@ const FormLogin = ({ handleChange, handleSubmit, user, validate }) => {
 		<Form onSubmit={handleSubmit}>
 			<Form.Row>
 				<Form.Group className='col-12'>
-					<Form.Label htmlFor='email'>E-mail</Form.Label>
+					<Form.Label htmlFor='authId'>
+						E-mail ou nome de usuário
+					</Form.Label>
 					<Form.Control
-						name='email'
+						name='authId'
 						type='text'
 						onChange={handleChange}
-						value={user.email || ''}
+						value={user.authId || ''}
 						className='mb-2 mr-sm-2'
 						placeholder='Digite seu e-mail'
 						required
@@ -30,8 +32,7 @@ const FormLogin = ({ handleChange, handleSubmit, user, validate }) => {
 						value={user.pwd || ''}
 						className='mb-2 mr-sm-2'
 						placeholder='Digite sua senha'
-						maxLength='100'
-						data-testid='inputPwd'
+						maxLength='16'
 						required
 					/>
 				</Form.Group>

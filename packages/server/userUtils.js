@@ -2,7 +2,7 @@ const crypto = require('crypto')
 
 const pwdRequiredError = new Error('Senha é obrigatório')
 const confirmPwdError = new Error('Senhas diferentes')
-const duplicateEmailError = new Error('E-mail já cadastrado.')
+const duplicateError = new Error('E-mail ou nome de usuário já cadastrado.')
 
 function addUser(err, col, fastify, req, reply) {
 	if (err) reply.send(err)
@@ -21,7 +21,7 @@ function addUser(err, col, fastify, req, reply) {
 		col.insertOne(user, (error, result) => {
 			if (error) {
 				if (error.code && error.code === 11000) {
-					return reply.code(400).send(duplicateEmailError)
+					return reply.code(400).send(duplicateError)
 				} else {
 					return reply.send(error)
 				}
@@ -55,19 +55,29 @@ const verifyToken = (req, reply, done, fastify) => {
 				if (error) {
 					onError(error)
 				}
-				col.findOne({ email: user.email }, (e, result) => {
-					if (e) {
-						onError(e)
+				col.findOne(
+					{
+						$or: [
+							{ email: user.authId },
+							{ username: user.authId },
+						],
+					},
+					{ projection: { username: 1, _id: 0 } },
+					(e, result) => {
+						if (e) {
+							onError(e)
+						}
+						if (!result) {
+							reply.code(404)
+							done(new Error('Not found'))
+						} else {
+							req.log.info(
+								`Token verified. User e-mail: ${result.username} was validated.`
+							)
+						}
+						done()
 					}
-					if (!result) {
-						reply.code(404)
-						done(new Error('Not found'))
-					}
-					req.log.info(
-						`Token verified. User e-mail: ${user.email} was validated.`
-					)
-					done()
-				})
+				)
 			})
 		}
 	})
@@ -108,4 +118,4 @@ exports.addUser = addUser
 exports.verifyToken = verifyToken
 exports.pwdRequiredError = pwdRequiredError
 exports.confirmPwdError = confirmPwdError
-exports.duplicateEmailError = duplicateEmailError
+exports.duplicateError = duplicateError

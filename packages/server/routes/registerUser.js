@@ -1,11 +1,13 @@
-const { loginRegister } = require('../schemas/user')
-const { duplicateEmailError, pwdRequiredError } = require('../userUtils')
+const { register } = require('../schemas/user')
+const { duplicateError, pwdRequiredError } = require('../userUtils')
 
 async function routes(fastify) {
 	const { db } = fastify.mongo
-	fastify.post('/api/register', loginRegister, function register(req, reply) {
+	fastify.post('/api/register', register, function register(req, reply) {
 		function registerUser(err, col) {
-			if (err) reply.send(err)
+			if (err) {
+				reply.send(err)
+			}
 
 			let user = req.body
 
@@ -22,7 +24,7 @@ async function routes(fastify) {
 				col.insertOne(user, (error, result) => {
 					if (error) {
 						if (error.code && error.code === 11000) {
-							return reply.code(400).send(duplicateEmailError)
+							return reply.code(400).send(duplicateError)
 						} else {
 							return reply.send(error)
 						}
@@ -30,12 +32,18 @@ async function routes(fastify) {
 
 					const token = fastify.jwt.sign(
 						{
-							email: result.ops[0].email,
+							authId: result.ops[0].username,
 						},
 						{ expiresIn: '1h' }
 					)
+					delete result.ops[0].email
+					delete result.ops[0].pwd
+					delete result.ops[0].salt
+					delete result.ops[0].iteration
+					delete result.ops[0]._id
+					console.log(result.ops[0])
 					req.log.info(
-						`New user ${result.ops[0].email} registed and logged in.`
+						`New user ${result.ops[0].username} registed and logged in.`
 					)
 
 					return reply.send({

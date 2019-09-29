@@ -8,6 +8,20 @@ const FormLogin = ({ handleChange, handleSubmit, user, validate }) => {
 		<Form onSubmit={handleSubmit}>
 			<Form.Row>
 				<Form.Group className='col-12'>
+					<Form.Label htmlFor='username'>Nome de usuário</Form.Label>
+					<Form.Control
+						name='username'
+						type='text'
+						onChange={handleChange}
+						value={user.username || ''}
+						className='mb-2 mr-sm-2'
+						placeholder='Digite seu nome de usuário'
+						required
+					/>
+				</Form.Group>
+			</Form.Row>
+			<Form.Row>
+				<Form.Group className='col-12'>
 					<Form.Label htmlFor='name'>Nome</Form.Label>
 					<Form.Control
 						name='name'

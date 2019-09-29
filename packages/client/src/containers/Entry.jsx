@@ -34,7 +34,7 @@ class Login extends React.Component {
 
 	validateLogin = () => {
 		return (
-			isInvalid(this.state.user, 'email') ||
+			isInvalid(this.state.user, 'authId') ||
 			isInvalid(this.state.user, 'pwd')
 		)
 	}
@@ -43,16 +43,15 @@ class Login extends React.Component {
 		const { pwd, pwd2 } = this.state.user
 		return (
 			isInvalid(this.state.user, 'email') ||
+			isInvalid(this.state.user, 'username') ||
 			isInvalid(this.state.user, 'pwd') ||
 			isInvalid(this.state.user, 'pwd2') ||
 			pwd !== pwd2
 		)
 	}
-
 	clear() {
 		this.setState({ user: {} })
 	}
-
 	handleInputChange(e) {
 		this.setState({ user: handleChange(e, this.state.user) })
 	}
@@ -60,14 +59,12 @@ class Login extends React.Component {
 		this.clear()
 		this.setState({ currentTab: tab })
 	}
-
 	closeError() {
 		this.setState({ error: { isError: false, message: '' } })
 	}
 	componentWillUnmount() {
 		this.setState({ user: {}, error: { isError: false, message: '' } })
 	}
-
 	login(e) {
 		e.preventDefault()
 		Axios.post('/api/login', this.state.user)
@@ -102,6 +99,7 @@ class Login extends React.Component {
 					const { message } = err.response.data
 					this.setState({ error: { isError: true, message } })
 				}
+				console.log(err)
 			})
 	}
 

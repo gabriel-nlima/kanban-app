@@ -1,21 +1,3 @@
-async function sharedUser(fastify) {
-	await fastify.addSchema({
-		$id: 'user',
-		type: 'object',
-		properties: {
-			_id: { type: 'string' },
-			name: { type: 'string' },
-			email: { type: 'string' },
-			pwd: { type: 'string' },
-			pwd2: { type: 'string' },
-			oldPwd: { type: 'string' },
-			salt: { type: 'string' },
-			iteration: { type: 'number' },
-		},
-		required: ['email'],
-	})
-}
-
 const userSchema = {
 	$id: 'user',
 	type: 'object',
@@ -23,15 +5,24 @@ const userSchema = {
 		_id: { type: 'string' },
 		name: { type: 'string' },
 		email: { type: 'string' },
+		username: { type: 'string' },
 		pwd: { type: 'string' },
 		pwd2: { type: 'string' },
 		oldPwd: { type: 'string' },
 		salt: { type: 'string' },
 		iteration: { type: 'number' },
 	},
-	required: ['email'],
+	required: ['username'],
 }
-
+const loginUserSchema = {
+	$id: 'userLogin',
+	type: 'object',
+	properties: {
+		authId: { type: 'string' },
+		pwd: { type: 'string' },
+	},
+	required: ['authId', 'pwd'],
+}
 const getUsers = {
 	schema: {
 		tags: ['users'],
@@ -68,8 +59,32 @@ const addUser = {
 		},
 	},
 }
-
-const loginRegister = {
+const updateUser = {
+	schema: {
+		params: 'idParam#',
+		tags: ['users'],
+		body: 'user#',
+		response: {
+			200: { type: 'object', properties: { user: 'user#' } },
+		},
+	},
+}
+const deleteUser = {
+	schema: { params: 'idParam#', tags: ['users'] },
+}
+const login = {
+	schema: {
+		body: 'userLogin#',
+		tags: ['users'],
+		response: {
+			200: {
+				type: 'object',
+				properties: { token: { type: 'string' } },
+			},
+		},
+	},
+}
+const register = {
 	schema: {
 		body: 'user#',
 		tags: ['users'],
@@ -81,26 +96,13 @@ const loginRegister = {
 		},
 	},
 }
-const updateUser = {
-	schema: {
-		params: 'idParam#',
-		tags: ['users'],
-		body: 'user#',
-		response: {
-			200: { type: 'object', properties: { user: 'user#' } },
-		},
-	},
-}
 
-const deleteUser = {
-	schema: { params: 'idParam#', tags: ['users'] },
-}
-
-exports.sharedUser = sharedUser
 exports.userSchema = userSchema
+exports.loginUserSchema = loginUserSchema
 exports.getUsers = getUsers
 exports.setActiveUser = setActiveUser
 exports.addUser = addUser
-exports.loginRegister = loginRegister
 exports.updateUser = updateUser
 exports.deleteUser = deleteUser
+exports.login = login
+exports.register = register

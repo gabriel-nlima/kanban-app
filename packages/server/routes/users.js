@@ -2,7 +2,7 @@ const { addUser, getUsers, updateUser, deleteUser } = require('../schemas/user')
 
 const {
 	confirmPwdError,
-	duplicateEmailError,
+	duplicateError,
 	pwdRequiredError,
 } = require('../userUtils')
 
@@ -13,7 +13,7 @@ async function routes(fastify) {
 			const users = []
 			await col
 				.find()
-				.project({ _id: 1, name: 1, email: 1 })
+				.project({ _id: 1, name: 1, username: 1 })
 				.forEach(function(user) {
 					if (user) users.push(user)
 					else return false
@@ -43,7 +43,7 @@ async function routes(fastify) {
 				col.insertOne(user, (error, result) => {
 					if (error) {
 						if (error.code && error.code === 11000) {
-							return reply.code(400).send(duplicateEmailError)
+							return reply.code(400).send(duplicateError)
 						} else {
 							return reply.send(error)
 						}
@@ -117,7 +117,7 @@ async function routes(fastify) {
 										) {
 											return reply
 												.code(400)
-												.send(duplicateEmailError)
+												.send(duplicateError)
 										} else {
 											return reply.send(error)
 										}
@@ -144,7 +144,7 @@ async function routes(fastify) {
 					(error, result) => {
 						if (error) {
 							if (error.code && error.code === 11000) {
-								return reply.code(400).send(duplicateEmailError)
+								return reply.code(400).send(duplicateError)
 							} else {
 								return reply.send(error)
 							}

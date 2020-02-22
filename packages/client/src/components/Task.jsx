@@ -6,6 +6,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import { FILED } from '../utils/status'
 import Badge from 'react-bootstrap/Badge'
 
+import { ActionsDropdown } from './ActionsDropdown'
+
 const onDragStart = (e, task) => {
 	e.dropEffect = 'move'
 	const taskJson = JSON.stringify(task)
@@ -13,13 +15,7 @@ const onDragStart = (e, task) => {
 	e.dataTransfer.effectAllowed = 'move'
 }
 
-const Task = ({
-	task,
-	background,
-	OnClickAction,
-	handleStatusChange,
-	handleModal,
-}) => {
+const Task = ({ task, background, handleStatusChange, handleModal }) => {
 	return (
 		<Card
 			bg={background}
@@ -68,7 +64,7 @@ const Task = ({
 					>
 						Editar{' '}
 					</Button>
-					<OnClickAction
+					<ActionsDropdown
 						task={task}
 						handleStatusChange={handleStatusChange}
 					/>
@@ -86,7 +82,6 @@ Task.propTypes = {
 		addedIn: PropTypes.string.isRequired,
 		finishedIn: PropTypes.string,
 	}).isRequired,
-	OnClickAction: PropTypes.func.isRequired,
 }
 
 export default Task

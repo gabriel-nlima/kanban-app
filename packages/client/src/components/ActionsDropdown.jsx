@@ -2,27 +2,39 @@ import React from 'react'
 import * as status from '../utils/status'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
 
-export const ActionsDropdown = ({ task, handleStatusChange }) => (
-	<DropdownButton variant='primary' size='sm' id='actions' title='Ações'>
-		{status.actions.map((action) => {
-			let text = ''
-			if (action === status.TODO) text = 'A Fazer'
-			else if (action === status.BEING_DONE) text = 'Fazer'
-			else if (action === status.FINISHED) text = 'Concluir'
-			else if (action === status.FILED) {
-				if (task.status === status.FILED) text = ''
-				else text = 'Arquivar'
-			} else text = 'Deletar'
+export const ActionsDropdown = ({ task, handleStatusChange }) => {
+	const itemLabels = {
+		[status.TODO]: task.status === status.TODO ? undefined : 'A fazer',
+		[status.BEING_DONE]:
+			task.status === status.BEING_DONE ? undefined : 'Fazer',
+		[status.FINISHED]:
+			task.status === status.FINISHED ? undefined : 'Concluir',
+		[status.FILED]: task.status === status.FILED ? undefined : 'Arquivar',
+		[status.DELETED]: 'Deletar',
+	}
 
-			return (
-				<Dropdown.Item
-					key={action}
-					onClick={() => handleStatusChange(task, action)}
-				>
-					{text}
-				</Dropdown.Item>
-			)
-		})}
-	</DropdownButton>
-)
+	return (
+		<DropdownButton
+			as={ButtonGroup}
+			variant='light'
+			size='sm'
+			id='actions'
+			title='Ações'
+		>
+			{status.actions.map((action) => {
+				if (itemLabels[action]) {
+					return (
+						<Dropdown.Item
+							key={action}
+							onClick={() => handleStatusChange(task, action)}
+						>
+							{itemLabels[action]}
+						</Dropdown.Item>
+					)
+				} else return undefined
+			})}
+		</DropdownButton>
+	)
+}

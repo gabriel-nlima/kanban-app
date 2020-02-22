@@ -103,7 +103,6 @@ function server() {
 		fastify.log.info('////// Register route loaded successfully //////')
 	})
 
-	// protected routes [TODO]
 	fastify.register(async (instance, opts, next) => {
 		// shared schemas
 		await sharedTask(instance)

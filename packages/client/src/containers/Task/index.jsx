@@ -1,4 +1,5 @@
 import React from 'react'
+import { forceCheck } from 'react-lazyload'
 
 import FormModal from '../../components/Forms/FormModal'
 
@@ -78,11 +79,29 @@ export class Tasks extends React.Component {
 		e.dataTransfer.dropEffect = 'move'
 	}
 
-	onDrop = async (e, status) => {
-		await this.handleStatus(
-			JSON.parse(e.dataTransfer.getData('task')),
-			status
-		)
+	onDrop = (e, status) => {
+		this.handleStatus(JSON.parse(e.dataTransfer.getData('task')), status)
+	}
+
+	taskStatus = {
+		[status.TODO]: {
+			status: status.TODO,
+			statusText: 'A FAZER',
+			emptyTaskText: 'Sem tarefas a fazer.',
+			variant: 'info',
+		},
+		[status.BEING_DONE]: {
+			status: status.BEING_DONE,
+			statusText: 'FAZENDO',
+			emptyTaskText: 'Sem tarefas em andamento.',
+			variant: 'warning',
+		},
+		[status.FINISHED]: {
+			status: status.FINISHED,
+			statusText: 'FEITO',
+			emptyTaskText: 'Nenhuma tarefa concluida.',
+			variant: 'success',
+		},
 	}
 
 	render() {
@@ -94,20 +113,30 @@ export class Tasks extends React.Component {
 		} = this.getTaskStatus(this.props.tasks)
 
 		return (
-			<React.Fragment>
+			<>
 				<TaskHeader
-					filedTasks={filedTasks}
 					handleModal={this.handleModal}
 					isError={this.props.isError}
+					tasksStatus={this.taskStatus}
+					tasksLength={[
+						tasksToDo.length,
+						taskBeingDone.length,
+						fineshedTasks.length,
+						filedTasks.length,
+					]}
 				/>
-				<Row>
+				<Row
+					className='tasks'
+					id='tasks-container'
+					onScroll={forceCheck}
+				>
 					<TaskList
 						handleModal={this.handleModal}
 						handleStatusChange={this.handleStatus}
 						isLoading={this.props.isLoading}
 						onDragOver={this.onDragOver}
 						onDrop={this.onDrop}
-						taskStatus={status.TODO}
+						taskStatus={this.taskStatus[status.TODO]}
 						tasks={tasksToDo}
 					/>
 					<TaskList
@@ -116,7 +145,7 @@ export class Tasks extends React.Component {
 						isLoading={this.props.isLoading}
 						onDragOver={this.onDragOver}
 						onDrop={this.onDrop}
-						taskStatus={status.BEING_DONE}
+						taskStatus={this.taskStatus[status.BEING_DONE]}
 						tasks={taskBeingDone}
 					/>
 					<TaskList
@@ -125,7 +154,7 @@ export class Tasks extends React.Component {
 						isLoading={this.props.isLoading}
 						onDragOver={this.onDragOver}
 						onDrop={this.onDrop}
-						taskStatus={status.FINISHED}
+						taskStatus={this.taskStatus[status.FINISHED]}
 						tasks={fineshedTasks}
 					/>
 				</Row>
@@ -135,7 +164,7 @@ export class Tasks extends React.Component {
 					Form={this.state.isEditing ? EditTask : AddTask}
 					hide={this.handleModal}
 				/>
-			</React.Fragment>
+			</>
 		)
 	}
 }
@@ -155,9 +184,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(Tasks)
-)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Tasks))

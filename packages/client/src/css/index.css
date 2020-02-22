@@ -1,6 +1,13 @@
 body {
 	background-color: white;
 }
+
+.tasks {
+	max-height: 51vh;
+	overflow: hidden auto;
+	padding: 0px 5px;
+}
+
 .spinner-size {
 	width: 80px;
 	height: 80px;

@@ -88,7 +88,7 @@ export function actionFailed(error) {
 	let message = undefined
 	if (typeof error.response.data === 'object') {
 		if (status === 401) {
-			message = 'Seção expirada, clique aqui para fazer login novamente.'
+			message = 'Sessão expirada, clique aqui para fazer login novamente.'
 			localStorage.removeItem('kanbanauthtoken')
 		} else {
 			message = error.response.data.message

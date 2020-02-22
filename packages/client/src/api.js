@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const api = axios.create()
 
-api.interceptors.request.use(async (config) => {
+api.interceptors.request.use((config) => {
 	const token = localStorage.getItem('kanbanauthtoken')
 	if (token) {
 		config.headers.Authorization = `Bearer ${token}`

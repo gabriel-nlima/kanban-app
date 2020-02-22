@@ -99,7 +99,6 @@ class Login extends React.Component {
 					const { message } = err.response.data
 					this.setState({ error: { isError: true, message } })
 				}
-				console.log(err)
 			})
 	}
 

@@ -1,16 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-import Container from 'react-bootstrap/Container'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './css/index.css'
-
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import * as serviceWorker from './serviceWorker'
 
 import configureStore from './redux'
 import { Provider } from 'react-redux'
 
-import * as serviceWorker from './serviceWorker'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './css/index.css'
+
+import Container from 'react-bootstrap/Container'
+
 import App from './App'
 
 import Entry from './containers/Entry'
